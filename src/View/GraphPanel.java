@@ -16,7 +16,7 @@ public class GraphPanel {
     /**
      * 
      */
-    public Set<NodeView> listNodeView;
+    public List<NodeView> listNodeView;
 
 
 

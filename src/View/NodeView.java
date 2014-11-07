@@ -1,6 +1,10 @@
 package View;
 
+import java.awt.Event;
+import java.awt.Graphics;
 import java.util.*;
+
+import Model.Node;
 
 /**
  * 
@@ -16,14 +20,13 @@ public class NodeView implements View {
     /**
      * 
      */
-    protected Node[] mNode;
+    protected Node mNode;
 
     /**
      * @return
      */
     public void setNodeSelected() {
         // TODO implement here
-        return null;
     }
 
     /**
@@ -38,18 +41,28 @@ public class NodeView implements View {
      * @param boolean 
      * @return
      */
-    public void activateAdd(void boolean) {
+    public void activateAdd(boolean addActivated) {
         // TODO implement here
-        return null;
     }
 
     /**
-     * @param Node 
+     * @param Node node
      * @return
      */
-    public void addDelivery(void Node) {
+    public void addDelivery(Node node) {
         // TODO implement here
-        return null;
     }
+
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onClick(Event E) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
