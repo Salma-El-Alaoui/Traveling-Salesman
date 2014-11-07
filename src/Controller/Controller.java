@@ -1,6 +1,7 @@
 package Controller;
 
 import java.util.*;
+import Model.Node;
 
 /**
  * 
@@ -31,7 +32,6 @@ public class Controller {
      */
     public void browseDeliveryClicked() {
         // TODO implement here
-        return null;
     }
 
     /**
@@ -39,7 +39,6 @@ public class Controller {
      */
     public void browseNetworkClicked() {
         // TODO implement here
-        return null;
     }
 
 }
