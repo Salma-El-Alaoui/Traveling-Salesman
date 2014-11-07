@@ -2,6 +2,8 @@ package Model;
 
 import java.util.*;
 
+import org.w3c.dom.Element;
+
 /**
  * 
  */
@@ -31,7 +33,7 @@ public class DeliveryRequest implements XmlParse {
     /**
      * @param Network network
      */
-    public void calculateTour(void Network network) {
+    public void calculateTour(Network network) {
         // TODO implement here
     }
 
@@ -40,18 +42,22 @@ public class DeliveryRequest implements XmlParse {
      * @param Node next 
      * @return
      */
-    public void insertDelivery(void Node previous, void Node next) {
+    public void insertDelivery(Node previous, Node next) {
         // TODO implement here
-        return null;
     }
 
     /**
-     * @param Delivery delivery 
+     * @param Node node 
      * @return
      */
-    public void removeDelivery(void Delivery delivery) {
+    public void removeDelivery(Node node) {
         // TODO implement here
-        return null;
     }
+
+	@Override
+	public int buildFromXML(Element element) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

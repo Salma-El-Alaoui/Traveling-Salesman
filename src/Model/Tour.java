@@ -24,40 +24,19 @@ public class Tour {
     protected List<Path> mPathList;
 
     /**
-     * @param Node previous 
-     * @param Node new 
-     * @return
-     */
-    public Path calculateShortestPath(void Node previous, void Node new) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
      * @param Delivery 
      * @return
      */
-    public void addDelivery(void Delivery) {
+    public void addDelivery(Delivery delivery) {
         // TODO implement here
-        return null;
     }
 
     /**
      * @param Path path 
      * @return
      */
-    public void addPath(void Path path) {
+    public void addPath(Path path) {
         // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param Path path 
-     * @return
-     */
-    public void removePath(void Path path) {
-        // TODO implement here
-        return null;
     }
 
     /**
@@ -65,18 +44,16 @@ public class Tour {
      * @param Delivery next 
      * @return
      */
-    public void insertDelivery(void Delivery previous, void Delivery next) {
+    public void insertDelivery(Delivery previous, Delivery next) {
         // TODO implement here
-        return null;
     }
 
     /**
      * @param Delivery delivery 
      * @return
      */
-    public void removeDelivery(void Delivery delivery) {
+    public void removeDelivery(Delivery delivery) {
         // TODO implement here
-        return null;
     }
 
 }

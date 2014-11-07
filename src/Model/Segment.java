@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.*;
+import org.w3c.dom.Element;
 
 /**
  * 
@@ -43,7 +44,7 @@ public class Segment {
      * @param Node 
      * @param Element
      */
-    public void buildFromXML(void Node, void Element) {
+    public void buildFromXML(Node node, Element element) {
         // TODO implement here
     }
 

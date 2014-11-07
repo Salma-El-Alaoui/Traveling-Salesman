@@ -1,6 +1,9 @@
 package Model;
 
+import java.io.File;
 import java.util.*;
+
+import org.w3c.dom.Element;
 
 /**
  * 
@@ -34,7 +37,7 @@ public class Network {
      * @param Node n2 
      * @return
      */
-    public Path calculateShorterPath(void Node n1, void Node n2) {
+    public Path calculateShortestPath(Node n1, Node n2) {
         // TODO implement here
         return null;
     }
@@ -44,16 +47,23 @@ public class Network {
      * @param Node selected 
      * @return
      */
-    public void addDelivery(void Node previous, void Node selected) {
+    public void addDelivery(Node previous, Node selected) {
         // TODO implement here
-        return null;
+    }
+    
+    /**
+     * @param Node node 
+     * @return
+     */
+    public void removeDelivery(Node node) {
+        // TODO implement here
     }
 
     /**
      * @param int id 
      * @return
      */
-    public Node getNode(void int id) {
+    public Node getNode(int id) {
         // TODO implement here
         return null;
     }
@@ -62,9 +72,8 @@ public class Network {
      * @param File 
      * @return
      */
-    public void parseDeliveryRequestFile(void File) {
+    public void parseDeliveryRequestFile(File file) {
         // TODO implement here
-        return null;
     }
 
     /**
@@ -79,7 +88,7 @@ public class Network {
      * @param File 
      * @return
      */
-    public int parseNetworkFile(void File) {
+    public int parseNetworkFile(File file) {
         // TODO implement here
         return 0;
     }
