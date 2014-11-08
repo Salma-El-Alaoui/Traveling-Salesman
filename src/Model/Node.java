@@ -40,11 +40,15 @@ public class Node implements XmlParse {
      */
     protected int mId;
 
+    /**
+     * 
+     */
+    protected Delivery mDelivery;
 
     /**
      * 
      */
-    protected Network[] mNetwork;
+    protected Network mNetwork;
 
 
     /**
@@ -55,7 +59,12 @@ public class Node implements XmlParse {
     /**
      * 
      */
-    protected Set<Segment> mOutSegment;
+    protected List<Segment> mOutSegment;
+    
+    /**
+     * 
+     */
+    protected boolean mIsSelected;
 
     /**
      * @return
@@ -69,8 +78,7 @@ public class Node implements XmlParse {
      * @return
      */
     public boolean isSelected() {
-        // TODO implement here
-        return false;
+        return mIsSelected;
     }
 
     /**
@@ -86,15 +94,27 @@ public class Node implements XmlParse {
      * @return
      */
     public void setSelectedNode(boolean isSelected) {
-        // TODO implement here
+    	mIsSelected=isSelected;
+    	if(isSelected)
+    	{
+    		mNetwork.getSelectedNode().setSelectedNode(false);
+    		mNetwork.setSelectedNode(this);
+    	}  	      
+    }
+    
+    /**
+     * 
+     */
+    public int getId()
+    {
+    	return mId;
     }
 
     /**
      * @return
      */
     public Delivery getDelivery() {
-        // TODO implement here
-        return null;
+        return mDelivery;
     }
 
     /**

@@ -12,6 +12,14 @@ public class Delivery {
      */
     public Delivery() {
     }
+    
+    /**
+     * 
+     */
+    public Delivery(Node node)
+    {
+    	mNode=node;
+    }
 
     /**
      * 
@@ -31,14 +39,18 @@ public class Delivery {
     /**
      * 
      */
-    protected TimeSlot[] mTimeSlot;
+    protected TimeSlot mTimeSlot;
+    
+    /**
+     * 
+     */
+    protected Node mNode;
 
     /**
      * @return
      */
     public Node getNode() {
-        // TODO implement here
-        return null;
+        return mNode;
     }
 
     /**
@@ -75,8 +87,8 @@ public class Delivery {
     /**
      * 
      */
-    public void getTimeSlot() {
-        // TODO implement here
+    public TimeSlot getTimeSlot() {
+        return mTimeSlot;
     }
 
 }

@@ -23,8 +23,7 @@ public class Path {
      * @return
      */
     public Segment getSegment(int index) {
-        // TODO implement here
-        return null;
+        return mSegmentList.get(index);
     }
 
     /**
