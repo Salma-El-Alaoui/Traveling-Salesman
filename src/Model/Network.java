@@ -33,13 +33,16 @@ public class Network {
     protected Set<Node> mWarehouseList;
 
     /**
-     * @param Node n1 
-     * @param Node n2 
-     * @return
+     * Calculate the shortest path from startNode to endNode
+     * @param originNode
+     * @param endNode 
+     * @return The shortest path, null if no path can be found
+     * @deprecated Prefer to use Dijkstra class to improve performance (in case of multiples calls with the same start)
      */
-    public Path calculateShortestPath(Node n1, Node n2) {
-        // TODO implement here
-        return null;
+    @Deprecated
+    public Path calculateShortestPath(Node originNode, Node endNode) {
+    	Dijkstra d = new Dijkstra(originNode);
+    	return d.calculateShortestPathTo(endNode);
     }
 
     /**

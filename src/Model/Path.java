@@ -18,25 +18,25 @@ public class Path {
     /**
      * Ordered list containing all the segments
      */
-    protected List<Segment> mSegmentList;
+    private List<Segment> mSegmentList;
     
     /**
      * Required time to travel across the path
      */
-    protected int mPathTime;
+    private int mPathTime;
     
     /**
-     * Add the specified segment to the end of the segment list of the path
+     * Append the specified segment to the beginning of the segment list
      * @param Segment segment
      */
     public void addSegment(Segment segment){
-    	mSegmentList.add(segment);
+    	mSegmentList.add(0, segment);
     	mPathTime +=  segment.getTime();
     }
 
 	/**
 	 * Return the segment indicated in parameter
-     * @param int index
+     * @param index
      * @return The segment if the index is correct, null if the index is out of bounds
      */
     public Segment getSegment(int index) {

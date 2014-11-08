@@ -17,12 +17,12 @@ public class Segment {
     /**
      * 
      */
-    protected Node[] mFromNode;
+    protected Node mFromNode;
 
     /**
      * 
      */
-    protected Node[] mToNode;
+    protected Node mToNode;
 
     /**
      * @return
@@ -39,7 +39,14 @@ public class Segment {
         // TODO implement here
         return 0;
     }
-
+    
+    /**
+     * @return
+     */
+    public Node getToNode(){
+    	return mToNode;
+    }
+    
     /**
      * @param Node 
      * @param Element
