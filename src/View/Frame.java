@@ -1,13 +1,16 @@
 package View;
 
-import java.util.*;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 
 /**
  * 
  */
-public class Frame {
+public class Frame extends JFrame {
 
-    /**
+	/**
      * 
      */
     public Frame() {
@@ -16,58 +19,45 @@ public class Frame {
     /**
      * 
      */
-    public void JMenu menu;
+    protected JMenu mMenu;
 
     /**
      * 
      */
-    public void JPanel;
+    protected GraphPanel mPanelGraph;
 
     /**
      * 
      */
-    public void ...;
-
-    /**
-     * 
-     */
-    public Set<NodeView> listNodeView;
+    public List<NodeView> listNodeView;
 
 
 
 
     /**
-     * @param boolean 
-     * @return
+     * @param boolean activated 
      */
-    public void activateAddItem(void boolean) {
+    public void activateAddItem(boolean activated) {
         // TODO implement here
-        return null;
     }
 
     /**
-     * @return
      */
     public void clicBrowseDeliveries() {
         // TODO implement here
-        return null;
     }
 
     /**
-     * @param String 
-     * @return
+     * @param String error
      */
-    public void  displayError(void String) {
+    public void  displayError(String error) {
         // TODO implement here
-        return null;
     }
 
     /**
-     * @return
      */
     public void clickBrowseNetwork() {
         // TODO implement here
-        return null;
     }
 
     /**

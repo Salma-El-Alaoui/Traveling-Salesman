@@ -2,6 +2,8 @@ package Model;
 
 import java.util.*;
 
+import org.w3c.dom.Element;
+
 /**
  * 
  */
@@ -43,5 +45,11 @@ public class TimeSlot implements XmlParse {
         // TODO implement here
         return 0;
     }
+
+	@Override
+	public int buildFromXML(Element element) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

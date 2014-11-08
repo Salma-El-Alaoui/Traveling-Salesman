@@ -22,7 +22,7 @@ public class Path {
      * @param int index 
      * @return
      */
-    public Segment getSegment(void int index) {
+    public Segment getSegment(int index) {
         // TODO implement here
         return null;
     }

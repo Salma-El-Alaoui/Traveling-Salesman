@@ -2,6 +2,8 @@ package Model;
 
 import java.util.*;
 
+import org.w3c.dom.Element;
+
 /**
  * 
  */
@@ -83,9 +85,8 @@ public class Node implements XmlParse {
      * @param boolean 
      * @return
      */
-    public void setSelectedNode(void boolean) {
+    public void setSelectedNode(boolean isSelected) {
         // TODO implement here
-        return null;
     }
 
     /**
@@ -100,9 +101,14 @@ public class Node implements XmlParse {
      * @param boolean 
      * @return
      */
-    public void setIsWareHouse(void boolean) {
+    public void setIsWareHouse(boolean isWareHouse) {
         // TODO implement here
-        return null;
     }
+
+	@Override
+	public int buildFromXML(Element element) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

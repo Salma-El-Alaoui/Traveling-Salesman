@@ -2,10 +2,12 @@ package Model;
 
 import java.util.*;
 
+import tsp.Graph;
+
 /**
  * 
  */
-public class ShortestPathGraph implements GraphChoco {
+public class ShortestPathGraph implements Graph {
 
     /**
      * 
@@ -16,12 +18,12 @@ public class ShortestPathGraph implements GraphChoco {
     /**
      * 
      */
-    protected map<int,int[]> mSucc;
+    protected Map<Integer,int[]> mSucc;
 
     /**
      * 
      */
-    protected map<int,map<int,int>> mCost;
+    protected Map<Integer,Map<Integer,Integer>> mCost;
 
     /**
      * 
@@ -41,8 +43,44 @@ public class ShortestPathGraph implements GraphChoco {
     /**
      * @param List<Path>
      */
-    public void Graph(void List<Path>) {
+    public void Graph(List<Path> pathList) {
         // TODO implement here
     }
+
+	@Override
+	public int getMaxArcCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMinArcCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNbVertices() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int[][] getCost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getSucc(int i) throws ArrayIndexOutOfBoundsException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getNbSucc(int i) throws ArrayIndexOutOfBoundsException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

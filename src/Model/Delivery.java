@@ -31,7 +31,7 @@ public class Delivery {
     /**
      * 
      */
-    protected TimeSlot[] mTimeSlop;
+    protected TimeSlot[] mTimeSlot;
 
     /**
      * @return
@@ -66,12 +66,10 @@ public class Delivery {
     }
 
     /**
-     * @param TimeSlot 
-     * @return
+     * @param TimeSlot timeSlot
      */
-    public void setTimeSlot(void TimeSlot) {
+    public void setTimeSlot(TimeSlot timeSlot) {
         // TODO implement here
-        return null;
     }
 
     /**
