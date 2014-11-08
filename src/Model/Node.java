@@ -44,18 +44,18 @@ public class Node implements XmlParse {
     /**
      * 
      */
-    protected Network[] mNetwork;
+    protected Network mNetwork;
 
 
     /**
      * 
      */
-    protected Segment mInSegment;
+    private List<Segment> mInSegmentList;
 
     /**
      * 
      */
-    protected Set<Segment> mOutSegment;
+    private List<Segment> mOutSegmentList;
 
     /**
      * @return
@@ -95,6 +95,27 @@ public class Node implements XmlParse {
     public Delivery getDelivery() {
         // TODO implement here
         return null;
+    }
+    
+    /**
+     * @return
+     */
+    public List<Segment> getOutSegmentList(){
+    	return mOutSegmentList;
+    }
+    
+    /**
+     * @return
+     */
+    public List<Segment> getInSegmentList(){
+    	return mInSegmentList;
+    }
+        
+    /**
+     * @return
+     */
+    public int getId(){
+    	return mId;
     }
 
     /**
