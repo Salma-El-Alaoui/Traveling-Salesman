@@ -17,6 +17,11 @@ public class Delivery {
      * 
      */
     protected int mDeliveryHour;
+    
+    /**
+     * 
+     */
+    protected Node mNode;
 
     /**
      * 
@@ -31,7 +36,7 @@ public class Delivery {
     /**
      * 
      */
-    protected TimeSlot[] mTimeSlot;
+    protected TimeSlot mTimeSlot;
 
     /**
      * @return
@@ -75,8 +80,10 @@ public class Delivery {
     /**
      * 
      */
-    public void getTimeSlot() {
-        // TODO implement here
+    public TimeSlot getTimeSlot() {
+    	// TODO implement here
+		return null;
+        
     }
 
 }

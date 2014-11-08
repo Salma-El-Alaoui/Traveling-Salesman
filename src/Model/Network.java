@@ -20,7 +20,7 @@ public class Network {
     /**
      * 
      */
-    protected Set<Segment> mSegmentList;
+    protected List<Segment> mSegmentList;
 
     /**
      * 
@@ -30,7 +30,7 @@ public class Network {
     /**
      * 
      */
-    protected Set<Node> mWarehouseList;
+    protected List<Node> mWarehouseList;
 
     /**
      * @param Node n1 

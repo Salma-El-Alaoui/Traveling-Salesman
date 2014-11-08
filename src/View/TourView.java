@@ -2,8 +2,8 @@ package View;
 
 import java.awt.Event;
 import java.awt.Graphics;
-import java.util.*;
 
+import Model.Delivery;
 import Model.Tour;
 
 /**
@@ -32,8 +32,21 @@ public class TourView implements View {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		for(int i=0;i<mTour.getmDeliveryList().size();i++)
+		{
+			Delivery dFirst = mTour.getmDeliveryList().get(i);
+			Delivery dSecond;
+			if(i == mTour.getmDeliveryList().size()-1)
+			{
+				dSecond =  mTour.getmDeliveryList().get(0);
+			}else
+			{
+				dSecond =  mTour.getmDeliveryList().get(i+1);
+			}
+			g.setColor(dFirst.getTimeSlot().getColor());
+			g.drawLine(dFirst.getNode().getX(), dFirst.getNode().getY(), dSecond.getNode().getY(), dSecond.getNode().getY());
+		}
+
 	}
 
 	@Override

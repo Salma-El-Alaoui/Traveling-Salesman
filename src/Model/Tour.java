@@ -56,4 +56,9 @@ public class Tour {
         // TODO implement here
     }
 
+	public List<Delivery> getmDeliveryList() {
+		return mDeliveryList;
+	}
+    
+
 }

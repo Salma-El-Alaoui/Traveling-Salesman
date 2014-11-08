@@ -17,19 +17,25 @@ public class Segment {
     /**
      * 
      */
-    protected Node[] mFromNode;
+    protected Node mFromNode;
 
     /**
      * 
      */
-    protected Node[] mToNode;
+    protected Node mToNode;
 
     /**
      * @return
      */
     public Node getDepartureNode() {
-        // TODO implement here
-        return null;
+        return mFromNode;
+    }
+    
+    /**
+     * @return
+     */
+    public Node getArrivalNode() {
+        return mToNode;
     }
 
     /**

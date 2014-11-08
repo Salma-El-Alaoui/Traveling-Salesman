@@ -29,8 +29,10 @@ public class NetworkView implements View {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		for(int i=0; i<listSegmentView.size();i++)
+		{
+			listSegmentView.get(i).paint(g);
+		}
 	}
 
 	@Override
