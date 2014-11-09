@@ -42,8 +42,11 @@ public class TimeSlot implements XmlParse {
      * @return
      */
     public int getStartHour() {
-        // TODO implement here
-        return 0;
+        return mStartHour;
+    }
+    
+    public int getEndHour() {
+        return mEndHour;
     }
 
 	@Override
