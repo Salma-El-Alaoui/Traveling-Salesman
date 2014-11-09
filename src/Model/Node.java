@@ -54,17 +54,20 @@ public class Node implements XmlParse {
     /**
      * 
      */
-    protected Segment mInSegment;
+    private List<Segment> mInSegmentList;
 
     /**
      * 
      */
-    protected List<Segment> mOutSegment;
+
+
     
     /**
      * 
      */
     protected boolean mIsSelected;
+
+    private List<Segment> mOutSegmentList;
 
     /**
      * @return
@@ -102,19 +105,33 @@ public class Node implements XmlParse {
     	}  	      
     }
     
-    /**
-     * 
-     */
-    public int getId()
-    {
-    	return mId;
-    }
 
     /**
      * @return
      */
     public Delivery getDelivery() {
         return mDelivery;
+    }
+    
+    /**
+     * @return
+     */
+    public List<Segment> getOutSegmentList(){
+    	return mOutSegmentList;
+    }
+    
+    /**
+     * @return
+     */
+    public List<Segment> getInSegmentList(){
+    	return mInSegmentList;
+    }
+        
+    /**
+     * @return
+     */
+    public int getId(){
+    	return mId;
     }
 
     /**
