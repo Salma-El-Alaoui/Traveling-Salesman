@@ -109,6 +109,7 @@ public class Network {
     }
     
     public void setSelectedNode(Node node){
+    	mSelectedNode.setSelectedNode(false);
     	mSelectedNode=node;
     }
 
