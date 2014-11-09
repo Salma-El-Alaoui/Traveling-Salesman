@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.*;
+import tsp.TSP;
 
 import org.w3c.dom.Element;
 
@@ -36,10 +37,9 @@ public class DeliveryRequest implements XmlParse {
      */
     public void calculateTour() {
        ShortestPathGraph graph = new ShortestPathGraph(createPathMap());
-       
-    
-    	
-    	
+       TSP tsp= new TSP(graph);
+       int nbVertices = graph.getNbVertices();
+      
     }
 
     /**
