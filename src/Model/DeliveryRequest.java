@@ -38,9 +38,10 @@ public class DeliveryRequest implements XmlParse {
     }
 
     /**
-     * @param Node previous 
-     * @param Node  
-     * @return
+     * Create a delivery associated with previousNode and
+     * insert it into tour after the delivery associated with previousNode
+     * @param previousNode
+     * @param selectedNode
      */
     public void insertDelivery(Node previousNode, Node selectedNode) {
         Delivery previousDelivery=previousNode.getDelivery();

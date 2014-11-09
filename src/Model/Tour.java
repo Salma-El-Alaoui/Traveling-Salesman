@@ -13,6 +13,7 @@ public class Tour {
     public Tour() {
     }
 
+    protected Node mWarehouse;
     /**
      * 
      */
@@ -40,9 +41,9 @@ public class Tour {
     }
 
     /**
-     * @param Delivery previousDelivery 
-     * @param Delivery newDelivery
-     * @return
+     * Insert newDelivery after previousDelivery into the tour and recalculate locally the path
+     * @param previousDelivery
+     * @param newDelivery
      */
     public void insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
         newDelivery.setTimeSlot(previousDelivery.getTimeSlot());
@@ -111,12 +112,14 @@ public class Tour {
          			previousNode=mDeliveryList.get(i-1).getNode();
          			nextNode=mDeliveryList.get(i+1).getNode();
          		}else if(i!=mDeliveryList.size()-1 && i==0){
-         			previousNode=mDeliveryList.get(mDeliveryList.size()-1).getNode();
+         			previousNode=mWarehouse;
          			nextNode=mDeliveryList.get(1).getNode();
          		}else{
          			previousNode=mDeliveryList.get(i-1).getNode();
-         			nextNode=mDeliveryList.get(0).getNode();
+         			nextNode=mWarehouse;
          		}
+         		mDeliveryList.remove(i);
+     			break;
          	}
          }
         
@@ -143,6 +146,9 @@ public class Tour {
          		}
          	}
          }
+    	 
+    	 //TODO : updateHour()
+    	 
     	 return previousNode;
     }
 

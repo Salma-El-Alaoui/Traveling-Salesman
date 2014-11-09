@@ -51,9 +51,9 @@ public class Network {
     }
 
     /**
-     * @param Node previous 
-     * @param Node selected 
-     * @return
+     * Add a delivery associated with selected node after the one associated with previous node
+     * @param previous
+     * @param selected
      */
     public void addDelivery(Node previous, Node selected) {
         mDeliveryRequest.insertDelivery(previous, selected);

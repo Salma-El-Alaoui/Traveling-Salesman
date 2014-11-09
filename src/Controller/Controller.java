@@ -71,6 +71,7 @@ public class Controller {
     	Command rmCommand=new RemoveCommand(node);
     	mCommandStack.add(rmCommand);
     	rmCommand.execute();
+    	//TODO : refresh view
     }
 
 }
