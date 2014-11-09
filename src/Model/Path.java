@@ -47,8 +47,8 @@ public class Path {
     }
 
     /**
-     * Return the time to follow the path
-     * @return The total time needed
+     *
+     * @return The total time needed to follow the path
      */
     public int getGlobalTime() {
         return mPathTime;
