@@ -93,10 +93,11 @@ public class Tour {
     }
 
     /**
-     * @param Delivery delivery 
-     * @return
+     * Remove the delivery from the tour and recalculate locally the path
+     * @param Delivery delivery to remove
+     * @return the node before the removed delivery
      */
-    public void removeDelivery(Delivery delivery) {
+    public Node removeDelivery(Delivery delivery) {
     	Node node=delivery.getNode();
     	Node previousNode=null;
     	Node nextNode=null;
@@ -122,7 +123,7 @@ public class Tour {
         if(previousNode==null || nextNode==null)
         {
         	System.out.println("Can't find nodes around the one we want to remove");
-        	return;
+        	return null;
         }
         
         Network network=node.getNetwork();
@@ -142,6 +143,7 @@ public class Tour {
          		}
          	}
          }
+    	 return previousNode;
     }
 
 }

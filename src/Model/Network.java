@@ -60,11 +60,12 @@ public class Network {
     }
     
     /**
-     * @param Node node 
-     * @return
+     * Remove from the tour the delivery associated with the node
+     * @param Node node associated with the delivery to remove
+     * @return the node before the removed delivery
      */
-    public void removeDelivery(Node node) {
-        mDeliveryRequest.removeDelivery(node);
+    public Node removeDelivery(Node node) {
+        return mDeliveryRequest.removeDelivery(node);
     }
 
     /**

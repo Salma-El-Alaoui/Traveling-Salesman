@@ -49,11 +49,12 @@ public class DeliveryRequest implements XmlParse {
     }
 
     /**
-     * @param Node node 
-     * @return
+     * Remove from the tour the delivery associated with the node
+     * @param Node node associated with the delivery to remove
+     * @return the node before the removed delivery
      */
-    public void removeDelivery(Node node) {
-        mTour.removeDelivery(node.getDelivery());
+    public Node removeDelivery(Node node) {
+        return mTour.removeDelivery(node.getDelivery());
     }
 
 	@Override

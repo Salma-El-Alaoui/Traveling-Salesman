@@ -61,5 +61,16 @@ public class Controller {
     	addCommand.execute();
     	//TODO : refresh view
     }
+    
+    /**
+     * Remove from the tour the delivery associated with the node
+     * @param node the node associated with the delivery to remove
+     */
+    public void removeDelivery(Node node)
+    {
+    	Command rmCommand=new RemoveCommand(node);
+    	mCommandStack.add(rmCommand);
+    	rmCommand.execute();
+    }
 
 }
