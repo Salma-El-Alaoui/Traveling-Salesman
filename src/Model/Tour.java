@@ -13,6 +13,7 @@ public class Tour {
     public Tour() {
     }
 
+    protected Node mWarehouse;
     /**
      * 
      */
@@ -62,9 +63,13 @@ public class Tour {
         	{
         		if(i!=mDeliveryList.size()-1)
         		{
-        			nextNode=mDeliveryList.get(++i).getNode();
+        			nextNode=mDeliveryList.get(i+1).getNode();
+        			mDeliveryList.add(i+1, newDelivery);
+        			break;
         		}else{
-        			nextNode=mDeliveryList.get(0).getNode();
+        			nextNode=mWarehouse;
+        			mDeliveryList.add(newDelivery);
+        			break;
         		}
         	}
         }
@@ -87,7 +92,7 @@ public class Tour {
         		mPathList.set(i, firstPath);
         		if(i!=mPathList.size()-1)
         		{
-        			mPathList.add(++i, secondPath);
+        			mPathList.add(i+1, secondPath);
         		}else{
         			mPathList.add(0, secondPath);
         		}
@@ -95,6 +100,10 @@ public class Tour {
         	}
         }
         updateHour();
+        if(newDelivery.getDeliveryHour()>newDelivery.getTimeSlot().getEndHour())
+        {
+        	newDelivery.setTimeSlot(nextNode.getDelivery().getTimeSlot());
+        }
     }
 
     /**
