@@ -41,6 +41,7 @@ public class ShortestPathGraph implements Graph {
     protected int mNb;
 
     /**
+     * Constructor initializes the shortest paths graph and its costs
      * @param List<Path>
      */
     public void Graph(List<Path> pathList) {

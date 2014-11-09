@@ -31,7 +31,7 @@ public class Delivery {
     /**
      * 
      */
-    protected TimeSlot[] mTimeSlot;
+    protected TimeSlot mTimeSlot;
 
     /**
      * @return

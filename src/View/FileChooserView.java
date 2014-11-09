@@ -14,9 +14,9 @@ public class FileChooserView {
     public FileChooserView() {
     }
 
-    public File paint(){
+    //public File paint(){
 
-    }
+    //}
 
 
 }
