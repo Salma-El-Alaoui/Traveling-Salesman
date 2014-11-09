@@ -32,10 +32,11 @@ public class DeliveryRequest implements XmlParse {
     protected Tour mTour;
 
     /**
-     * @param Network network
+     * 
      */
     public void calculateTour() {
-        // TODO implement here
+       ShortestPathGraph graph = new ShortestPathGraph(createPathMap());
+       
     
     	
     	
@@ -43,7 +44,7 @@ public class DeliveryRequest implements XmlParse {
 
     /**
      * @param Node previous 
-     * @param Node  
+     * @param Node selectedNode
      * @return
      */
     public void insertDelivery(Node previousNode, Node selectedNode) {
@@ -90,21 +91,30 @@ public class DeliveryRequest implements XmlParse {
 		mapPath.put(mWarehouse.getId(),destDeliveries);
 		
 		//next time slots
-		for (int i = 1; i <nbSlots ; i++){
+		for (int i = 0; i <nbSlots ; i++){
 			TimeSlot timeSlot= mTimeSlotList.get(i); 
-			destDeliveries = new HashMap<Integer,Path>();
+			TimeSlot nextTimeSlot = mTimeSlotList.get(i+1);			
+			
 			for (Delivery originDelivery : timeSlot.getAllDeliveries()){
 				Node origin = originDelivery.getNode();				
 				Dijkstra dOrigin = new Dijkstra(origin); 
+				destDeliveries = new HashMap<Integer,Path>();
+				//links with the current time slot
 				for (Delivery destDelivery : timeSlot.getAllDeliveries()){
 					if (destDelivery != originDelivery){//we should rediscuss this
 						Node destination = destDelivery.getNode();
 						Path path = dOrigin.calculateShortestPathTo(destination);
-						destDeliveries.put(destination.getId(),path);	
-						
-					}
+						destDeliveries.put(destination.getId(),path);							
+					}					
+				}				
+				for (Delivery destDelivery : nextTimeSlot.getAllDeliveries()){
+						Node destination = destDelivery.getNode();
+						Path path = dOrigin.calculateShortestPathTo(destination);
+						destDeliveries.put(destination.getId(),path);							
+										
 				}				
 				mapPath.put(origin.getId(),destDeliveries);	
+					
 			}
 						
 		}

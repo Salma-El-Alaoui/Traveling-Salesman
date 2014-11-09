@@ -10,9 +10,13 @@ import tsp.Graph;
 public class ShortestPathGraph implements Graph {
 
     /**
-     * 
+     * Initializes the graph 
+     * @param Map<Integer, Map<Integer,Path>> pathMap 
+     * the first key is the id of the origin node
+     * the second key is the id of the destination node
      */
     public ShortestPathGraph(Map<Integer, Map<Integer,Path>> pathMap) {
+    	mNb = pathMap.size();
     	
     }
 
@@ -37,7 +41,7 @@ public class ShortestPathGraph implements Graph {
     protected int mMin;
 
     /**
-     * 
+     * Number of vertices
      */
     protected int mNb;
 
