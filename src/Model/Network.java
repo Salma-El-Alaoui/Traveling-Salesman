@@ -20,17 +20,22 @@ public class Network {
     /**
      * 
      */
-    protected Set<Segment> mSegmentList;
+    protected List<Segment> mSegmentList;
+    
+    /**
+     * 
+     */
+    protected Node mSelectedNode;
 
     /**
      * 
      */
-    protected DeliveryRequest[] mDeliveryRequest;
+    protected DeliveryRequest mDeliveryRequest;
 
     /**
      * 
      */
-    protected Set<Node> mWarehouseList;
+    protected List<Node> mWarehouseList;
 
     /**
      * Calculate the shortest path from startNode to endNode
@@ -51,7 +56,7 @@ public class Network {
      * @return
      */
     public void addDelivery(Node previous, Node selected) {
-        // TODO implement here
+        mDeliveryRequest.insertDelivery(previous, selected);
     }
     
     /**
@@ -59,7 +64,7 @@ public class Network {
      * @return
      */
     public void removeDelivery(Node node) {
-        // TODO implement here
+        mDeliveryRequest.removeDelivery(node);
     }
 
     /**
@@ -100,8 +105,12 @@ public class Network {
      * @return
      */
     public Node getSelectedNode() {
-        // TODO implement here
-        return null;
+        return mSelectedNode;
+    }
+    
+    public void setSelectedNode(Node node){
+    	mSelectedNode.setSelectedNode(false);
+    	mSelectedNode=node;
     }
 
 }

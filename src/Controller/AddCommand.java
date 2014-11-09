@@ -2,27 +2,41 @@ package Controller;
 
 import java.util.*;
 
+import Model.Node;
+
 /**
  * 
  */
 public class AddCommand implements Command {
 
+	/**
+	 * 
+	 */
+	protected Node mPreviousNode;
+	
+	/**
+	 * 
+	 */
+	protected Node mSelectedNode;
+	
+	
     /**
      * 
      */
-    public AddCommand() {
+    public AddCommand(Node previousNode, Node selectedNode) {
+    	mPreviousNode=previousNode;
+    	mSelectedNode=selectedNode;
     }
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		mPreviousNode.getNetwork().addDelivery(mPreviousNode, mSelectedNode);
+
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-		
+		mPreviousNode.getNetwork().removeDelivery(mSelectedNode);
 	}
 
 }
