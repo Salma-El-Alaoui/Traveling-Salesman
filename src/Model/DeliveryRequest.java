@@ -43,11 +43,13 @@ public class DeliveryRequest implements XmlParse {
 
     /**
      * @param Node previous 
-     * @param Node next 
+     * @param Node  
      * @return
      */
-    public void insertDelivery(Node previous, Node next) {
-        // TODO implement here
+    public void insertDelivery(Node previousNode, Node selectedNode) {
+        Delivery previousDelivery=previousNode.getDelivery();
+        Delivery newDelivery=new Delivery(selectedNode);
+        mTour.insertDelivery(previousDelivery, newDelivery);
     }
 
     /**
@@ -55,7 +57,7 @@ public class DeliveryRequest implements XmlParse {
      * @return
      */
     public void removeDelivery(Node node) {
-        // TODO implement here
+        mTour.removeDelivery(node.getDelivery());
     }
 
 	@Override
