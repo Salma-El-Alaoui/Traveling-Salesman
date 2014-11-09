@@ -88,7 +88,8 @@ public class Delivery {
      * @param TimeSlot timeSlot
      */
     public void setTimeSlot(TimeSlot timeSlot) {
-        // TODO implement here
+    	// TODO add delivery to timeSlot node
+    	mTimeSlot = timeSlot;
     }
     
     /**
