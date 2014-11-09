@@ -1,7 +1,7 @@
 \select@language {french}
 \contentsline {chapter}{Table des mati\IeC {\`e}res}{i}{dummy.1}
-\contentsline {chapter}{Table des figures}{ii}{dummy.3}
-\contentsline {chapter}{Liste des tableaux}{iii}{dummy.5}
+\contentsline {chapter}{Table des figures}{iii}{dummy.3}
+\contentsline {chapter}{Liste des tableaux}{iv}{dummy.5}
 \contentsline {chapter}{Introduction}{1}{chapter*.7}
 \contentsline {chapter}{\numberline {1}Capture et analyse des besoins}{2}{chapter.8}
 \contentsline {section}{\numberline {1.1}Planning pr\IeC {\'e}visionnel du projet}{2}{section.9}
@@ -12,18 +12,42 @@
 \contentsline {section}{\numberline {1.3}Diagramme de cas d'utilisation}{4}{section.15}
 \contentsline {section}{\numberline {1.4}Description textuelle abr\IeC {\'e}g\IeC {\'e}e des cas d'utilisation}{4}{section.16}
 \contentsline {chapter}{\numberline {2}Conception}{5}{chapter.17}
-\contentsline {section}{\numberline {2.1}Main Section 1}{5}{section.18}
-\contentsline {subsection}{\numberline {2.1.1}Subsection 1}{5}{subsection.19}
-\contentsline {subsection}{\numberline {2.1.2}Subsection 2}{5}{subsection.20}
-\contentsline {subsection}{\numberline {2.1.3}Figures}{6}{subsection.21}
-\contentsline {section}{\numberline {2.2}Main Section 2}{6}{section.23}
-\contentsline {chapter}{\numberline {3}Impl\IeC {\'e}mentation}{8}{chapter.24}
-\contentsline {section}{\numberline {3.1}Diagrammes de packages et de classes r\IeC {\'e}tro-g\IeC {\'e}n\IeC {\'e}r\IeC {\'e}s}{8}{section.25}
-\contentsline {subsection}{\numberline {3.1.1}Subsection 1}{8}{subsection.26}
-\contentsline {subsection}{\numberline {3.1.2}Subsection 2}{8}{subsection.27}
-\contentsline {subsection}{\numberline {3.1.3}Figures}{9}{subsection.28}
-\contentsline {section}{\numberline {3.2}Main Section 2}{9}{section.30}
-\contentsline {chapter}{Glossaire}{11}{chapter*.31}
+\contentsline {section}{\numberline {2.1}Description textuelle structur\IeC {\'e}e des cas d'utilisation}{5}{section.18}
+\contentsline {subsection}{\numberline {2.1.1}Charger le plan d'une zone}{5}{subsection.19}
+\contentsline {subsection}{\numberline {2.1.2}Charger et calculer une demande de livraisons}{5}{subsection.20}
+\contentsline {subsection}{\numberline {2.1.3}Charger une demande de livraisons}{6}{subsection.21}
+\contentsline {subsection}{\numberline {2.1.4}Modifier interactivement une tourn\IeC {\'e}e}{6}{subsection.22}
+\contentsline {subsection}{\numberline {2.1.5}Annuler/Refaire des modifications}{6}{subsection.23}
+\contentsline {subsection}{\numberline {2.1.6}G\IeC {\'e}n\IeC {\'e}rer une feuille de route}{6}{subsection.24}
+\contentsline {subsection}{\numberline {2.1.7}Figures}{7}{subsection.25}
+\contentsline {section}{\numberline {2.2}Diagrammes de packages et de classes}{7}{section.27}
+\contentsline {subsection}{\numberline {2.2.1}Architecture g\IeC {\'e}n\IeC {\'e}rale}{8}{subsection.28}
+\contentsline {subsection}{\numberline {2.2.2}Package Model}{8}{subsection.29}
+\contentsline {subsection}{\numberline {2.2.3}Package View}{8}{subsection.30}
+\contentsline {subsection}{\numberline {2.2.4}Package Controller}{9}{subsection.31}
+\contentsline {section}{\numberline {2.3}Diagrammes de s\IeC {\'e}quence}{9}{section.32}
+\contentsline {subsection}{\numberline {2.3.1}Chargement du plan d'une zone}{9}{subsection.33}
+\contentsline {subsection}{\numberline {2.3.2}Chargement d'une demande de livraison}{9}{subsection.34}
+\contentsline {subsection}{\numberline {2.3.3}Calcul d'une tourn\IeC {\'e}e}{10}{subsection.35}
+\contentsline {subsection}{\numberline {2.3.4}Insertion d'un point de livraison dans une demande de livraison}{10}{subsection.36}
+\contentsline {subsection}{\numberline {2.3.5}Mise \IeC {\`a} jour de l'heure de livraison}{10}{subsection.37}
+\contentsline {chapter}{\numberline {3}Impl\IeC {\'e}mentation}{11}{chapter.38}
+\contentsline {section}{\numberline {3.1}Diagrammes de packages et de classes r\IeC {\'e}tro-g\IeC {\'e}n\IeC {\'e}r\IeC {\'e}s}{11}{section.39}
+\contentsline {subsection}{\numberline {3.1.1}Architecture g\IeC {\'e}n\IeC {\'e}rale}{11}{subsection.40}
+\contentsline {subsection}{\numberline {3.1.2}Package Model}{11}{subsection.41}
+\contentsline {subsection}{\numberline {3.1.3}Package View}{12}{subsection.42}
+\contentsline {subsection}{\numberline {3.1.4}Package Controller}{12}{subsection.43}
+\contentsline {subsection}{\numberline {3.1.5}Figures}{12}{subsection.44}
+\contentsline {section}{\numberline {3.2}Main Section 2}{12}{section.46}
+\contentsline {chapter}{\numberline {4}Bilan}{14}{chapter.47}
+\contentsline {section}{\numberline {4.1}Planning Effectif}{14}{section.48}
+\contentsline {subsection}{\numberline {4.1.1}Planning horaire}{14}{subsection.49}
+\contentsline {subsection}{\numberline {4.1.2}R\IeC {\'e}partition des t\IeC {\^a}ches}{14}{subsection.50}
+\contentsline {subsection}{\numberline {4.1.3}Planning Effectif}{15}{subsection.51}
+\contentsline {subsection}{\numberline {4.1.4}Figures}{15}{subsection.52}
+\contentsline {section}{\numberline {4.2}Bilan humain}{15}{section.54}
+\contentsline {section}{\numberline {4.3}Bilan technique}{16}{section.55}
+\contentsline {chapter}{Glossaire}{17}{chapter*.56}
 \vspace {2em}
-\contentsline {chapter}{\numberline {A}Appendix Title Here}{12}{appendix.32}
+\contentsline {chapter}{\numberline {A}Appendix Title Here}{18}{appendix.57}
 \vspace {2em}
