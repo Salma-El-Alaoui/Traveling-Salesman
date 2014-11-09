@@ -1,7 +1,8 @@
 package Model;
 
 import java.util.*;
-import tsp.TSP;
+
+import tsp.*;
 
 import org.w3c.dom.Element;
 
@@ -38,8 +39,14 @@ public class DeliveryRequest implements XmlParse {
     public void calculateTour() {
        ShortestPathGraph graph = new ShortestPathGraph(createPathMap());
        TSP tsp= new TSP(graph);
-       int nbVertices = graph.getNbVertices();
-      
+       SolutionState state;
+       int bound = graph.getNbVertices() * graph.getMaxArcCost();
+       int timeLimit = 1000;
+       do{
+    	   state = tsp.solve(timeLimit, bound);
+    	   bound = tsp.getTotalCost(); 
+    	   timeLimit *=2;
+       }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<10000);
     }
 
     /**
