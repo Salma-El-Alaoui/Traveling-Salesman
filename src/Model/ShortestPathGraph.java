@@ -12,7 +12,8 @@ public class ShortestPathGraph implements Graph {
     /**
      * 
      */
-    public ShortestPathGraph() {
+    public ShortestPathGraph(Map<Integer, Map<Integer,Path>> pathMap) {
+    	
     }
 
     /**
@@ -39,14 +40,6 @@ public class ShortestPathGraph implements Graph {
      * 
      */
     protected int mNb;
-
-    /**
-     * Constructor initializes the shortest paths graph and its costs
-     * @param List<Path>
-     */
-    public void Graph(List<Path> pathList) {
-        // TODO implement here
-    }
 
 	@Override
 	public int getMaxArcCost() {

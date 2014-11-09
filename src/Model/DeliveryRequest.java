@@ -34,7 +34,7 @@ public class DeliveryRequest implements XmlParse {
     /**
      * @param Network network
      */
-    public void calculateTour(Network network) {
+    public void calculateTour() {
         // TODO implement here
     
     	
