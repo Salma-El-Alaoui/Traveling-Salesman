@@ -50,8 +50,7 @@ public class Node implements XmlParse {
      */
     protected Network mNetwork;
 
-
-    /**
+	/**
      * 
      */
     private List<Segment> mInSegmentList;
@@ -145,6 +144,14 @@ public class Node implements XmlParse {
 	public int buildFromXML(Element element) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+    public int getX() {
+		return mX;
+	}
+
+	public int getY() {
+		return mY;
 	}
 
 }

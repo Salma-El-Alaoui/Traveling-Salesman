@@ -27,6 +27,11 @@ public class Delivery {
      * Delivery hour
      */
     protected int mDeliveryHour;
+    
+    /**
+     * 
+     */
+    protected Node mNode;
 
     /**
      * Departure hour
@@ -42,11 +47,6 @@ public class Delivery {
      * 
      */
     protected TimeSlot mTimeSlot;
-    
-    /**
-     * 
-     */
-    protected Node mNode;
 
     /**
      * @return

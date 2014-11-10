@@ -2,8 +2,10 @@ package View;
 
 import java.awt.Event;
 import java.awt.Graphics;
-import java.util.*;
+import java.util.Map;
 
+import Model.Delivery;
+import Model.Node;
 import Model.Tour;
 
 /**
@@ -11,35 +13,95 @@ import Model.Tour;
  */
 public class TourView implements View {
 
-    /**
-     * 
-     */
-    public TourView() {
-    }
+	/**
+	 * 
+	 */
+	public TourView() {
+	}
 
-    /**
-     * 
-     */
-    protected Tour mTour;
+	/**
+	 * 
+	 */
+	protected Tour mTour;
+	
+	/**
+	 * Map counting traced paths between two given nodes
+	 */
+	protected Map<Couple, Integer> mMapTraces;
 
-    /**
-     * @return Tour associated with TourView
-     */
-    public Tour getTour() {
-        // TODO si null, etc...
-        return mTour; 
-    }
+	/**
+	 * @return Tour associated with TourView
+	 */
+	public Tour getTour() {
+		// TODO si null, etc...
+		return mTour; 
+	}
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		for(int i=0;i<mTour.getmDeliveryList().size();i++)
+		{
+			Delivery dFirst = mTour.getmDeliveryList().get(i);
+			g.setColor(dFirst.getTimeSlot().getColor());
+			
+			Delivery dSecond;
+			if(i == mTour.getmDeliveryList().size()-1)
+			{
+				dSecond =  mTour.getmDeliveryList().get(0);
+			}else
+			{
+				dSecond =  mTour.getmDeliveryList().get(i+1);
+			}
+			Couple c = new Couple(dFirst.getNode(), dSecond.getNode()); //TODO A verifier, pas sûr
+			if(mMapTraces.containsKey(c))
+			{
+				mMapTraces.replace(c, mMapTraces.get(c)+1);
+				int diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
+				
+				g.drawLine(dFirst.getNode().getX()+diff, dFirst.getNode().getY()+diff, dSecond.getNode().getY()+diff, dSecond.getNode().getY()+diff);
+			}else
+			{
+				mMapTraces.put(c, 1);
+				g.drawLine(dFirst.getNode().getX(), dFirst.getNode().getY(), dSecond.getNode().getY(), dSecond.getNode().getY());
+			}
+			
+			
+			
+			
+		}
+
 	}
 
 	@Override
 	public void onClick(Event E) {
 		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Class used to count number of paths already traced between two nodes
+	 */
+	public class Couple
+	{
+		/**
+		 * 
+		 */
+		Node departureNode;
 		
+		/**
+		 * 
+		 */
+		Node arrivalNode;
+		
+		/**
+		 * 
+		 */
+		public Couple(Node n1, Node n2)
+		{
+			departureNode = n1;
+			arrivalNode = n2;
+		}
+
 	}
 
 }

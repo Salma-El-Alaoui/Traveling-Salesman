@@ -174,4 +174,9 @@ public class Tour {
     	}
     }
 
+	public List<Delivery> getmDeliveryList() {
+		return mDeliveryList;
+	}
+    
+
 }

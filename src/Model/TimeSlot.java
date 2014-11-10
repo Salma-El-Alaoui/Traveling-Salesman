@@ -1,6 +1,7 @@
 package Model;
 
-import java.util.*;
+import java.awt.Color;
+import java.util.List;
 
 import org.w3c.dom.Element;
 
@@ -14,6 +15,8 @@ public class TimeSlot implements XmlParse {
      */
     public TimeSlot() {
     }
+    
+    protected Color color;
 
     /**
      * 
@@ -28,7 +31,7 @@ public class TimeSlot implements XmlParse {
     /**
      * 
      */
-    protected Set<Delivery> mDeliveryList;
+    protected List<Delivery> mDeliveryList;
 
     /**
      * @return
@@ -54,5 +57,10 @@ public class TimeSlot implements XmlParse {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public Color getColor() {
+		return color;
+	}
+	
 
 }

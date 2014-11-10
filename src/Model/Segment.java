@@ -25,12 +25,18 @@ public class Segment {
      */
     protected Node mToNode;
 
-
     /**
      * @return
      */
     public Node getDepartureNode() {
         return mDepartureNode;
+    }
+    
+    /**
+     * @return
+     */
+    public Node getArrivalNode() {
+        return mToNode;
     }
 
     /**
