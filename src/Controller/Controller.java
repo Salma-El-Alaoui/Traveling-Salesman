@@ -57,8 +57,24 @@ public class Controller {
     {
     	Node selectedNode=mNetwork.getSelectedNode();
     	Command addCommand=new AddCommand(previousNode,selectedNode);
-    	mCommandStack.add(addCommand);
-    	addCommand.execute();
+    	if(addCommand.execute())
+    	{
+    		mCommandStack.add(addCommand);
+    	}
+    	//TODO : refresh view
+    }
+    
+    /**
+     * Remove from the tour the delivery associated with the node
+     * @param node the node associated with the delivery to remove
+     */
+    public void removeDelivery(Node node)
+    {
+    	Command rmCommand=new RemoveCommand(node);
+    	if(rmCommand.execute())
+    	{
+    		mCommandStack.add(rmCommand);
+    	}
     	//TODO : refresh view
     }
 

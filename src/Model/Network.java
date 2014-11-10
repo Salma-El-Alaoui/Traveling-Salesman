@@ -51,20 +51,21 @@ public class Network {
     }
 
     /**
-     * @param Node previous 
-     * @param Node selected 
-     * @return
+     * Add a delivery associated with selected node after the one associated with previous node
+     * @param previous
+     * @param selected
      */
-    public void addDelivery(Node previous, Node selected) {
-        mDeliveryRequest.insertDelivery(previous, selected);
+    public boolean addDelivery(Node previous, Node selected) {
+        return mDeliveryRequest.insertDelivery(previous, selected);
     }
     
     /**
-     * @param Node node 
-     * @return
+     * Remove from the tour the delivery associated with the node
+     * @param Node node associated with the delivery to remove
+     * @return the node before the removed delivery
      */
-    public void removeDelivery(Node node) {
-        mDeliveryRequest.removeDelivery(node);
+    public Node removeDelivery(Node node) {
+        return mDeliveryRequest.removeDelivery(node);
     }
 
     /**
