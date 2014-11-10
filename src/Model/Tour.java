@@ -23,9 +23,14 @@ public class Tour {
      * 
      */
     protected List<Path> mPathList;
-
+    
     /**
-     * @param Delivery 
+     * Departure hour from the warehouse
+     */
+    protected int mStartHour;
+    
+    /**
+     * @param delivery 
      * @return
      */
     public void addDelivery(Delivery delivery) {
@@ -33,7 +38,7 @@ public class Tour {
     }
 
     /**
-     * @param Path path 
+     * @param path 
      * @return
      */
     public void addPath(Path path) {
@@ -58,9 +63,13 @@ public class Tour {
         	{
         		if(i!=mDeliveryList.size()-1)
         		{
-        			nextNode=mDeliveryList.get(++i).getNode();
+        			nextNode=mDeliveryList.get(i+1).getNode();
+        			mDeliveryList.add(i+1, newDelivery);
+        			break;
         		}else{
-        			nextNode=mDeliveryList.get(0).getNode();
+        			nextNode=mWarehouse;
+        			mDeliveryList.add(newDelivery);
+        			break;
         		}
         	}
         }
@@ -83,13 +92,20 @@ public class Tour {
         		mPathList.set(i, firstPath);
         		if(i!=mPathList.size()-1)
         		{
-        			mPathList.add(++i, secondPath);
+        			mPathList.add(i+1, secondPath);
         		}else{
         			mPathList.add(0, secondPath);
         		}
         		
         	}
         }
+        
+        updateHour();
+        if(newDelivery.getDeliveryHour()>newDelivery.getTimeSlot().getEndHour())
+        {
+        	newDelivery.setTimeSlot(nextNode.getDelivery().getTimeSlot());
+        }
+
         return true;
     }
 
@@ -146,10 +162,28 @@ public class Tour {
          		}
          	}
          }
-    	 
-    	 //TODO : updateHour()
-    	 
+    	 updateHour(); 	 
     	 return previousNode;
     }
+    
+    /**
+     * Update the hours of all the deliveries
+     */
+    public void updateHour(){
+    	// Init the
+    	mStartHour = mDeliveryList.get(0).getTimeSlot().getStartHour() 
+		- mPathList.get(0).getGlobalTime();
+    	int globalTime = mStartHour;
+    	for(int i=0 ; i<mDeliveryList.size() ; i++){
+    		Delivery delivery = mDeliveryList.get(i);
+    		delivery.setArrivalHour(globalTime);
+    		globalTime = delivery.getDepartureHour();
+    	}
+    }
+
+	public List<Delivery> getmDeliveryList() {
+		return mDeliveryList;
+	}
+    
 
 }
