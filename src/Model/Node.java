@@ -18,7 +18,7 @@ public class Node implements XmlParse {
     /**
      * 
      */
-    protected boolean mIsWareHouse;
+    protected boolean mIsWarehouse;
 
     /**
      * 
@@ -101,14 +101,14 @@ public class Node implements XmlParse {
      * @param boolean 
      * @return
      */
-    public void setIsWareHouse(boolean isWareHouse) {
-        // TODO implement here
+    public void setIsWarehouse(boolean isWarehouse) {
+        mIsWarehouse = isWarehouse;
     }
 
 	@Override
-	public int buildFromXML(Element element) {
+	public String buildFromXML(Element element, Network network) {
 		// TODO Auto-generated method stub
-		return 0;
+		return "";
 	}
 
 }
