@@ -17,7 +17,8 @@ public class Segment {
     /**
      * 
      */
-    protected Node mFromNode;
+    protected Node mDepartureNode;
+
 
     /**
      * 
@@ -28,7 +29,7 @@ public class Segment {
      * @return
      */
     public Node getDepartureNode() {
-        return mFromNode;
+        return mDepartureNode;
     }
     
     /**
@@ -45,7 +46,14 @@ public class Segment {
         // TODO implement here
         return 0;
     }
-
+    
+    /**
+     * @return
+     */
+    public Node getToNode(){
+    	return mToNode;
+    }
+    
     /**
      * @param Node 
      * @param Element
