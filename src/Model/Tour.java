@@ -45,7 +45,7 @@ public class Tour {
      * @param previousDelivery
      * @param newDelivery
      */
-    public void insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
+    public boolean insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
         newDelivery.setTimeSlot(previousDelivery.getTimeSlot());
         
         Node previousNode=previousDelivery.getNode();
@@ -68,7 +68,7 @@ public class Tour {
         if(nextNode==null)
         {
         	System.out.println("Can't find node after the one we want to insert");
-        	return;
+        	return false;
         }
         
         Network network=previousNode.getNetwork();
@@ -90,7 +90,7 @@ public class Tour {
         		
         	}
         }
-        
+        return true;
     }
 
     /**

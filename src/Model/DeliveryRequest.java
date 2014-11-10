@@ -43,10 +43,10 @@ public class DeliveryRequest implements XmlParse {
      * @param previousNode
      * @param selectedNode
      */
-    public void insertDelivery(Node previousNode, Node selectedNode) {
+    public boolean insertDelivery(Node previousNode, Node selectedNode) {
         Delivery previousDelivery=previousNode.getDelivery();
         Delivery newDelivery=new Delivery(selectedNode);
-        mTour.insertDelivery(previousDelivery, newDelivery);
+        return mTour.insertDelivery(previousDelivery, newDelivery);
     }
 
     /**

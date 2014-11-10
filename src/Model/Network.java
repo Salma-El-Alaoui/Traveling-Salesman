@@ -55,8 +55,8 @@ public class Network {
      * @param previous
      * @param selected
      */
-    public void addDelivery(Node previous, Node selected) {
-        mDeliveryRequest.insertDelivery(previous, selected);
+    public boolean addDelivery(Node previous, Node selected) {
+        return mDeliveryRequest.insertDelivery(previous, selected);
     }
     
     /**

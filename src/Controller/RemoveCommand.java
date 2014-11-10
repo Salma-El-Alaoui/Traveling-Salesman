@@ -28,8 +28,10 @@ public class RemoveCommand implements Command {
     }
 
 	@Override
-	public void execute() {
+	public boolean execute() {
 		mPreviousNode=mNode.getNetwork().removeDelivery(mNode);
+		if(mPreviousNode==null) return false;
+		return true;
 		
 	}
 

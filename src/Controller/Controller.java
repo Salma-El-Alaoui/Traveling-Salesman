@@ -57,8 +57,10 @@ public class Controller {
     {
     	Node selectedNode=mNetwork.getSelectedNode();
     	Command addCommand=new AddCommand(previousNode,selectedNode);
-    	mCommandStack.add(addCommand);
-    	addCommand.execute();
+    	if(addCommand.execute())
+    	{
+    		mCommandStack.add(addCommand);
+    	}
     	//TODO : refresh view
     }
     
@@ -69,8 +71,10 @@ public class Controller {
     public void removeDelivery(Node node)
     {
     	Command rmCommand=new RemoveCommand(node);
-    	mCommandStack.add(rmCommand);
-    	rmCommand.execute();
+    	if(rmCommand.execute())
+    	{
+    		mCommandStack.add(rmCommand);
+    	}
     	//TODO : refresh view
     }
 
