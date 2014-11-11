@@ -167,10 +167,9 @@ public class Tour {
     }
     
     /**
-     * Update the hours of all the deliveries
+     * Updates the hours of all the deliveries
      */
     public void updateHour(){
-    	// Init the
     	mStartHour = mDeliveryList.get(0).getTimeSlot().getStartHour() 
 		- mPathList.get(0).getGlobalTime();
     	int globalTime = mStartHour;

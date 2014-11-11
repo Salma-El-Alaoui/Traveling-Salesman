@@ -15,7 +15,13 @@ public class DeliveryRequest implements XmlParse {
      * 
      */
     public DeliveryRequest() {
+    	
     }
+    
+    /**
+     * 
+     */
+    protected Network network;
 
     /**
      * 
@@ -34,19 +40,36 @@ public class DeliveryRequest implements XmlParse {
     protected Tour mTour;
 
     /**
-     * 
+     * Computes the most interesting tour and initializes the tour object
      */
     public void calculateTour() {
-       ShortestPathGraph graph = new ShortestPathGraph(createPathMap());
+    	
+       Map<Integer, Map<Integer, Path>> pathMap = createPathMap();
+       ShortestPathGraph graph = new ShortestPathGraph(pathMap);
        TSP tsp= new TSP(graph);
        SolutionState state;
-       int bound = graph.getNbVertices() * graph.getMaxArcCost();
+       int bound = graph.getNbVertices() * graph.getMaxArcCost() + 1;
        int timeLimit = 1000; //TODO : how should the timeLimite increase ?
        do{
     	   state = tsp.solve(timeLimit, bound);
     	   bound = tsp.getTotalCost(); 
-    	   timeLimit *=2;
+    	   timeLimit *= 2;
        }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<10000);
+       
+       int[]nodes=tsp.getNext();
+       Tour tour = new Tour();
+       
+       int previous,next;
+       for(int i = 0; i < nodes.length; i++){
+    	   previous= nodes[i];  	   
+    	   tour.addDelivery(this.network.getNode(previous).getDelivery());
+    	   if(i!= nodes.length-1){
+    		   next = nodes[i+1];
+    		   tour.addPath(pathMap.get(previous).get(next));
+    	   }
+    	   tour.updateHour();
+       }
+       
     }
 
     /**
@@ -132,7 +155,7 @@ public class DeliveryRequest implements XmlParse {
 						
 		}
 		
-		//link the all the nodes in the last time slot to the warehouse
+		//link the all the nodes in the last time slot with the warehouse
 		TimeSlot lastTimeSlot = mTimeSlotList.get(nbSlots-1);	
 		Dijkstra dLast;   	
 		destDeliveries = new HashMap<Integer,Path>();
