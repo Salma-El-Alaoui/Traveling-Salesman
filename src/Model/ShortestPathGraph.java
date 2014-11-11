@@ -24,6 +24,11 @@ public class ShortestPathGraph implements Graph {
      * the value is the cost of the arc (path)
      */
     protected Map<Integer,Map<Integer,Integer>> mCost;
+    
+    /**
+     * Costs matrix for choco
+     */
+    protected int[][]mCostMatrix;
 
     /**
      * Maximum cost
@@ -63,22 +68,29 @@ public class ShortestPathGraph implements Graph {
     	
     	this.mCost = new HashMap<Integer,Map<Integer,Integer>>();
     	this.mSucc = new HashMap<Integer,int[]>();
-    	
+    	this.mCostMatrix = new int[this.mNb][];
+    	int length = 0;
+    	int originNode = 0;
+    	int i = 0 ;
     	for (Map.Entry<Integer, Map<Integer,Path>> entry : pathMap.entrySet())
     	{
-    		int nodeId = entry.getKey();
+    		originNode = entry.getKey();
+    		length =entry.getValue().size();   		
     		Map<Integer,Integer> costMap = new HashMap<Integer,Integer>();
-    		int[] succ = new int[entry.getValue().size()];   		
+    		this.mCostMatrix[i]=new int[length];
+    		int[] succ = new int[length]; 
+    		
     		int cost = 0;
-        	int key = 0;
+        	int destNode = 0;
         	int j=0;
     		for (Map.Entry<Integer,Path> value : entry.getValue().entrySet())
         	{	
-    			key = value.getKey();
+    			destNode = value.getKey();
     			cost = value.getValue().getGlobalTime();
     			//updating the cost map and the array of successors for each key.
-    			costMap.put(key,cost); 
-    			succ[j]=key;   			
+    			costMap.put(destNode,cost); 
+    			succ[j]=destNode;
+    			this.mCostMatrix[i][j]=cost;
     			//updating the maximum and minimum costs of the graph
     			if(cost < this.mMin)
     				mMin = cost;
@@ -87,13 +99,13 @@ public class ShortestPathGraph implements Graph {
     			j++;
     					
         	}
-    		
-    	    this.mCost.put(nodeId,costMap);
-    	    this.mSucc.put(nodeId, succ);
+    	    this.mCost.put(originNode,costMap);
+    	    this.mSucc.put(originNode, succ);
+    	    i++;
     	}
   	
     }
-
+   
 
 	@Override
 	public int getMaxArcCost() {
@@ -112,7 +124,7 @@ public class ShortestPathGraph implements Graph {
 
 	@Override
 	public int[][] getCost() {
-		return null;
+		return this.mCostMatrix;
 	}
 
 	@Override
