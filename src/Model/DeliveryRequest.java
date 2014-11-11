@@ -14,8 +14,8 @@ public class DeliveryRequest implements XmlParse {
     /**
      * 
      */
-    public DeliveryRequest() {
-    	
+    public DeliveryRequest(Network network) {
+    	this.network = network;
     }
     
     /**
@@ -38,6 +38,8 @@ public class DeliveryRequest implements XmlParse {
      * 
      */
     protected Tour mTour;
+    
+    static final int MAX_COMPUTE_TIME = 10000;
 
     /**
      * Computes the most interesting tour and initializes the tour object
@@ -49,12 +51,12 @@ public class DeliveryRequest implements XmlParse {
        TSP tsp= new TSP(graph);
        SolutionState state;
        int bound = graph.getNbVertices() * graph.getMaxArcCost() + 1;
-       int timeLimit = 1000; //TODO : how should the timeLimite increase ?
+       int timeLimit = MAX_COMPUTE_TIME; //TODO : how should the timeLimite increase ?
        do{
     	   state = tsp.solve(timeLimit, bound);
     	   bound = tsp.getTotalCost(); 
-    	   timeLimit *= 2;
-       }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<10000);
+    	   //timeLimit *= 2;
+       }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<MAX_COMPUTE_TIME);
        
        int[]nodes=tsp.getNext();
        this.mTour = new Tour();
