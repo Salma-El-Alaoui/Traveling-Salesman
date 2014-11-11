@@ -60,7 +60,6 @@ public class ShortestPathGraph implements Graph {
      * @param Map<Integer, Map<Integer,Path>> pathMap
      */
     private void initializeCosts(Map<Integer, Map<Integer,Path>> pathMap){
-    	//TODO: forgot to update the min and max, I'll do it tomorrow !
     	
     	this.mCost = new HashMap<Integer,Map<Integer,Integer>>();
     	this.mSucc = new HashMap<Integer,int[]>();
