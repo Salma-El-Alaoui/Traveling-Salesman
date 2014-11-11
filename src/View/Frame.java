@@ -32,6 +32,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
 
+	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
+
+
 	/**
 	 * 
 	 */
@@ -41,6 +44,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setLayout(new BorderLayout());
 
 		mMenuBar = new JMenuBar();
+
+		mLabelInfos=new JLabel();
+		mNodeInfos=new JLabel();
+
 
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
@@ -63,12 +70,22 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		this.add(toolbar, BorderLayout.NORTH);
 
-		mLabelInfos = new JLabel();
+
 		mLabelInfos.setText("Infos générales");
-		mNodeInfos = new JLabel();
 		mNodeInfos.setText("Infos du noeud sélectionné");
 
 		mMenuEdition = new JMenu("Edition");
+
+		mAddDelivery=new JMenuItem("Ajouter une livraison");
+		mAddDelivery.setEnabled(false);
+		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
+		mAddDelivery.addActionListener(this);
+		mMenuEdition.add(mAddDelivery);
+
+		JMenuItem removeDelivery=new JMenuItem("Supprimer une livraison");
+		removeDelivery.setEnabled(false);
+		removeDelivery.addActionListener(this);
+		mMenuEdition.add(removeDelivery);
 
 		mMenuFile = new JMenu("Fichier");
 		JMenuItem loadMap = new JMenuItem("Charger Plan");
@@ -104,7 +121,23 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		setJMenuBar(mMenuBar);
 
 		this.setVisible(true);
+
 	}
+
+	/**
+	 * 
+	 */
+	protected JButton mExportButton;
+
+	/**
+	 * 
+	 */
+	protected JButton mLoadPlanButton;
+
+	/**
+	 * 
+	 */
+	protected JButton mLoadDeliveriesButton;
 
 	/**
 	 * 
@@ -115,6 +148,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected JMenu mMenuEdition;
+
+	protected JMenuItem mAddDelivery;
+
+	protected boolean mAddDeliveryClicked;
 
 	/**
 	 * 
@@ -139,36 +176,23 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
-	protected JButton mExportButton;
-
-	/**
-	 * 
-	 */
-	protected JButton mLoadPlanButton;
-
-	/**
-	 * 
-	 */
-	protected JButton mLoadDeliveriesButton;
-
-	/**
-	 * 
-	 */
 	protected GraphPanel mPanelGraph;
 
 	/**
 	 * 
 	 */
-	protected String mLabelText;
+	public List<NodeView> listNodeView;
 
 
 
 
 	/**
-	 * @param boolean activated 
+	 * Enable or disable click on the add delivery menu item
+	 * @param activated true to enable, false to disable
 	 */
 	public void activateAddItem(boolean activated) {
-		// TODO implement here
+		mAddDelivery.setEnabled(activated);
+		mAddDeliveryClicked=false;
 	}
 
 	/**
@@ -191,11 +215,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	}
 
 	/**
-	 * @return
+	 * Return true if the add delivery menu item has been selected
+	 * @return true if the add delivery menu item has been selected
 	 */
 	public boolean isAddSelected() {
-		// TODO implement here
-		return false;
+		return mAddDeliveryClicked;
 	}
 
 	@Override
@@ -208,8 +232,18 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			break;
 		case(ACTION_EXPORT_ROADMAP):
 			break;
+		case(ACTION_ADD_DELIVERY):
+			mAddDeliveryClicked=true;
+		break;
 		}
 	}
+
+	public static void main(String[] args)
+	{
+		Frame frame=new Frame();
+		frame.setVisible(true);
+	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
