@@ -9,7 +9,11 @@ import Model.Network;
 import java.io.File;
 import java.util.*;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import Model.Node;
+import View.ErrorDialogView;
 import View.FileChooserView;
 
 /**
@@ -56,7 +60,7 @@ public class Controller {
 
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
-			System.out.println(ex.getMessage());
+			new ErrorDialogView().paint(ex);
 		}
 
 	}
@@ -71,7 +75,7 @@ public class Controller {
 			mNetwork.parseNetworkFile(f1);
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
-			System.out.println(ex.getMessage());
+			new ErrorDialogView().paint(ex);
 		}
 
 	}
@@ -170,7 +174,7 @@ public class Controller {
 			System.out.println(network.getDeliveryRequest());
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
-			System.out.println(ex.getMessage());
+			new ErrorDialogView().paint(ex);
 		}
 
 	}
