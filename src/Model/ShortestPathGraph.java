@@ -61,19 +61,30 @@ public class ShortestPathGraph implements Graph {
      */
     private void initializeCosts(Map<Integer, Map<Integer,Path>> pathMap){
     	//TODO: forgot to update the min and max, I'll do it tomorrow !
+    	
     	this.mCost = new HashMap<Integer,Map<Integer,Integer>>();
     	this.mSucc = new HashMap<Integer,int[]>();
+    	
     	for (Map.Entry<Integer, Map<Integer,Path>> entry : pathMap.entrySet())
     	{
     		int nodeId = entry.getKey();
     		Map<Integer,Integer> costMap = new HashMap<Integer,Integer>();
-    		int[] succ = new int[entry.getValue().size()];
-    		int j=0;
+    		int[] succ = new int[entry.getValue().size()];   		
+    		int cost = 0;
+        	int key = 0;
+        	int j=0;
     		for (Map.Entry<Integer,Path> value : entry.getValue().entrySet())
         	{	
-    			int key = value.getKey();
-    			costMap.put(key, value.getValue().getGlobalTime()); 
-    			succ[j]=key;
+    			key = value.getKey();
+    			cost = value.getValue().getGlobalTime();
+    			//updating the cost map and the array of successors for each key.
+    			costMap.put(key,cost); 
+    			succ[j]=key;   			
+    			//updating the maximum and minimum costs of the graph
+    			if(cost < this.mMin)
+    				mMin = cost;
+    			if(cost > this.mMax)
+    				mMax = cost;
     			j++;
     					
         	}
