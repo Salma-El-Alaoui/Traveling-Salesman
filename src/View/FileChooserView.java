@@ -14,7 +14,9 @@ public class FileChooserView {
 
 	private class XMLFileFilter extends FileFilter {
 		private final String suffix = "xml";
+
 		private final String description = "XML files(*.xml)";
+
 
 		private boolean isXML(String suffix) {
 			return suffix.equals(this.suffix);

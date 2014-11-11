@@ -3,7 +3,9 @@ package Controller;
 import java.io.File;
 import java.util.*;
 
+
 import Model.Network;
+
 import Model.Node;
 import View.FileChooserView;
 
@@ -38,6 +40,7 @@ public class Controller {
 		// TODO implement here
 	}
 
+
 	/**
 	 * @return
 	 */
@@ -60,6 +63,10 @@ public class Controller {
 		network.parseDeliveryRequestFile(f2);
 		
 		System.out.println(network.getDeliveryRequest());
+
+  
+    
+
 
 	}
 }
