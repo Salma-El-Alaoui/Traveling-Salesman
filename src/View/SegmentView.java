@@ -1,8 +1,8 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import Model.Segment;
 
@@ -20,7 +20,8 @@ public class SegmentView implements View {
     /**
      * 
      */
-    public SegmentView() {
+    public SegmentView(Segment seg) {
+    	mSegment = seg;
     }
 
 	@Override
@@ -69,7 +70,7 @@ public class SegmentView implements View {
 	}
 
 	@Override
-	public void onClick(Event E) {
+	public void onClick(MouseEvent E) {
 		// TODO Auto-generated method stub
 		
 	}

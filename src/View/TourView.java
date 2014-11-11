@@ -1,7 +1,7 @@
 package View;
 
-import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import Model.Delivery;
@@ -16,7 +16,8 @@ public class TourView implements View {
 	/**
 	 * 
 	 */
-	public TourView() {
+	public TourView(Tour tour) {
+		mTour = tour;
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class TourView implements View {
 	}
 
 	@Override
-	public void onClick(Event E) {
+	public void onClick(MouseEvent E) {
 		// TODO Auto-generated method stub
 
 	}

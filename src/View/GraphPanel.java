@@ -3,8 +3,12 @@ package View;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
+
+import Model.Network;
+import Model.Node;
 
 /**
  * 
@@ -14,8 +18,17 @@ public class GraphPanel extends JPanel {
     /**
      * 
      */
-    public GraphPanel() {
-    	this.setPreferredSize(new Dimension(500,500)); //TODO A voir avec Zied
+    public GraphPanel(Network n) {
+    	this.setPreferredSize(new Dimension(800,800));
+    	mNetworkView = new NetworkView(n, n.getSegmentList());
+    	mTourView = new TourView(n.getDeliveryRequest().getTour());
+    	
+    	Map<Integer,Node> mapNode = n.getNodesList();
+    	for(int i=0;i<mapNode.size();i++)
+    	{
+    		listNodeView.add(new NodeView(mapNode.get(i)));
+    	}
+    	
     }
 
     /**
@@ -44,6 +57,12 @@ public class GraphPanel extends JPanel {
 			nv.paint(g);
 		}
 	}
+
+	public List<NodeView> getListNodeView() {
+		return listNodeView;
+	}
+	
+	
     
     
 

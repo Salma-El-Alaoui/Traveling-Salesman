@@ -1,10 +1,11 @@
 package View;
 
-import java.awt.Event;
 import java.awt.Graphics;
-import java.util.*;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import Model.Network;
+import Model.Segment;
 
 /**
  * 
@@ -14,7 +15,13 @@ public class NetworkView implements View {
     /**
      * 
      */
-    public NetworkView() {
+    public NetworkView(Network network, List<Segment> listSegment) {
+    	mNetwork = network;
+    	for(Segment s : listSegment)
+    	{
+    		listSegmentView.add(new SegmentView(s));
+    	}
+    	
     }
 
     /**
@@ -36,7 +43,7 @@ public class NetworkView implements View {
 	}
 
 	@Override
-	public void onClick(Event E) {
+	public void onClick(MouseEvent E) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,7 +1,7 @@
 package View;
 
-import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 
 
@@ -18,6 +18,6 @@ public interface View {
     /**
      * @param Event E
      */
-    public void onClick(Event E);
+    public void onClick(MouseEvent E);
 
 }
