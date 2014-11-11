@@ -15,6 +15,7 @@ public class TimeSlot implements XmlParse {
      * 
      */
 	public TimeSlot() {
+		mDeliveryList = new ArrayList<Delivery>();
 	}
 
 	/**
@@ -30,7 +31,7 @@ public class TimeSlot implements XmlParse {
 	/**
      * 
      */
-	protected Set<Delivery> mDeliveryList;
+	protected List<Delivery> mDeliveryList;
 
 	/**
 	 * @return
@@ -92,6 +93,10 @@ public class TimeSlot implements XmlParse {
 
 		}
 		return res;
+	}
+	@Override
+	public String toString() {
+		return "(Time Slot : startHour " + mStartHour + ", endHour " + mEndHour + "Deliveries " + mDeliveryList.toString() + "); ";
 	}
 
 }

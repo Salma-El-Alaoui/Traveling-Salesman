@@ -75,8 +75,22 @@ public class Network {
 	 * @return
 	 */
 	public Node getNode(int id) {
-		// TODO implement here
-		return null;
+		return mNodesList.get(id);
+	}
+	
+	public void updateNode( int id, Segment inSegment, Segment outSegment){
+		Node updatedNode = mNodesList.get(id);
+		if (inSegment != null){
+			updatedNode.addInSegment(inSegment);
+		}
+		if (outSegment != null){
+			updatedNode.addOutSegment(outSegment);
+		}
+		mNodesList.put(id, updatedNode); // Updates the node having this ID
+	}
+	
+	public DeliveryRequest getDeliveryRequest() {
+		return deliveryRequest;
 	}
 
 	/**
@@ -185,7 +199,6 @@ public class Network {
 		
 		Element nodeElement;
 		for (int i = 0; i < nodesNumber; i++) {
-			System.out.println("Gere" + i + " "+ nodesNumber);
 			nodeElement = (Element) listNodes.item(i);
 			
 			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
@@ -216,6 +229,7 @@ public class Network {
 			res += entry.getValue().toString();
 			res += "\n";
 		}
+		res += "------------Segments List --------------- \n";
 		for (Segment s : mSegmentList){
 			res += s.toString() +"\n";
 		}

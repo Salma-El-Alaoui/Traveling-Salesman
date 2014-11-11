@@ -71,19 +71,17 @@ public class Segment {
 
 		mToNode = network.getNode(Integer.parseInt(segmentElement
 				.getAttribute("idNoeudDestination")));
-		System.out.println("Here " + mStreetName + " " + mSpeed + mFromNode + mToNode);
+		
 
-		/*// Update From Node DOES NOT WORK
-		network.getNode(mFromNode.getId()).addOutSegment(this);
-
-		// Update To Node DOES NOT WORK
-		network.getNode(mFromNode.getId()).addInSegment(this);*/
+		network.updateNode(mFromNode.getId(), null , this); // This segment is the out segment of its FromNode
+		network.updateNode(mToNode.getId(), this, null); // This segment is the in segments of its ToNode.
 
 	}
 	@Override
 	public String toString() {
 		
-		return  "Segment : "+  " ,street " + mStreetName + ", length " + mLength + ", speed " + mSpeed ;
+		return "Segment : street " + mStreetName + ", length " + mLength + ", speed " + mSpeed ;
+		//return  "Segment : "+ " From ("+ mFromNode.toString() + " ), To (" + mToNode.toString() +  ") ,street " + mStreetName + ", length " + mLength + ", speed " + mSpeed ;
 	}
 
 }

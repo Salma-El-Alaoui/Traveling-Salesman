@@ -14,6 +14,8 @@ public class Node implements XmlParse {
      * 
      */
     public Node() {
+    	mInSegment = new ArrayList<Segment>();
+    	mOutSegment = new ArrayList<Segment>();
     }
 
     /**
@@ -132,8 +134,12 @@ public class Node implements XmlParse {
 	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y " + mY;
+		try{
+			return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y= " + mY + ", InSegment " + mInSegment.toString() + ", outSegment" + mOutSegment.toString();
+		} catch(NullPointerException npx){
+			return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y= " + mY;
+		}
+		
 	}
 
 }

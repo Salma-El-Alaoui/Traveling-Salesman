@@ -52,9 +52,14 @@ public class Controller {
 		Network network = new Network();
 		network.parseNetworkFile(f1);
 		System.out.println(network);
+		
+		System.out.println("==============Delivery Request=============");
+		
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
 		network.parseDeliveryRequestFile(f2);
+		
+		System.out.println(network.getDeliveryRequest());
 
 	}
 }

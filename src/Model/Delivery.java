@@ -97,5 +97,9 @@ public class Delivery implements XmlParse {
 	
 		return null;
 	}
+	@Override
+	public String toString() {
+		return "(Delivery : ID " + mId + " ,Node " + mNode + " ,Client " + mClient + ");";
+	}
 
 }

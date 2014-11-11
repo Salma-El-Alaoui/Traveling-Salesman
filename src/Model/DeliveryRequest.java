@@ -14,6 +14,7 @@ public class DeliveryRequest {
      * 
      */
 	public DeliveryRequest() {
+		mTimeSlotList = new ArrayList<TimeSlot>();
 	}
 
 	/**
@@ -24,7 +25,7 @@ public class DeliveryRequest {
 	/**
      * 
      */
-	protected Set<TimeSlot> mTimeSlotList;
+	protected List<TimeSlot> mTimeSlotList;
 
 	/**
      * 
@@ -100,6 +101,11 @@ public class DeliveryRequest {
 			mTimeSlotList.add(timeSlot);
 
 		}
+	}
+	@Override
+	public String toString() {
+		
+		return "Delivery Request : Warehouse (" + mWarehouse + "), TimeSlots" + mTimeSlotList.toString();
 	}
 
 }
