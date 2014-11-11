@@ -18,6 +18,7 @@ public class DeliveryRequest {
 
 	public DeliveryRequest(Network network) {
 		this.network = network;
+		mTimeSlotList = new ArrayList<TimeSlot>();
 	}
 
 	/**

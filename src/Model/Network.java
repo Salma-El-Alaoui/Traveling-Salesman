@@ -16,6 +16,8 @@ import org.xml.sax.SAXException;
  */
 public class Network {
 
+	protected Map<Integer, Node> mNodesList;
+
 	/**
      * 
      */
@@ -27,6 +29,8 @@ public class Network {
      */
 	protected Node mSelectedNode;
 
+	protected DeliveryRequest mDeliveryRequest;
+
 	public Network() {
 		this.mDeliveryRequest = new DeliveryRequest();
 		mNodesList = new HashMap<Integer, Node>();
@@ -37,13 +41,13 @@ public class Network {
      * 
      */
 
-	protected DeliveryRequest mDeliveryRequest;
+	public Map<Integer, Node> getNodesList() {
+		return mNodesList;
+	}
 
-	/**
-     * 
-     */
-
-	protected List<Node> mWarehouseList;
+	public List<Segment> getSegmentList() {
+		return mSegmentList;
+	}
 
 	/**
 	 * Calculate the shortest path from startNode to endNode
@@ -94,8 +98,6 @@ public class Network {
 		mSelectedNode.setSelectedNode(false);
 		mSelectedNode = node;
 	}
-
-	protected Map<Integer, Node> mNodesList;
 
 	/**
 	 * @param Node
