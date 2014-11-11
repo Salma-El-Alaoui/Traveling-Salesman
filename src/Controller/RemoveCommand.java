@@ -2,27 +2,42 @@ package Controller;
 
 import java.util.*;
 
+import Model.Node;
+
 /**
  * 
  */
 public class RemoveCommand implements Command {
 
+	/**
+	 * Node to remove
+	 */
+	Node mNode;
+	
+	/**
+	 * Node before the one removed
+	 */
+	Node mPreviousNode;
+	
     /**
-     * 
+     * Constructor
+     * @param Node nodeToRemove the node associated with the delivery to remove
      */
-    public RemoveCommand() {
+    public RemoveCommand(Node nodeToRemove) {
+		mNode=nodeToRemove;
     }
 
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
+	public boolean execute() {
+		mPreviousNode=mNode.getNetwork().removeDelivery(mNode);
+		if(mPreviousNode==null) return false;
+		return true;
 		
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-		
+		mNode.getNetwork().addDelivery(mPreviousNode, mNode);	
 	}
 
 }

@@ -29,8 +29,8 @@ public class AddCommand implements Command {
     }
 
 	@Override
-	public void execute() {
-		mPreviousNode.getNetwork().addDelivery(mPreviousNode, mSelectedNode);
+	public boolean execute() {
+		return mPreviousNode.getNetwork().addDelivery(mPreviousNode, mSelectedNode);
 
 	}
 

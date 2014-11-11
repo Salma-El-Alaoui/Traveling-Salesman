@@ -46,11 +46,11 @@ public class Tour {
     }
 
     /**
-     * @param previousDelivery 
+     * Insert newDelivery after previousDelivery into the tour and recalculate locally the path
+     * @param previousDelivery
      * @param newDelivery
-     * @return
      */
-    public void insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
+    public boolean insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
         newDelivery.setTimeSlot(previousDelivery.getTimeSlot());
         
         Node previousNode=previousDelivery.getNode();
@@ -77,7 +77,7 @@ public class Tour {
         if(nextNode==null)
         {
         	System.out.println("Can't find node after the one we want to insert");
-        	return;
+        	return false;
         }
         
         Network network=previousNode.getNetwork();
@@ -99,18 +99,22 @@ public class Tour {
         		
         	}
         }
+        
         updateHour();
         if(newDelivery.getDeliveryHour()>newDelivery.getTimeSlot().getEndHour())
         {
         	newDelivery.setTimeSlot(nextNode.getDelivery().getTimeSlot());
         }
+
+        return true;
     }
 
     /**
-     * @param delivery 
-     * @return
+     * Remove the delivery from the tour and recalculate locally the path
+     * @param Delivery delivery to remove
+     * @return the node before the removed delivery
      */
-    public void removeDelivery(Delivery delivery) {
+    public Node removeDelivery(Delivery delivery) {
     	Node node=delivery.getNode();
     	Node previousNode=null;
     	Node nextNode=null;
@@ -124,19 +128,21 @@ public class Tour {
          			previousNode=mDeliveryList.get(i-1).getNode();
          			nextNode=mDeliveryList.get(i+1).getNode();
          		}else if(i!=mDeliveryList.size()-1 && i==0){
-         			previousNode=mDeliveryList.get(mDeliveryList.size()-1).getNode();
+         			previousNode=mWarehouse;
          			nextNode=mDeliveryList.get(1).getNode();
          		}else{
          			previousNode=mDeliveryList.get(i-1).getNode();
-         			nextNode=mDeliveryList.get(0).getNode();
+         			nextNode=mWarehouse;
          		}
+         		mDeliveryList.remove(i);
+     			break;
          	}
          }
         
         if(previousNode==null || nextNode==null)
         {
         	System.out.println("Can't find nodes around the one we want to remove");
-        	return;
+        	return null;
         }
         
         Network network=node.getNetwork();
@@ -156,7 +162,8 @@ public class Tour {
          		}
          	}
          }
-    	 updateHour();
+    	 updateHour(); 	 
+    	 return previousNode;
     }
     
     /**
@@ -173,5 +180,10 @@ public class Tour {
     		globalTime = delivery.getDepartureHour();
     	}
     }
+
+	public List<Delivery> getmDeliveryList() {
+		return mDeliveryList;
+	}
+    
 
 }

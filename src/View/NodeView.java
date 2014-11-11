@@ -1,8 +1,8 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Event;
 import java.awt.Graphics;
-import java.util.*;
 
 import Model.Node;
 
@@ -55,7 +55,14 @@ public class NodeView implements View {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+		if(mNode.hasDelivery())
+		{
+			g.setColor(Color.red);
+		}else
+		{
+			g.setColor(Color.black);
+		}
+		g.fillOval(mNode.getX(), mNode.getY(), 20, 20);
 		
 	}
 

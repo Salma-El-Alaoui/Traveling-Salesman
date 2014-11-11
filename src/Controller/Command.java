@@ -10,7 +10,7 @@ public interface Command {
     /**
      * @return
      */
-    public void execute();
+    public boolean execute();
 
     /**
      * @return
