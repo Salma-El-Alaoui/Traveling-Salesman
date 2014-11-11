@@ -38,7 +38,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
-	public Frame() {
+	public Frame(GraphPanel gPanel) {
+		
+		mPanelGraph = gPanel;
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
 		this.setLayout(new BorderLayout());
