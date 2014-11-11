@@ -7,14 +7,16 @@ import java.util.*;
  */
 public interface Command {
 
-    /**
-     * @return
-     */
+   /**
+    * Execute the command
+    * @return true if the command executed properly, false otherwise
+    */
     public boolean execute();
 
     /**
-     * @return
+     * Undo the command
+     * @return true if the command was undone properly, false otherwise
      */
-    public void undo();
+    public boolean undo();
 
 }
