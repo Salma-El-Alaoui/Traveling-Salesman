@@ -41,7 +41,7 @@ public class DeliveryRequest implements XmlParse {
        TSP tsp= new TSP(graph);
        SolutionState state;
        int bound = graph.getNbVertices() * graph.getMaxArcCost();
-       int timeLimit = 1000;
+       int timeLimit = 1000; //TODO : how should the timeLimite increase ?
        do{
     	   state = tsp.solve(timeLimit, bound);
     	   bound = tsp.getTotalCost(); 
