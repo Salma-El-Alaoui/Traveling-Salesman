@@ -70,7 +70,7 @@ public class Controller {
 		if (addCommand.execute()) {
 			mCommandStack.push(addCommand);
 		}
-		// TODO : refresh view
+		// auto refreshing thanks to Observer pattern
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class Controller {
 		if (rmCommand.execute()) {
 			mCommandStack.push(rmCommand);
 		}
-		// TODO : refresh view
+		// auto refreshing thanks to Observer pattern
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class Controller {
 		{
 			System.out.println("Can't undo command");
 		}
-		// TODO : refresh view
+		//auto refreshing thanks to Observer pattern
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class Controller {
 		{
 			System.out.println("Can't redo command");
 		}	
-		// TODO : refresh view
+		//auto refreshing thanks to Observer pattern
 	}
 	
 	public static void main(String args[]) {
