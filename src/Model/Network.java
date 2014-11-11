@@ -16,17 +16,16 @@ import org.xml.sax.SAXException;
  */
 public class Network {
 
-
 	/**
      * 
      */
 
-    protected List<Segment> mSegmentList;
-    
-    /**
+	protected List<Segment> mSegmentList;
+
+	/**
      * 
      */
-    protected Node mSelectedNode;
+	protected Node mSelectedNode;
 
 	public Network() {
 	}
@@ -35,64 +34,65 @@ public class Network {
      * 
      */
 
-    protected DeliveryRequest mDeliveryRequest;
-
-
+	protected DeliveryRequest mDeliveryRequest;
 
 	/**
      * 
      */
 
-    protected List<Node> mWarehouseList;
+	protected List<Node> mWarehouseList;
 
-    /**
-     * Calculate the shortest path from startNode to endNode
-     * @param originNode
-     * @param endNode 
-     * @return The shortest path, null if no path can be found
-     * @deprecated Prefer to use Dijkstra class to improve performance (in case of multiples calls with the same start)
-     */
-    @Deprecated
-    public Path calculateShortestPath(Node originNode, Node endNode) {
-    	Dijkstra d = new Dijkstra(originNode);
-    	return d.calculateShortestPathTo(endNode);
-    }
+	/**
+	 * Calculate the shortest path from startNode to endNode
+	 * 
+	 * @param originNode
+	 * @param endNode
+	 * @return The shortest path, null if no path can be found
+	 * @deprecated Prefer to use Dijkstra class to improve performance (in case
+	 *             of multiples calls with the same start)
+	 */
+	@Deprecated
+	public Path calculateShortestPath(Node originNode, Node endNode) {
+		Dijkstra d = new Dijkstra(originNode);
+		return d.calculateShortestPathTo(endNode);
+	}
 
-    /**
-     * Add a delivery associated with selected node after the one associated with previous node
-     * @param previous
-     * @param selected
-     */
-    public boolean addDelivery(Node previous, Node selected) {
-        return mDeliveryRequest.insertDelivery(previous, selected);
-    }
-    
-    /**
-     * Remove from the tour the delivery associated with the node
-     * @param Node node associated with the delivery to remove
-     * @return the node before the removed delivery
-     */
-    public Node removeDelivery(Node node) {
-        return mDeliveryRequest.removeDelivery(node);
-    }
+	/**
+	 * Add a delivery associated with selected node after the one associated
+	 * with previous node
+	 * 
+	 * @param previous
+	 * @param selected
+	 */
+	public boolean addDelivery(Node previous, Node selected) {
+		return mDeliveryRequest.insertDelivery(previous, selected);
+	}
 
+	/**
+	 * Remove from the tour the delivery associated with the node
+	 * 
+	 * @param Node
+	 *            node associated with the delivery to remove
+	 * @return the node before the removed delivery
+	 */
+	public Node removeDelivery(Node node) {
+		return mDeliveryRequest.removeDelivery(node);
+	}
 
 	/**
      * 
      */
 
-    public Node getSelectedNode() {
-        return mSelectedNode;
-    }
-    
-    public void setSelectedNode(Node node){
-    	mSelectedNode.setSelectedNode(false);
-    	mSelectedNode=node;
-    }
+	public Node getSelectedNode() {
+		return mSelectedNode;
+	}
 
+	public void setSelectedNode(Node node) {
+		mSelectedNode.setSelectedNode(false);
+		mSelectedNode = node;
+	}
 
 	protected Map<Integer, Node> mNodesList;
-
 
 	/**
 	 * @param Node
@@ -101,22 +101,22 @@ public class Network {
 	 *            selected
 	 * @return
 	 */
-	
+
 	public Node getNode(int id) {
 		return mNodesList.get(id);
 	}
-	
-	public void updateNode( int id, Segment inSegment, Segment outSegment){
+
+	public void updateNode(int id, Segment inSegment, Segment outSegment) {
 		Node updatedNode = mNodesList.get(id);
-		if (inSegment != null){
+		if (inSegment != null) {
 			updatedNode.addInSegment(inSegment);
 		}
-		if (outSegment != null){
+		if (outSegment != null) {
 			updatedNode.addOutSegment(outSegment);
 		}
 		mNodesList.put(id, updatedNode); // Updates the node having this ID
 	}
-	
+
 	public DeliveryRequest getDeliveryRequest() {
 		return mDeliveryRequest;
 	}
@@ -140,8 +140,8 @@ public class Network {
 
 			this.mDeliveryRequest = new DeliveryRequest();
 			try {
-				msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
-						this);
+				msg = this.mDeliveryRequest.buildFromXML(
+						deliveryRequestElement, this);
 			} catch (DeliveryRequestParseException pex) {
 				return pex.getMessage();
 			}
@@ -166,8 +166,9 @@ public class Network {
 	/**
 	 * @param File
 	 * @return
+	 * @throws InvalidNetworkFileException 
 	 */
-	public String parseNetworkFile(File networkFile) {
+	public String parseNetworkFile(File networkFile) throws InvalidNetworkFileException {
 		String msg = "OK";
 		try {
 
@@ -178,20 +179,24 @@ public class Network {
 																	// throw
 																	// exceptions
 
-			Element networkElement = document.getDocumentElement();
+			
+				Utils.FileValidator(document, "plan.xsd");
 
-			buildNodesFromXML(networkElement);
+				Element networkElement = document.getDocumentElement();
 
-			buildSegmentsFromXML(networkElement);
+				buildNodesFromXML(networkElement);
 
+				buildSegmentsFromXML(networkElement);
+
+			
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
 														// file.
 			return ex.getMessage();
 		}
+
 		return msg;
 	}
-
 
 	private String buildNodesFromXML(Element networkElement) {
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
@@ -217,42 +222,44 @@ public class Network {
 
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
-		
+
 		Element nodeElement;
 		for (int i = 0; i < nodesNumber; i++) {
 			nodeElement = (Element) listNodes.item(i);
-			
-			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
+
+			Node departureNode = this.getNode(Integer.parseInt(nodeElement
+					.getAttribute("id")));
 
 			NodeList listSegments = nodeElement
 					.getElementsByTagName("LeTronconSortant");
-			
+
 			Integer segmentsNumber = listSegments.getLength();
 
 			Element segmentElement;
 			for (int j = 0; j < segmentsNumber; j++) {
-				
+
 				Segment segment = new Segment();
 				segmentElement = (Element) listSegments.item(j);
 				segment.buildFromXML(departureNode, segmentElement, this);
 				mSegmentList.add(segment);
 			}
-			
+
 		}
 		return "OK";
 	}
+
 	public String toString() {
 		String res = "-------------------------Network Object------------------------------- \n";
 		res += "------------Nodes List --------------- \n";
-		for (Map.Entry<Integer, Node> entry: mNodesList.entrySet()){
+		for (Map.Entry<Integer, Node> entry : mNodesList.entrySet()) {
 			res += entry.getKey();
 			res += "  ";
 			res += entry.getValue().toString();
 			res += "\n";
 		}
 		res += "------------Segments List --------------- \n";
-		for (Segment s : mSegmentList){
-			res += s.toString() +"\n";
+		for (Segment s : mSegmentList) {
+			res += s.toString() + "\n";
 		}
 		return res;
 	}

@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.Stack;
 
+import Model.InvalidNetworkFileException;
 import Model.Network;
 
 import java.io.File;
@@ -91,16 +92,22 @@ public class Controller {
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		Network network = new Network();
-		network.parseNetworkFile(f1);
-		System.out.println(network);
+		try{
+			network.parseNetworkFile(f1);
+			System.out.println(network);
 
-		System.out.println("==============Delivery Request=============");
+			System.out.println("==============Delivery Request=============");
 
-		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
-		network.parseDeliveryRequestFile(f2);
+			FileChooserView deliveryRequestChooserView = new FileChooserView();
+			File f2 = deliveryRequestChooserView.paint();
+			network.parseDeliveryRequestFile(f2);
 
-		System.out.println(network.getDeliveryRequest());
+			System.out.println(network.getDeliveryRequest());
+		}catch(InvalidNetworkFileException ex){
+			System.out.println(ex.getMessage());
+		}
+		
+		
 	}
 
 
