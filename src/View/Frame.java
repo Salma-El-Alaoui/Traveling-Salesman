@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -20,11 +22,13 @@ import javax.swing.JToolBar;
 /**
  * 
  */
-public class Frame extends JFrame {
+public class Frame extends JFrame implements ActionListener {
 
 	private final static int WIDTH = 1366;
 	private final static int HEIGHT = 768;
 	private final static int INFOS_WIDTH = 300;
+	
+	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	
 	/**
      * 
@@ -46,7 +50,10 @@ public class Frame extends JFrame {
 		mNodeInfos.setText("Infos du noeud sélectionné");
 
 		mMenuFile = new JMenu("Fichier");
-		mMenuFile.add(new JMenuItem("Charger Plan"));
+		JMenuItem loadMap = new JMenuItem("Charger Plan");
+		loadMap.setActionCommand(ACTION_LOAD_MAP);
+		loadMap.addActionListener(this);
+		mMenuFile.add(loadMap);
 		mMenuFile.add(new JMenuItem("Charger Demande de livraison"));
 		mMenuFile.add(new JMenuItem("Exporter feuille de route"));
 		mMenuEdition = new JMenu("Edition");
@@ -148,5 +155,12 @@ public class Frame extends JFrame {
         // TODO implement here
         return false;
     }
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getActionCommand().equals(ACTION_LOAD_MAP)){
+			// TODO Launch LOAD MAP
+		}
+	}
 
 }
