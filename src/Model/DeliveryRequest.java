@@ -57,17 +57,17 @@ public class DeliveryRequest implements XmlParse {
        }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<10000);
        
        int[]nodes=tsp.getNext();
-       Tour tour = new Tour();
+       this.mTour = new Tour();
        
        int previous,next;
        for(int i = 0; i < nodes.length; i++){
     	   previous= nodes[i];  	   
-    	   tour.addDelivery(this.network.getNode(previous).getDelivery());
+    	   this.mTour.addDelivery(this.network.getNode(previous).getDelivery());
     	   if(i!= nodes.length-1){
     		   next = nodes[i+1];
-    		   tour.addPath(pathMap.get(previous).get(next));
+    		   this.mTour.addPath(pathMap.get(previous).get(next));
     	   }
-    	   tour.updateHour();
+    	   this.mTour.updateHour();
        }
        
     }

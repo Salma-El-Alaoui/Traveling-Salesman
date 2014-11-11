@@ -30,19 +30,21 @@ public class Tour {
     protected int mStartHour;
     
     /**
+     * Adds a delivery to the ordered delivery list 
      * @param delivery 
      * @return
      */
     public void addDelivery(Delivery delivery) {
-        // TODO implement here
+        this.mDeliveryList.add(delivery);
     }
 
     /**
+     * Adds a path to the ordered path list
      * @param path 
      * @return
      */
     public void addPath(Path path) {
-        // TODO implement here
+        this.mPathList.add(path);
     }
 
     /**
