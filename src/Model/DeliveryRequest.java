@@ -70,10 +70,10 @@ public class DeliveryRequest {
 		return "OK";
 	}
 
-	private int checkValidity(Element element) {
+	/*private int checkValidity(Element element) {
 		// TODO: Check for validity
 		return 0;
-	}
+	}*/
 
 	private void setWarehouseFromXML(Element deliveryRequestElement, Network network) {
 		NodeList nodeListWarehouse = deliveryRequestElement

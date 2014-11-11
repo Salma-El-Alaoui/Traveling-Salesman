@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
  */
 public class Network {
 
+
 	/**
      * 
      */
@@ -25,7 +26,7 @@ public class Network {
 	/**
      * 
      */
-	protected Set<Segment> mSegmentList;
+	protected List<Segment> mSegmentList;
 
 	/**
      * 
@@ -97,7 +98,8 @@ public class Network {
 
 			this.deliveryRequest = new DeliveryRequest();
 			try {
-				msg = this.deliveryRequest.buildFromXML(deliveryRequestElement, this);
+				msg = this.deliveryRequest.buildFromXML(deliveryRequestElement,
+						this);
 			} catch (DeliveryRequestParseException pex) {
 				return pex.getMessage();
 			}
@@ -107,7 +109,7 @@ public class Network {
 														// file.
 			return ex.getMessage();
 		}
-			return msg;
+		return msg;
 
 	}
 
@@ -123,9 +125,29 @@ public class Network {
 	 * @param File
 	 * @return
 	 */
-	public int parseNetworkFile(File file) {
-		// TODO implement here
-		return 0;
+	public String parseNetworkFile(File networkFile) {
+		String msg = "OK";
+		try {
+
+			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			// Reading XML file content and storing result in DOM document.
+			Document document = constructeur.parse(networkFile); // Might
+																	// throw
+																	// exceptions
+
+			Element networkElement = document.getDocumentElement();
+
+			buildNodesFromXML(networkElement);
+
+			buildSegmentsFromXML(networkElement);
+
+		} catch (SAXException | IOException | IllegalArgumentException
+				| ParserConfigurationException ex) { // Syntactic errors in XML
+														// file.
+			return ex.getMessage();
+		}
+		return msg;
 	}
 
 	/**
@@ -136,4 +158,67 @@ public class Network {
 		return null;
 	}
 
+	private String buildNodesFromXML(Element networkElement) {
+		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
+		Integer nodesNumber = listNodes.getLength();
+
+		mNodesList = new HashMap<Integer, Node>();
+		mSegmentList = new ArrayList<Segment>();
+
+		Element nodeElement;
+		for (int i = 0; i < nodesNumber; i++) {
+			Node node = new Node();
+			nodeElement = (Element) listNodes.item(i);
+
+			node.buildFromXML(nodeElement, this);
+
+			mNodesList.put(node.getId(), node);
+
+		}
+		return "OK";
+	}
+
+	private String buildSegmentsFromXML(Element networkElement) {
+
+		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
+		Integer nodesNumber = listNodes.getLength();
+		
+		Element nodeElement;
+		for (int i = 0; i < nodesNumber; i++) {
+			System.out.println("Gere" + i + " "+ nodesNumber);
+			nodeElement = (Element) listNodes.item(i);
+			
+			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
+
+			NodeList listSegments = nodeElement
+					.getElementsByTagName("LeTronconSortant");
+			
+			Integer segmentsNumber = listSegments.getLength();
+
+			Element segmentElement;
+			for (int j = 0; j < segmentsNumber; j++) {
+				
+				Segment segment = new Segment();
+				segmentElement = (Element) listSegments.item(j);
+				segment.buildFromXML(departureNode, segmentElement, this);
+				mSegmentList.add(segment);
+			}
+			
+		}
+		return "OK";
+	}
+	public String toString() {
+		String res = "-------------------------Network Object------------------------------- \n";
+		res += "------------Nodes List --------------- \n";
+		for (Map.Entry<Integer, Node> entry: mNodesList.entrySet()){
+			res += entry.getKey();
+			res += "  ";
+			res += entry.getValue().toString();
+			res += "\n";
+		}
+		for (Segment s : mSegmentList){
+			res += s.toString() +"\n";
+		}
+		return res;
+	}
 }

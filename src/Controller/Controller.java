@@ -46,14 +46,15 @@ public class Controller {
 	}
 
 	public static void main(String args[]) {
-		
-		 FileChooserView fileChooserView = new FileChooserView(); 
-		 File f =fileChooserView.paint(); 
-		 Network network = new Network();
-		 network.parseDeliveryRequestFile(f);
-		 
-		
-		
+
+		FileChooserView networkChooserView = new FileChooserView();
+		File f1 = networkChooserView.paint();
+		Network network = new Network();
+		network.parseNetworkFile(f1);
+		System.out.println(network);
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paint();
+		network.parseDeliveryRequestFile(f2);
 
 	}
 }

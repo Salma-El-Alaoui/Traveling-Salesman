@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.w3c.dom.Element;
 
+
 /**
  * 
  */
@@ -44,18 +45,22 @@ public class Node implements XmlParse {
     /**
      * 
      */
-    protected Network[] mNetwork;
+    protected Network mNetwork;
 
 
     /**
      * 
      */
-    protected Segment mInSegment;
+    protected List<Segment> mInSegment;
 
     /**
      * 
      */
-    protected Set<Segment> mOutSegment;
+    protected List<Segment> mOutSegment;
+    
+    public int getId() {
+		return mId;
+	}
 
     /**
      * @return
@@ -64,7 +69,14 @@ public class Node implements XmlParse {
         // TODO implement here
         return false;
     }
+    
+    public void addInSegment(Segment segment){
+    	mInSegment.add(segment);
+    }
 
+    public void addOutSegment(Segment segment){
+    	mOutSegment.add(segment);
+    }
     /**
      * @return
      */
@@ -106,9 +118,22 @@ public class Node implements XmlParse {
     }
 
 	@Override
-	public String buildFromXML(Element element, Network network) {
+	public String buildFromXML(Element nodeElement, Network network) {
+		this.mNetwork = network;
+		
+		this.mId = Integer.parseInt(nodeElement.getAttribute("id"));
+		
+		this.mX = Integer.parseInt(nodeElement.getAttribute("x"));
+		
+		this.mY = Integer.parseInt(nodeElement.getAttribute("y"));
+			
+		
+		return "OK";
+	}
+	@Override
+	public String toString() {
 		// TODO Auto-generated method stub
-		return "";
+		return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y " + mY;
 	}
 
 }
