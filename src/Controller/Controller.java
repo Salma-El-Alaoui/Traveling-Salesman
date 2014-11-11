@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.Stack;
 
+import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
 
@@ -103,7 +104,7 @@ public class Controller {
 			network.parseDeliveryRequestFile(f2);
 
 			System.out.println(network.getDeliveryRequest());
-		}catch(InvalidNetworkFileException ex){
+		}catch(InvalidNetworkFileException | InvalidDeliveryRequestFileException ex){
 			System.out.println(ex.getMessage());
 		}
 		

@@ -28,6 +28,9 @@ public class Network {
 	protected Node mSelectedNode;
 
 	public Network() {
+		this.mDeliveryRequest = new DeliveryRequest();
+		mNodesList = new HashMap<Integer, Node>();
+		mSegmentList = new ArrayList<Segment>();
 	}
 
 	/**
@@ -124,8 +127,12 @@ public class Network {
 	/**
 	 * @param File
 	 * @return
+	 * @throws InvalidDeliveryRequestFileException
+	 * @throws InvalidNetworkFileException
 	 */
-	public String parseDeliveryRequestFile(File deliveriesFile) {
+	public String parseDeliveryRequestFile(File deliveriesFile)
+			throws InvalidNetworkFileException,
+			InvalidDeliveryRequestFileException {
 		String msg;
 		try {
 
@@ -136,20 +143,17 @@ public class Network {
 																	// throw
 																	// exceptions
 
+			Utils.FileValidator(document, "livraison.xsd");
+
 			Element deliveryRequestElement = document.getDocumentElement();
 
-			this.mDeliveryRequest = new DeliveryRequest();
-			try {
-				msg = this.mDeliveryRequest.buildFromXML(
-						deliveryRequestElement, this);
-			} catch (DeliveryRequestParseException pex) {
-				return pex.getMessage();
-			}
+			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
+					this);
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
 														// file.
-			return ex.getMessage();
+			throw new InvalidDeliveryRequestFileException(ex.getMessage());
 		}
 		return msg;
 
@@ -166,9 +170,12 @@ public class Network {
 	/**
 	 * @param File
 	 * @return
-	 * @throws InvalidNetworkFileException 
+	 * @throws InvalidNetworkFileException
+	 * @throws InvalidDeliveryRequestFileException
 	 */
-	public String parseNetworkFile(File networkFile) throws InvalidNetworkFileException {
+	public String parseNetworkFile(File networkFile)
+			throws InvalidNetworkFileException,
+			InvalidDeliveryRequestFileException {
 		String msg = "OK";
 		try {
 
@@ -179,20 +186,18 @@ public class Network {
 																	// throw
 																	// exceptions
 
-			
-				Utils.FileValidator(document, "plan.xsd");
+			Utils.FileValidator(document, "plan.xsd");
 
-				Element networkElement = document.getDocumentElement();
+			Element networkElement = document.getDocumentElement();
 
-				buildNodesFromXML(networkElement);
+			buildNodesFromXML(networkElement);
 
-				buildSegmentsFromXML(networkElement);
+			buildSegmentsFromXML(networkElement);
 
-			
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
 														// file.
-			return ex.getMessage();
+			throw new InvalidNetworkFileException(ex.getMessage());
 		}
 
 		return msg;
@@ -201,9 +206,6 @@ public class Network {
 	private String buildNodesFromXML(Element networkElement) {
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
-
-		mNodesList = new HashMap<Integer, Node>();
-		mSegmentList = new ArrayList<Segment>();
 
 		Element nodeElement;
 		for (int i = 0; i < nodesNumber; i++) {
