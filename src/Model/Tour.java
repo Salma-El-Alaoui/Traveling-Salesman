@@ -30,19 +30,21 @@ public class Tour {
     protected int mStartHour;
     
     /**
+     * Adds a delivery to the ordered delivery list 
      * @param delivery 
      * @return
      */
     public void addDelivery(Delivery delivery) {
-        // TODO implement here
+        this.mDeliveryList.add(delivery);
     }
 
     /**
+     * Adds a path to the ordered path list
      * @param path 
      * @return
      */
     public void addPath(Path path) {
-        // TODO implement here
+        this.mPathList.add(path);
     }
 
     /**
@@ -167,10 +169,9 @@ public class Tour {
     }
     
     /**
-     * Update the hours of all the deliveries
+     * Updates the hours of all the deliveries
      */
     public void updateHour(){
-    	// Init the
     	mStartHour = mDeliveryList.get(0).getTimeSlot().getStartHour() 
 		- mPathList.get(0).getGlobalTime();
     	int globalTime = mStartHour;
