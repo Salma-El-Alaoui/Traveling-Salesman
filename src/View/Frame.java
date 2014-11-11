@@ -31,6 +31,7 @@ public class Frame extends JFrame implements ActionListener {
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
+	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 	
 	/**
      * 
@@ -41,6 +42,9 @@ public class Frame extends JFrame implements ActionListener {
 		this.setLayout(new BorderLayout());
 		
 		mMenuBar = new JMenuBar();
+		mLabelInfos=new JLabel();
+		mNodeInfos=new JLabel();
+		mPanelGraph= new GraphPanel();
 		
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
@@ -60,10 +64,21 @@ public class Frame extends JFrame implements ActionListener {
 		
 		this.add(toolbar, BorderLayout.NORTH);
 
+		
 		mLabelInfos.setText("Infos générales");
 		mNodeInfos.setText("Infos du noeud sélectionné");
 
 		mMenuEdition = new JMenu("Edition");
+		mAddDelivery=new JMenuItem("Ajouter une livraison");
+		mAddDelivery.setEnabled(false);
+		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
+		mAddDelivery.addActionListener(this);
+		mMenuEdition.add(mAddDelivery);
+		
+		JMenuItem removeDelivery=new JMenuItem("Supprimer une livraison");
+		removeDelivery.setEnabled(false);
+		removeDelivery.addActionListener(this);
+		mMenuEdition.add(removeDelivery);
 		
 		mMenuFile = new JMenu("Fichier");
 		JMenuItem loadMap = new JMenuItem("Charger Plan");
@@ -111,6 +126,10 @@ public class Frame extends JFrame implements ActionListener {
      */
     protected JMenu mMenuEdition;
     
+    protected JMenuItem mAddDelivery;
+    
+    protected boolean mAddDeliveryClicked;
+    
     /**
      * 
      */
@@ -144,11 +163,13 @@ public class Frame extends JFrame implements ActionListener {
 
 
 
-    /**
-     * @param boolean activated 
-     */
+   /**
+    * Enable or disable click on the add delivery menu item
+    * @param activated true to enable, false to disable
+    */
     public void activateAddItem(boolean activated) {
-        // TODO implement here
+        mAddDelivery.setEnabled(activated);
+        mAddDeliveryClicked=false;
     }
 
     /**
@@ -171,11 +192,11 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     /**
-     * @return
+     * Return true if the add delivery menu item has been selected
+     * @return true if the add delivery menu item has been selected
      */
     public boolean isAddSelected() {
-        // TODO implement here
-        return false;
+        return mAddDeliveryClicked;
     }
 
 	@Override
@@ -188,7 +209,17 @@ public class Frame extends JFrame implements ActionListener {
 			break;
 		case(ACTION_EXPORT_ROADMAP):
 			break;
+		case(ACTION_ADD_DELIVERY):
+			mAddDeliveryClicked=true;
+			break;
 		}
 	}
+	
+	public static void main(String[] args)
+	{
+		Frame frame=new Frame();
+		frame.setVisible(true);
+	}
+	
 
 }
