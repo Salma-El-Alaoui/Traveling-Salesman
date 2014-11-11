@@ -18,94 +18,90 @@ public class Network {
 
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
-    protected List<Segment> mSegmentList;
-    
-    /**
-     * 
-     */
-    protected Node mSelectedNode;
+	protected List<Segment> mSegmentList;
+
+	/**
+	 * 
+	 */
+	protected Node mSelectedNode;
 
 	public Network() {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
-    protected DeliveryRequest mDeliveryRequest;
+	protected DeliveryRequest mDeliveryRequest;
 
-
-
-	/**
-     * 
-     */
-
-    protected List<Node> mWarehouseList;
-
-    /**
-     * Calculate the shortest path from startNode to endNode
-     * @param originNode
-     * @param endNode 
-     * @return The shortest path, null if no path can be found
-     * @deprecated Prefer to use Dijkstra class to improve performance (in case of multiples calls with the same start)
-     */
-    @Deprecated
-    public Path calculateShortestPath(Node originNode, Node endNode) {
-    	Dijkstra d = new Dijkstra(originNode);
-    	return d.calculateShortestPathTo(endNode);
-    }
-
-    /**
-     * Add a delivery associated with selected node after the one associated with previous node
-     * @param previous
-     * @param selected
-     */
-    public boolean addDelivery(Node previous, Node selected) {
-        return mDeliveryRequest.insertDelivery(previous, selected);
-    }
-    
-    /**
-     * Remove from the tour the delivery associated with the node
-     * @param Node node associated with the delivery to remove
-     * @return the node before the removed delivery
-     */
-    public Node removeDelivery(Node node) {
-        return mDeliveryRequest.removeDelivery(node);
-    }
 
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
-    public Node getSelectedNode() {
-        return mSelectedNode;
-    }
-    
-    public void setSelectedNode(Node node){
-    	mSelectedNode.setSelectedNode(false);
-    	mSelectedNode=node;
-    }
+	protected List<Node> mWarehouseList;
+
+	/**
+	 * Calculate the shortest path from startNode to endNode
+	 * @param originNode
+	 * @param endNode 
+	 * @return The shortest path, null if no path can be found
+	 * @deprecated Prefer to use Dijkstra class to improve performance (in case of multiples calls with the same start)
+	 */
+	@Deprecated
+	public Path calculateShortestPath(Node originNode, Node endNode) {
+		Dijkstra d = new Dijkstra(originNode);
+		return d.calculateShortestPathTo(endNode);
+	}
+
+	/**
+	 * Add a delivery associated with selected node after the one associated with previous node
+	 * @param previous
+	 * @param selected
+	 */
+	public boolean addDelivery(Node previous, Node selected) {
+		return mDeliveryRequest.insertDelivery(previous, selected);
+	}
+
+	/**
+	 * Remove from the tour the delivery associated with the node
+	 * @param Node node associated with the delivery to remove
+	 * @return the node before the removed delivery
+	 */
+	public Node removeDelivery(Node node) {
+		return mDeliveryRequest.removeDelivery(node);
+	}
+
+
+	/**
+	 * 
+	 */
+
+	public Node getSelectedNode() {
+		return mSelectedNode;
+	}
+
+	public void setSelectedNode(Node node){
+		if(mSelectedNode != null)
+		{
+			mSelectedNode.setSelectedNode(false);
+		}
+		mSelectedNode=node;
+	}
 
 
 	protected Map<Integer, Node> mNodesList;
 
 
-	/**
-	 * @param Node
-	 *            previous
-	 * @param Node
-	 *            selected
-	 * @return
-	 */
-	
+
 	public Node getNode(int id) {
 		return mNodesList.get(id);
 	}
-	
+
 	public void updateNode( int id, Segment inSegment, Segment outSegment){
 		Node updatedNode = mNodesList.get(id);
 		if (inSegment != null){
@@ -116,7 +112,7 @@ public class Network {
 		}
 		mNodesList.put(id, updatedNode); // Updates the node having this ID
 	}
-	
+
 	public DeliveryRequest getDeliveryRequest() {
 		return mDeliveryRequest;
 	}
@@ -133,8 +129,8 @@ public class Network {
 					.newDocumentBuilder();
 			// Reading XML file content and storing result in DOM document.
 			Document document = constructeur.parse(deliveriesFile); // Might
-																	// throw
-																	// exceptions
+			// throw
+			// exceptions
 
 			Element deliveryRequestElement = document.getDocumentElement();
 
@@ -148,7 +144,7 @@ public class Network {
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
-														// file.
+			// file.
 			return ex.getMessage();
 		}
 		return msg;
@@ -175,8 +171,8 @@ public class Network {
 					.newDocumentBuilder();
 			// Reading XML file content and storing result in DOM document.
 			Document document = constructeur.parse(networkFile); // Might
-																	// throw
-																	// exceptions
+			// throw
+			// exceptions
 
 			Element networkElement = document.getDocumentElement();
 
@@ -186,7 +182,7 @@ public class Network {
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
-														// file.
+			// file.
 			return ex.getMessage();
 		}
 		return msg;
@@ -217,27 +213,27 @@ public class Network {
 
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
-		
+
 		Element nodeElement;
 		for (int i = 0; i < nodesNumber; i++) {
 			nodeElement = (Element) listNodes.item(i);
-			
+
 			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
 
 			NodeList listSegments = nodeElement
 					.getElementsByTagName("LeTronconSortant");
-			
+
 			Integer segmentsNumber = listSegments.getLength();
 
 			Element segmentElement;
 			for (int j = 0; j < segmentsNumber; j++) {
-				
+
 				Segment segment = new Segment();
 				segmentElement = (Element) listSegments.item(j);
 				segment.buildFromXML(departureNode, segmentElement, this);
 				mSegmentList.add(segment);
 			}
-			
+
 		}
 		return "OK";
 	}
