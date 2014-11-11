@@ -51,12 +51,12 @@ public class DeliveryRequest implements XmlParse {
        TSP tsp= new TSP(graph);
        SolutionState state;
        int bound = graph.getNbVertices() * graph.getMaxArcCost() + 1;
-       int timeLimit = MAX_COMPUTE_TIME; //TODO : how should the timeLimite increase ?
+       int t = 1000;
        do{
-    	   state = tsp.solve(timeLimit, bound);
+    	   state = tsp.solve(t, bound);
     	   bound = tsp.getTotalCost(); 
-    	   //timeLimit *= 2;
-       }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && timeLimit<MAX_COMPUTE_TIME);
+    	   t *= 2;
+       }while(state != SolutionState.OPTIMAL_SOLUTION_FOUND && t<MAX_COMPUTE_TIME);
        
        int[]nodes=tsp.getNext();
        this.mTour = new Tour();
