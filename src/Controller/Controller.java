@@ -2,6 +2,8 @@ package Controller;
 
 import java.util.Stack;
 
+import Model.InvalidDeliveryRequestFileException;
+import Model.InvalidNetworkFileException;
 import Model.Network;
 
 import java.io.File;
@@ -18,7 +20,7 @@ public class Controller {
      * 
      */
 	public Controller() {
-
+		mNetwork = new Network();
 	}
 
 	/**
@@ -47,17 +49,33 @@ public class Controller {
 	 * @return
 	 */
 	public void browseDeliveryClicked() {
-		// TODO implement here
+		try {
+			FileChooserView deliveryRequestChooserView = new FileChooserView();
+			File f2 = deliveryRequestChooserView.paint();
+			mNetwork.parseDeliveryRequestFile(f2);
+
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
 
 	/**
 	 * @return
 	 */
 	public void browseNetworkClicked() {
-		// TODO implement here
+		FileChooserView networkChooserView = new FileChooserView();
+		File f1 = networkChooserView.paint();
+		try {
+			mNetwork.parseNetworkFile(f1);
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
 
-	
 	/**
 	 * Add the selected node as a delivery after previousNode
 	 * 
@@ -133,23 +151,28 @@ public class Controller {
 		}	
 		//auto refreshing thanks to Observer pattern
 	}
-	
+
 	public static void main(String args[]) {
 
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		Network network = new Network();
-		network.parseNetworkFile(f1);
-		System.out.println(network);
+		try {
+			network.parseNetworkFile(f1);
+			System.out.println(network);
 
-		System.out.println("==============Delivery Request=============");
+			System.out.println("==============Delivery Request=============");
 
-		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
-		network.parseDeliveryRequestFile(f2);
+			FileChooserView deliveryRequestChooserView = new FileChooserView();
+			File f2 = deliveryRequestChooserView.paint();
+			network.parseDeliveryRequestFile(f2);
 
-		System.out.println(network.getDeliveryRequest());
+			System.out.println(network.getDeliveryRequest());
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
-
 
 }

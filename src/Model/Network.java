@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
  */
 public class Network {
 
+	protected Map<Integer, Node> mNodesList;
 
 	/**
 	 * 
@@ -24,26 +25,37 @@ public class Network {
 	protected List<Segment> mSegmentList;
 
 	/**
+
 	 * 
 	 */
 	protected Node mSelectedNode;
 
+
+
+	protected DeliveryRequest mDeliveryRequest;
+
+
 	public Network() {
+		this.mDeliveryRequest = new DeliveryRequest();
+		mNodesList = new HashMap<Integer, Node>();
+		mSegmentList = new ArrayList<Segment>();
 	}
 
 	/**
 	 * 
 	 */
 
-	protected DeliveryRequest mDeliveryRequest;
+
+	public Map<Integer, Node> getNodesList() {
+		return mNodesList;
+	}
 
 
+	public List<Segment> getSegmentList() {
+		return mSegmentList;
+	}
 
-	/**
-	 * 
-	 */
 
-	protected List<Node> mWarehouseList;
 
 	/**
 	 * Calculate the shortest path from startNode to endNode
@@ -58,8 +70,12 @@ public class Network {
 		return d.calculateShortestPathTo(endNode);
 	}
 
+
+
 	/**
-	 * Add a delivery associated with selected node after the one associated with previous node
+	 * Add a delivery associated with selected node after the one associated
+	 * with previous node
+	 * 
 	 * @param previous
 	 * @param selected
 	 */
@@ -69,7 +85,9 @@ public class Network {
 
 	/**
 	 * Remove from the tour the delivery associated with the node
-	 * @param Node node associated with the delivery to remove
+	 * 
+	 * @param Node
+	 *            node associated with the delivery to remove
 	 * @return the node before the removed delivery
 	 */
 	public Node removeDelivery(Node node) {
@@ -77,9 +95,7 @@ public class Network {
 	}
 
 
-	/**
-	 * 
-	 */
+
 
 	public Node getSelectedNode() {
 		return mSelectedNode;
@@ -94,7 +110,7 @@ public class Network {
 	}
 
 
-	protected Map<Integer, Node> mNodesList;
+
 
 
 
@@ -102,12 +118,12 @@ public class Network {
 		return mNodesList.get(id);
 	}
 
-	public void updateNode( int id, Segment inSegment, Segment outSegment){
+	public void updateNode(int id, Segment inSegment, Segment outSegment) {
 		Node updatedNode = mNodesList.get(id);
-		if (inSegment != null){
+		if (inSegment != null) {
 			updatedNode.addInSegment(inSegment);
 		}
-		if (outSegment != null){
+		if (outSegment != null) {
 			updatedNode.addOutSegment(outSegment);
 		}
 		mNodesList.put(id, updatedNode); // Updates the node having this ID
@@ -120,8 +136,12 @@ public class Network {
 	/**
 	 * @param File
 	 * @return
+	 * @throws InvalidDeliveryRequestFileException
+	 * @throws InvalidNetworkFileException
 	 */
-	public String parseDeliveryRequestFile(File deliveriesFile) {
+	public String parseDeliveryRequestFile(File deliveriesFile)
+			throws InvalidNetworkFileException,
+			InvalidDeliveryRequestFileException {
 		String msg;
 		try {
 
@@ -132,20 +152,19 @@ public class Network {
 			// throw
 			// exceptions
 
+			Utils.FileValidator(document, "livraison.xsd");
+
 			Element deliveryRequestElement = document.getDocumentElement();
 
-			this.mDeliveryRequest = new DeliveryRequest();
-			try {
-				msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
-						this);
-			} catch (DeliveryRequestParseException pex) {
-				return pex.getMessage();
-			}
+			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
+					this);
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
-			// file.
-			return ex.getMessage();
+
+														// file.
+			throw new InvalidDeliveryRequestFileException(ex.getMessage());
+
 		}
 		return msg;
 
@@ -162,8 +181,12 @@ public class Network {
 	/**
 	 * @param File
 	 * @return
+	 * @throws InvalidNetworkFileException
+	 * @throws InvalidDeliveryRequestFileException
 	 */
-	public String parseNetworkFile(File networkFile) {
+	public String parseNetworkFile(File networkFile)
+			throws InvalidNetworkFileException,
+			InvalidDeliveryRequestFileException {
 		String msg = "OK";
 		try {
 
@@ -174,6 +197,8 @@ public class Network {
 			// throw
 			// exceptions
 
+			Utils.FileValidator(document, "plan.xsd");
+
 			Element networkElement = document.getDocumentElement();
 
 			buildNodesFromXML(networkElement);
@@ -182,19 +207,18 @@ public class Network {
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
-			// file.
-			return ex.getMessage();
+
+														// file.
+			throw new InvalidNetworkFileException(ex.getMessage());
+
 		}
+
 		return msg;
 	}
-
 
 	private String buildNodesFromXML(Element networkElement) {
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
-
-		mNodesList = new HashMap<Integer, Node>();
-		mSegmentList = new ArrayList<Segment>();
 
 		Element nodeElement;
 		for (int i = 0; i < nodesNumber; i++) {
@@ -218,7 +242,10 @@ public class Network {
 		for (int i = 0; i < nodesNumber; i++) {
 			nodeElement = (Element) listNodes.item(i);
 
-			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
+
+			Node departureNode = this.getNode(Integer.parseInt(nodeElement
+					.getAttribute("id")));
+
 
 			NodeList listSegments = nodeElement
 					.getElementsByTagName("LeTronconSortant");
@@ -237,18 +264,19 @@ public class Network {
 		}
 		return "OK";
 	}
+
 	public String toString() {
 		String res = "-------------------------Network Object------------------------------- \n";
 		res += "------------Nodes List --------------- \n";
-		for (Map.Entry<Integer, Node> entry: mNodesList.entrySet()){
+		for (Map.Entry<Integer, Node> entry : mNodesList.entrySet()) {
 			res += entry.getKey();
 			res += "  ";
 			res += entry.getValue().toString();
 			res += "\n";
 		}
 		res += "------------Segments List --------------- \n";
-		for (Segment s : mSegmentList){
-			res += s.toString() +"\n";
+		for (Segment s : mSegmentList) {
+			res += s.toString() + "\n";
 		}
 		return res;
 	}
