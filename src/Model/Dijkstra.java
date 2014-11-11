@@ -41,7 +41,7 @@ public class Dijkstra {
 	    	while((previousNode = mPreviousNode.get(currentNode))!=null){
 	    		List<Segment> listOutSegment = previousNode.getOutSegmentList();
 	    		for(Segment s : listOutSegment){
-	    			if(s.getToNode() == currentNode){
+	    			if(s.getArrivalNode() == currentNode){
 	    	    		path.addSegment(s);    				
 	    			}
 	    		}
@@ -69,8 +69,8 @@ public class Dijkstra {
     		Node currentNode = nodeToVisit.remove(0);
     		List<Segment> outSegmentList = currentNode.getOutSegmentList();
     		for(Segment outSegment : outSegmentList){
-    			Node nextNode = outSegment.getToNode();
-    			int newDistance = distance.get(currentNode.getId()) + outSegment.getTime(); 
+    			Node nextNode = outSegment.getArrivalNode();
+    			int newDistance = distance.get(currentNode.getId()) + (int) outSegment.getTime(); 
     			if(distance.get(nextNode) == null || distance.get(nextNode)>newDistance){
     				nodeToVisit.remove(nextNode);
     				distance.put(nextNode, newDistance);

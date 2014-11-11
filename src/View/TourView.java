@@ -55,7 +55,8 @@ public class TourView implements View {
 			Couple c = new Couple(dFirst.getNode(), dSecond.getNode()); //TODO A verifier, pas sûr
 			if(mMapTraces.containsKey(c))
 			{
-				mMapTraces.replace(c, mMapTraces.get(c)+1);
+				mMapTraces.put(c, mMapTraces.get(c)+1);
+				
 				int diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
 				
 				g.drawLine(dFirst.getNode().getX()+diff, dFirst.getNode().getY()+diff, dSecond.getNode().getY()+diff, dSecond.getNode().getY()+diff);

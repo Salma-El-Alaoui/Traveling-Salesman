@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.w3c.dom.Element;
 
+
 /**
  * 
  */
@@ -13,12 +14,14 @@ public class Node implements XmlParse {
      * 
      */
     public Node() {
+    	mInSegmentList = new ArrayList<Segment>();
+    	mOutSegmentList = new ArrayList<Segment>();
     }
 
     /**
      * 
      */
-    protected boolean mIsWareHouse;
+    protected boolean mIsWarehouse;
 
     /**
      * 
@@ -55,18 +58,18 @@ public class Node implements XmlParse {
      */
     private List<Segment> mInSegmentList;
 
-    /**
-     * 
-     */
+ 
+
 
 
     
-    /**
-     * 
-     */
+
     protected boolean mIsSelected;
 
     private List<Segment> mOutSegmentList;
+
+   
+
 
     /**
      * @return
@@ -75,7 +78,14 @@ public class Node implements XmlParse {
         // TODO implement here
         return false;
     }
+    
+    public void addInSegment(Segment segment){
+    	mInSegmentList.add(segment);
+    }
 
+    public void addOutSegment(Segment segment){
+    	mOutSegmentList.add(segment);
+    }
     /**
      * @return
      */
@@ -136,14 +146,31 @@ public class Node implements XmlParse {
      * @param boolean 
      * @return
      */
-    public void setIsWareHouse(boolean isWareHouse) {
-        // TODO implement here
+    public void setIsWarehouse(boolean isWarehouse) {
+        mIsWarehouse = isWarehouse;
     }
 
 	@Override
-	public int buildFromXML(Element element) {
-		// TODO Auto-generated method stub
-		return 0;
+	public String buildFromXML(Element nodeElement, Network network) {
+		this.mNetwork = network;
+		
+		this.mId = Integer.parseInt(nodeElement.getAttribute("id"));
+		
+		this.mX = Integer.parseInt(nodeElement.getAttribute("x"));
+		
+		this.mY = Integer.parseInt(nodeElement.getAttribute("y"));
+			
+		
+		return "OK";
+	}
+	@Override
+	public String toString() {
+		try{
+			return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y= " + mY + ", InSegment " + mInSegmentList.toString() + ", outSegment" + mOutSegmentList.toString();
+		} catch(NullPointerException npx){
+			return "NODE : ID="+ this.mId +", X= "+  this.mX+", Y= " + mY;
+		}
+		
 	}
 	
     public int getX() {

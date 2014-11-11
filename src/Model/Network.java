@@ -1,25 +1,26 @@
 package Model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import org.w3c.dom.Element;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 /**
  * 
  */
 public class Network {
 
-    /**
+
+	/**
      * 
      */
-    public Network() {
-    }
 
-
-    /**
-     * 
-     */
     protected List<Segment> mSegmentList;
     
     /**
@@ -27,14 +28,21 @@ public class Network {
      */
     protected Node mSelectedNode;
 
-    /**
+	public Network() {
+	}
+
+	/**
      * 
      */
+
     protected DeliveryRequest mDeliveryRequest;
 
-    /**
+
+
+	/**
      * 
      */
+
     protected List<Node> mWarehouseList;
 
     /**
@@ -68,43 +76,11 @@ public class Network {
         return mDeliveryRequest.removeDelivery(node);
     }
 
-    /**
-     * @param int id 
-     * @return
-     */
-    public Node getNode(int id) {
-        // TODO implement here
-        return null;
-    }
 
-    /**
-     * @param File 
-     * @return
+	/**
+     * 
      */
-    public void parseDeliveryRequestFile(File file) {
-        // TODO implement here
-    }
 
-    /**
-     * @return
-     */
-    public Element getDocumentRoot() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param File 
-     * @return
-     */
-    public int parseNetworkFile(File file) {
-        // TODO implement here
-        return 0;
-    }
-
-    /**
-     * @return
-     */
     public Node getSelectedNode() {
         return mSelectedNode;
     }
@@ -113,5 +89,172 @@ public class Network {
     	mSelectedNode.setSelectedNode(false);
     	mSelectedNode=node;
     }
+
+
+	protected Map<Integer, Node> mNodesList;
+
+
+	/**
+	 * @param Node
+	 *            previous
+	 * @param Node
+	 *            selected
+	 * @return
+	 */
+	
+	public Node getNode(int id) {
+		return mNodesList.get(id);
+	}
+	
+	public void updateNode( int id, Segment inSegment, Segment outSegment){
+		Node updatedNode = mNodesList.get(id);
+		if (inSegment != null){
+			updatedNode.addInSegment(inSegment);
+		}
+		if (outSegment != null){
+			updatedNode.addOutSegment(outSegment);
+		}
+		mNodesList.put(id, updatedNode); // Updates the node having this ID
+	}
+	
+	public DeliveryRequest getDeliveryRequest() {
+		return mDeliveryRequest;
+	}
+
+	/**
+	 * @param File
+	 * @return
+	 */
+	public String parseDeliveryRequestFile(File deliveriesFile) {
+		String msg;
+		try {
+
+			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			// Reading XML file content and storing result in DOM document.
+			Document document = constructeur.parse(deliveriesFile); // Might
+																	// throw
+																	// exceptions
+
+			Element deliveryRequestElement = document.getDocumentElement();
+
+			this.mDeliveryRequest = new DeliveryRequest();
+			try {
+				msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
+						this);
+			} catch (DeliveryRequestParseException pex) {
+				return pex.getMessage();
+			}
+
+		} catch (SAXException | IOException | IllegalArgumentException
+				| ParserConfigurationException ex) { // Syntactic errors in XML
+														// file.
+			return ex.getMessage();
+		}
+		return msg;
+
+	}
+
+	/**
+	 * @return
+	 */
+	public Element getDocumentRoot() {
+		// TODO implement here
+		return null;
+	}
+
+	/**
+	 * @param File
+	 * @return
+	 */
+	public String parseNetworkFile(File networkFile) {
+		String msg = "OK";
+		try {
+
+			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			// Reading XML file content and storing result in DOM document.
+			Document document = constructeur.parse(networkFile); // Might
+																	// throw
+																	// exceptions
+
+			Element networkElement = document.getDocumentElement();
+
+			buildNodesFromXML(networkElement);
+
+			buildSegmentsFromXML(networkElement);
+
+		} catch (SAXException | IOException | IllegalArgumentException
+				| ParserConfigurationException ex) { // Syntactic errors in XML
+														// file.
+			return ex.getMessage();
+		}
+		return msg;
+	}
+
+
+	private String buildNodesFromXML(Element networkElement) {
+		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
+		Integer nodesNumber = listNodes.getLength();
+
+		mNodesList = new HashMap<Integer, Node>();
+		mSegmentList = new ArrayList<Segment>();
+
+		Element nodeElement;
+		for (int i = 0; i < nodesNumber; i++) {
+			Node node = new Node();
+			nodeElement = (Element) listNodes.item(i);
+
+			node.buildFromXML(nodeElement, this);
+
+			mNodesList.put(node.getId(), node);
+
+		}
+		return "OK";
+	}
+
+	private String buildSegmentsFromXML(Element networkElement) {
+
+		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
+		Integer nodesNumber = listNodes.getLength();
+		
+		Element nodeElement;
+		for (int i = 0; i < nodesNumber; i++) {
+			nodeElement = (Element) listNodes.item(i);
+			
+			Node departureNode = this.getNode(Integer.parseInt(nodeElement.getAttribute("id")));
+
+			NodeList listSegments = nodeElement
+					.getElementsByTagName("LeTronconSortant");
+			
+			Integer segmentsNumber = listSegments.getLength();
+
+			Element segmentElement;
+			for (int j = 0; j < segmentsNumber; j++) {
+				
+				Segment segment = new Segment();
+				segmentElement = (Element) listSegments.item(j);
+				segment.buildFromXML(departureNode, segmentElement, this);
+				mSegmentList.add(segment);
+			}
+			
+		}
+		return "OK";
+	}
+	public String toString() {
+		String res = "-------------------------Network Object------------------------------- \n";
+		res += "------------Nodes List --------------- \n";
+		for (Map.Entry<Integer, Node> entry: mNodesList.entrySet()){
+			res += entry.getKey();
+			res += "  ";
+			res += entry.getValue().toString();
+			res += "\n";
+		}
+		res += "------------Segments List --------------- \n";
+		for (Segment s : mSegmentList){
+			res += s.toString() +"\n";
+		}
+		return res;
+	}
 
 }

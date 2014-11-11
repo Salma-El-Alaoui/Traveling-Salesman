@@ -5,15 +5,17 @@ import java.util.*;
 import tsp.*;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * 
  */
-public class DeliveryRequest implements XmlParse {
+public class DeliveryRequest {
 
-    /**
+	/**
      * 
      */
+
     public DeliveryRequest(Network network) {
     	this.network = network;
     }
@@ -23,10 +25,14 @@ public class DeliveryRequest implements XmlParse {
      */
     protected Network network;
 
-    /**
+	public DeliveryRequest() {
+		mTimeSlotList = new ArrayList<TimeSlot>();
+	}
+
+	/**
      * 
      */
-    protected Node mWarehouse;
+	protected Node mWarehouse;
 
     /**
      * List containing all the time slots in a delivery request
@@ -34,7 +40,7 @@ public class DeliveryRequest implements XmlParse {
      */
     protected List<TimeSlot> mTimeSlotList;
 
-    /**
+	/**
      * 
      */
     protected Tour mTour;
@@ -96,10 +102,55 @@ public class DeliveryRequest implements XmlParse {
         return mTour.removeDelivery(node.getDelivery());
     }
 
-	@Override
-	public int buildFromXML(Element element) {
-		// TODO Auto-generated method stub
+
+
+
+	
+	public String buildFromXML(Element deliveryRequestElement, Network network)
+			throws DeliveryRequestParseException {
+
+		setWarehouseFromXML(deliveryRequestElement, network);
+
+		buildTimeSlotsFromXML(deliveryRequestElement, network);
+
+		return "OK";
+	}
+
+	/*private int checkValidity(Element element) {
+		// TODO: Check for validity
 		return 0;
+	}*/
+
+	private void setWarehouseFromXML(Element deliveryRequestElement, Network network) {
+		NodeList nodeListWarehouse = deliveryRequestElement
+				.getElementsByTagName("Entrepot");
+		Element warehouseElement = (Element) nodeListWarehouse.item(0);
+
+		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement.getAttribute("adresse")));
+		this.mWarehouse.setIsWarehouse(true);
+	}
+
+	private void buildTimeSlotsFromXML(Element deliveryRequestElement, Network network) {
+		NodeList listTimeSlots = deliveryRequestElement
+				.getElementsByTagName("Plage");
+		Integer numberOfSlots = listTimeSlots.getLength();
+
+		Element timeSlotElement;
+
+		for (int i = 0; i < numberOfSlots; i++) {
+			TimeSlot timeSlot = new TimeSlot();
+			timeSlotElement = (Element) listTimeSlots.item(i);
+
+			timeSlot.buildFromXML(timeSlotElement, network);
+
+			mTimeSlotList.add(timeSlot);
+
+		}
+	}
+	@Override
+	public String toString() {
+		
+		return "Delivery Request : Warehouse (" + mWarehouse + "), TimeSlots" + mTimeSlotList.toString();
 	}
 	
 	/**
