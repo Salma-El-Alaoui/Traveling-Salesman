@@ -54,12 +54,6 @@ public class Node implements XmlParse {
      * 
      */
     private List<Segment> mInSegmentList;
-
-    /**
-     * 
-     */
-
-
     
     /**
      * 

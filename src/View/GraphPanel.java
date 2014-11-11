@@ -1,7 +1,8 @@
 package View;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.*;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,7 @@ public class GraphPanel extends JPanel {
      * 
      */
     public GraphPanel() {
+    	this.setPreferredSize(new Dimension(500,500)); //TODO A voir avec Zied
     }
 
     /**

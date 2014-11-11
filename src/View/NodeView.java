@@ -57,7 +57,10 @@ public class NodeView implements View {
 	public void paint(Graphics g) {
 		if(mNode.hasDelivery())
 		{
-			g.setColor(Color.red);
+			g.setColor(Color.green);
+		}else if(mNode.isWarehouse()) //TODO faire la méthode
+		{
+			g.setColor(Color.blue);
 		}else
 		{
 			g.setColor(Color.black);
