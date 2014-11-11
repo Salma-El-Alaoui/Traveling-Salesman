@@ -26,13 +26,14 @@ public class Controller {
      */
 
 	protected Stack<Command> mCommandStack;
+	
+	protected Stack<Command> mUndoStack;
 
 	/**
      * 
      */
 	protected Network mNetwork;
 
-	protected Set<Command> mCommandList;
 
 	/**
 	 * @return
@@ -67,7 +68,7 @@ public class Controller {
 		Node selectedNode = mNetwork.getSelectedNode();
 		Command addCommand = new AddCommand(previousNode, selectedNode);
 		if (addCommand.execute()) {
-			mCommandStack.add(addCommand);
+			mCommandStack.push(addCommand);
 		}
 		// TODO : refresh view
 	}
@@ -81,8 +82,55 @@ public class Controller {
 	public void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
 		if (rmCommand.execute()) {
-			mCommandStack.add(rmCommand);
+			mCommandStack.push(rmCommand);
 		}
+		// TODO : refresh view
+	}
+	
+	/**
+	 * Undo the last command executed
+	 */
+	public void undo()
+	{
+		if(mCommandStack.isEmpty())
+		{
+			System.out.println("Empty command stack");
+			return;
+		}
+		
+		Command command=mCommandStack.pop();
+		
+		if(command.undo())
+		{
+			mUndoStack.push(command);
+		}
+		else
+		{
+			System.out.println("Can't undo command");
+		}
+		// TODO : refresh view
+	}
+	
+	/**
+	 * Execute the last command undone
+	 */
+	public void redo(){
+		if(mUndoStack.isEmpty())
+		{
+			System.out.println("Empty undo command stack");
+			return;
+		}
+		
+		Command command=mUndoStack.pop();
+		
+		if(command.execute())
+		{
+			mCommandStack.push(command);
+		}
+		else
+		{
+			System.out.println("Can't redo command");
+		}	
 		// TODO : refresh view
 	}
 	
