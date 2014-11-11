@@ -69,6 +69,14 @@ public class Node implements XmlParse {
         // TODO implement here
         return false;
     }
+    
+    /**
+     * @return
+     */
+    public boolean isWarehouse() {
+        // TODO implement here
+        return mIsWareHouse;
+    }
 
     /**
      * @return

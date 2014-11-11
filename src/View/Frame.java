@@ -29,6 +29,8 @@ public class Frame extends JFrame implements ActionListener {
 	private final static int INFOS_WIDTH = 300;
 	
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
+	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
+	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
 	
 	/**
      * 
@@ -41,32 +43,52 @@ public class Frame extends JFrame implements ActionListener {
 		mMenuBar = new JMenuBar();
 		
 		JToolBar toolbar = new JToolBar();
-		ImageIcon icon = new ImageIcon("img/upload.png");
-		JButton loadButton = new JButton(icon);
-		toolbar.add(loadButton);
+		ImageIcon icon = new ImageIcon("img/load_plan.png");
+		JButton loadPlanButton = new JButton(icon);
+		loadPlanButton.setActionCommand(ACTION_LOAD_MAP);
+		toolbar.add(loadPlanButton);
+		
+		icon = new ImageIcon("img/load_deliveries.png");
+		JButton loadDeliveriesButton = new JButton(icon);
+		loadPlanButton.setActionCommand(ACTION_LOAD_DELIVERIES);
+		toolbar.add(loadDeliveriesButton);
+		
+		icon = new ImageIcon("img/export.png");
+		JButton exportButton = new JButton(icon);
+		loadPlanButton.setActionCommand(ACTION_EXPORT_ROADMAP);
+		toolbar.add(exportButton);
+		
 		this.add(toolbar, BorderLayout.NORTH);
 
 		mLabelInfos.setText("Infos générales");
 		mNodeInfos.setText("Infos du noeud sélectionné");
 
+		mMenuEdition = new JMenu("Edition");
+		
 		mMenuFile = new JMenu("Fichier");
 		JMenuItem loadMap = new JMenuItem("Charger Plan");
 		loadMap.setActionCommand(ACTION_LOAD_MAP);
 		loadMap.addActionListener(this);
 		mMenuFile.add(loadMap);
-		mMenuFile.add(new JMenuItem("Charger Demande de livraison"));
-		mMenuFile.add(new JMenuItem("Exporter feuille de route"));
-		mMenuEdition = new JMenu("Edition");
+		
+		JMenuItem loadDeliveries = new JMenuItem("Charger Demande de livraison");
+		loadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
+		loadDeliveries.addActionListener(this);
+		mMenuFile.add(loadDeliveries);
+		
+		JMenuItem export = new JMenuItem("Exporter feuille de route");
+		export.setActionCommand(ACTION_EXPORT_ROADMAP);
+		export.addActionListener(this);
+		mMenuFile.add(export);
+		
 		mMenuBar.add(mMenuFile);
+		
 		mMenuBar.add(mMenuEdition);
 
 		mLabelInfos.setPreferredSize(new Dimension(INFOS_WIDTH,HEIGHT));
 
-		JPanel panelInfos1 = new JPanel();
-		panelInfos1.setBackground(Color.green); //TODO On met GraphPanel ici
-		this.add(panelInfos1, BorderLayout.CENTER);
-		
-
+		this.add(mPanelGraph, BorderLayout.CENTER);
+	
 
 		JPanel panelInfos = new JPanel();  
 		panelInfos.setLayout(new GridLayout(2,1));
@@ -158,8 +180,14 @@ public class Frame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getActionCommand().equals(ACTION_LOAD_MAP)){
-			// TODO Launch LOAD MAP
+		switch(arg0.getActionCommand())
+		{
+		case(ACTION_LOAD_MAP) :
+			break;
+		case(ACTION_LOAD_DELIVERIES):
+			break;
+		case(ACTION_EXPORT_ROADMAP):
+			break;
 		}
 	}
 
