@@ -15,10 +15,23 @@ import View.Frame;
  * 
  */
 public class Controller {
+	
+	public enum State{
+		NEW,
+		NETWORK_LOADED,
+		DELIVERY_REQUEST_LOADED,
+		TOUR_NODE_SELECTED,
+		OTHER_NODE_SELECTED,
+		ADDING_DELIVERY
+	}
+
+	private State mState;
+	
 	/**
      * 
      */
     public Controller() {
+    	mState=State.NEW;
     	mFrame = new Frame(this);
     	mCommandStack = new Stack<Command>();
 		mNetwork = new Network();
@@ -43,6 +56,16 @@ public class Controller {
     protected Frame mFrame;
 
 
+    public State getState(){
+    	return mState;
+    }
+    
+    public void setState(State state)
+    {
+    	mState=state;
+    	mFrame.changeState();
+    }
+    
 	/**
 	 * @return
 	 */
@@ -94,6 +117,7 @@ public class Controller {
 		if (addCommand.execute()) {
 			mCommandStack.push(addCommand);
 		}
+		setState(State.DELIVERY_REQUEST_LOADED);
 		// auto refreshing thanks to Observer pattern
 	}
 
@@ -169,6 +193,7 @@ public class Controller {
 			new ErrorDialogView().paint(ex);
 		}
 		mFrame.setNetwork(mNetwork);
+		setState(State.NETWORK_LOADED);
 	}
 	
 	public void loadDeliveriesXML() {
@@ -183,6 +208,7 @@ public class Controller {
 		mNetwork.getDeliveryRequest().calculateTour();
 		//TODO refactor call
 		mFrame.setNetwork(mNetwork);
+		setState(State.DELIVERY_REQUEST_LOADED);
 	}
 
 }
