@@ -91,7 +91,7 @@ public class NodeView implements View {
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mNode.hasDelivery())
 		{
-			g2D.setColor(Color.orange);
+			g2D.setColor(Color.yellow);
 		}else if(mNode.isWarehouse()) //TODO faire la méthode
 		{
 			g2D.setColor(Color.blue);
