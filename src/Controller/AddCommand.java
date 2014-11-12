@@ -35,8 +35,12 @@ public class AddCommand implements Command {
 	}
 
 	@Override
-	public void undo() {
-		mPreviousNode.getNetwork().removeDelivery(mSelectedNode);
+	public boolean undo() {
+		if(mPreviousNode.getNetwork().removeDelivery(mSelectedNode)!=null)
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

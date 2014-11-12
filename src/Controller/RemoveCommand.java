@@ -36,8 +36,8 @@ public class RemoveCommand implements Command {
 	}
 
 	@Override
-	public void undo() {
-		mNode.getNetwork().addDelivery(mPreviousNode, mNode);	
+	public boolean undo() {
+		return mNode.getNetwork().addDelivery(mPreviousNode, mNode);	
 	}
 
 }

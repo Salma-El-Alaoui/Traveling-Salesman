@@ -1,19 +1,16 @@
 package Model;
 
-import java.util.*;
+import org.w3c.dom.Element;
 
 /**
  * 
  */
-public class Delivery {
+public class Delivery implements XmlParse {
+
 
 	private static final int DELIVERY_TIME = 10*60;
 	
-    /**
-     * 
-     */
-    public Delivery() {
-    }
+  
     
     /**
      * @param node
@@ -40,12 +37,25 @@ public class Delivery {
 
     /**
      * Arrival hour
-     */
-    protected int mArrivalHour;
-
-    /**
+=======
+	/**
      * 
      */
+	public Delivery() {
+	}
+	
+	protected int mId;
+
+     
+	protected int mArrivalHour;
+	
+	
+	protected int mClient;
+
+	/**
+     * 
+     */
+
     protected TimeSlot mTimeSlot;
 
     /**
@@ -55,13 +65,9 @@ public class Delivery {
         return mNode;
     }
 
-    /**
-     * @return
-     */
-    public Delivery getDelivery() {
-        // TODO implement here
-        return null;
-    }
+	
+
+
 
     /**
      * @return Arrival Hour
@@ -106,11 +112,30 @@ public class Delivery {
     	mDepartureHour = mDeliveryHour + DELIVERY_TIME;
     }
 
-    /**
-     * 
-     */
+
+
+
     public TimeSlot getTimeSlot() {
         return mTimeSlot;
     }
+
+
+
+	@Override
+	public String buildFromXML(Element deliveryElement, Network network) {
+		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
+		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
+		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
+
+		mNode = network.getNode(nodeId);
+
+	
+		return null;
+	}
+	@Override
+	public String toString() {
+		return "(Delivery : ID " + mId + " ,Node " + mNode + " ,Client " + mClient + ");";
+	}
+
 
 }
