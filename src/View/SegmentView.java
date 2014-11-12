@@ -46,12 +46,12 @@ public class SegmentView implements View {
 		g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-5));
 		g2D.setColor(Color.lightGray);
 		g2D.drawLine((int)(scale*x1)+translationX, (int)(scale*y1)+translationY, 
-				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);
-		
+				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);		
 	}
 
 	@Override
-	public void onClick(MouseEvent E) {
+	public boolean onClick(MouseEvent E) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

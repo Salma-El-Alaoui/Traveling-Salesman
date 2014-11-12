@@ -104,7 +104,7 @@ public class NodeView implements View {
 	}
 
 	@Override
-	public void onClick(MouseEvent arg0) {
+	public boolean onClick(MouseEvent arg0) {
 		int xClick = arg0.getX();
 		int yClick = arg0.getY();
 		int xNode = (int)((mScale*(mNode.getX()-DIAMETER/2))+mTranslationX);
@@ -113,9 +113,11 @@ public class NodeView implements View {
 				&& yClick<yNode+mScale*DIAMETER && yClick>yNode-mScale*DIAMETER)
 		{
 			//TODO check command
-			Frame.mSelectedNode = mNode;
 			setNodeSelected();
+			return true;
+		
 		}
+		return false;
 
 	}
 

@@ -18,6 +18,6 @@ public interface View {
     /**
      * @param Event E
      */
-    public void onClick(MouseEvent E);
+    public boolean onClick(MouseEvent E);
 
 }

@@ -79,7 +79,8 @@ public class TourView implements View {
 	}
 
 	@Override
-	public void onClick(MouseEvent E) {
+	public boolean onClick(MouseEvent E) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}
@@ -106,7 +107,6 @@ public class TourView implements View {
 		{
 			departureNode = n1;
 			arrivalNode = n2;
-			int nbTraces = 0;
 		}
 
 	}

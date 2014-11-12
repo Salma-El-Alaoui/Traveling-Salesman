@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -39,19 +38,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 
-
-	/**
-	 * 
-	 */
-	public static Node mSelectedNode;
-
-
 	/**
 	 * 
 	 */
 	public Frame(Controller controller) {
 		mController = controller;
-		mSelectedNode = null;
 		mPanelGraph = new GraphPanel();
 
 		setTitle("Traveling Salesman");
@@ -275,17 +266,16 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		{
 			for(NodeView nv : mPanelGraph.getListNodeView())
 			{
-				nv.onClick(arg0);
+				if(nv.onClick(arg0))
+				{
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId()+"<br>Livraison : ";
+					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "+nv.getNode().getDelivery().getArrivalHour()+" à "+nv.getNode().getDelivery().getDepartureHour() 
+							: "Non"; 
+					mNodeInfos.setText(nodeInfos);
+				}
 			}
 		}
 
-		if(mSelectedNode != null)
-		{
-			String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+mSelectedNode.getId()+"<br>Livraison : ";
-			nodeInfos += (mSelectedNode.hasDelivery()) ? "Oui <br>Intervalle horaire : "+mSelectedNode.getDelivery().getArrivalHour()+" à "+mSelectedNode.getDelivery().getDepartureHour() 
-					: "Non"; 
-			mNodeInfos.setText(nodeInfos);
-		}
 		repaint();
 
 	}
