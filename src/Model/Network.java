@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 /**
  * 
  */
-public class Network {
+public class Network extends Observable {
 
 	protected Map<Integer, Node> mNodesList;
 
@@ -160,6 +160,7 @@ public class Network {
 
 			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
 					this);
+			networkChanged();
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
@@ -172,12 +173,9 @@ public class Network {
 
 	}
 
-	/**
-	 * @return
-	 */
-	public Element getDocumentRoot() {
-		// TODO implement here
-		return null;
+	public void networkChanged(){
+		 setChanged(); //Marks this Observable object as having been changed; 
+		 notifyObservers(); // If this object has changed then notify all of its observers and then call the clearChanged method to indicate that this object has no longer changed.
 	}
 
 	/**

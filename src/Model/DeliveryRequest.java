@@ -81,6 +81,7 @@ public class DeliveryRequest {
 			this.mTour.updateHour();
 		}
 
+		network.networkChanged();
 	}
 
 	/**
