@@ -88,8 +88,7 @@ public class DeliveryRequest {
 	 * after the delivery associated with previousNode
 	 * 
 	 * @param NodepreviousNode
-	 * @param Node
-	 *            selectedNode
+	 * @param Node selectedNode
 	 * @return
 	 */
 	public boolean insertDelivery(Node previousNode, Node selectedNode) {
@@ -101,19 +100,21 @@ public class DeliveryRequest {
 	/**
 	 * Remove from the tour the delivery associated with the node
 	 * 
-	 * @param Node
-	 *            node associated with the delivery to remove
+	 * @param Node node associated with the delivery to remove
 	 * @return the node before the removed delivery
 	 */
 	public Node removeDelivery(Node node) {
 		return mTour.removeDelivery(node.getDelivery());
 	}
 
-	public String buildFromXML(Element deliveryRequestElement, Network network) {
+	public String buildFromXML(Element deliveryRequestElement, Network network) throws InvalidDeliveryRequestFileException {
 
-		setWarehouseFromXML(deliveryRequestElement, network);
-
-		buildTimeSlotsFromXML(deliveryRequestElement, network);
+		try {
+			setWarehouseFromXML(deliveryRequestElement, network);
+			buildTimeSlotsFromXML(deliveryRequestElement, network);
+		} catch (InvalidDeliveryRequestFileException iDRFE){
+			throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+		}
 
 		return "OK";
 	}
@@ -124,18 +125,22 @@ public class DeliveryRequest {
 	 */
 
 	private void setWarehouseFromXML(Element deliveryRequestElement,
-			Network network) {
+			Network network) throws InvalidDeliveryRequestFileException{
 		NodeList nodeListWarehouse = deliveryRequestElement
 				.getElementsByTagName("Entrepot");
 		Element warehouseElement = (Element) nodeListWarehouse.item(0);
 
-		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement
-				.getAttribute("adresse")));
+		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement.getAttribute("adresse")));
+		
+		if (mWarehouse == null){
+			throw new InvalidDeliveryRequestFileException("Le noeud de l'Entrepot dans les demandes de Livraison n'existe pas dans le Réseau");
+		}
+		
 		this.mWarehouse.setIsWarehouse(true);
 	}
 
 	private void buildTimeSlotsFromXML(Element deliveryRequestElement,
-			Network network) {
+			Network network) throws InvalidDeliveryRequestFileException{
 		NodeList listTimeSlots = deliveryRequestElement
 				.getElementsByTagName("Plage");
 		Integer numberOfSlots = listTimeSlots.getLength();
@@ -146,7 +151,11 @@ public class DeliveryRequest {
 			TimeSlot timeSlot = new TimeSlot();
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
-			timeSlot.buildFromXML(timeSlotElement, network);
+			try {
+				timeSlot.buildFromXML(timeSlotElement, network);
+			} catch (InvalidDeliveryRequestFileException iDRFE){
+				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+			}
 
 			mTimeSlotList.add(timeSlot);
 

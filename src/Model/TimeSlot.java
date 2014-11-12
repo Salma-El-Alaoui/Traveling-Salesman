@@ -2,11 +2,7 @@ package Model;
 
 
 import java.awt.Color;
-import java.util.List;
-
-
 import java.util.*;
-
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,8 +13,8 @@ import org.w3c.dom.NodeList;
 public class TimeSlot implements XmlParse {
 
 
-    
-    protected Color color;
+
+	protected Color color;
 
 	public TimeSlot() {
 		mDeliveryList = new ArrayList<Delivery>();
@@ -26,18 +22,18 @@ public class TimeSlot implements XmlParse {
 
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected int mStartHour;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected int mEndHour;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
 	protected List<Delivery> mDeliveryList;
 
@@ -50,25 +46,35 @@ public class TimeSlot implements XmlParse {
 	}
 
 
-    /**
-     * @return
-     */
-    public int getStartHour() {
-        return mStartHour;
-    }
-    
-    public int getEndHour() {
-        return mEndHour;
-    }
+	/**
+	 * @return
+	 */
+	public int getStartHour() {
+		return mStartHour;
+	}
+
+	public int getEndHour() {
+		return mEndHour;
+	}
 
 
 	@Override
-	public String buildFromXML(Element timeSlotElement, Network network) {
+	public String buildFromXML(Element timeSlotElement, Network network) throws InvalidDeliveryRequestFileException {
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
 		mEndHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureFin"));
+
+		String ex;
+		if (mStartHour>mEndHour){
+			ex = "Une des plages horaires est mal construite et commence après avoir fini...";
+			throw new InvalidDeliveryRequestFileException(ex);	
+		} else if (mStartHour==mEndHour){
+			ex = "Une des plages horaires est mal construite et l'heure de début est identique à l'heure de fin";
+			throw new InvalidDeliveryRequestFileException(ex);	
+		}
+
 
 		NodeList listDeliveries = timeSlotElement
 				.getElementsByTagName("Livraison");
@@ -78,7 +84,11 @@ public class TimeSlot implements XmlParse {
 			Delivery delivery = new Delivery();
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
-			delivery.buildFromXML(deliveryElement, network);
+			try {
+				delivery.buildFromXML(deliveryElement, network);
+			} catch (InvalidDeliveryRequestFileException iDRFE){
+				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+			}
 
 			mDeliveryList.add(delivery);
 		}
@@ -115,7 +125,7 @@ public class TimeSlot implements XmlParse {
 	public Color getColor() {
 		return color;
 	}
-	
+
 
 }
 

@@ -6,6 +6,7 @@ import Model.DeliveryRequest;
 import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
+import Model.WarningDeliveryRequestFile;
 import View.FileChooserView;
 import junit.framework.*;
 
@@ -23,6 +24,9 @@ public class XmlParseTest extends TestCase{
 		} catch (InvalidDeliveryRequestFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNotSame(network, new Network());	
 	}
@@ -36,6 +40,9 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -62,6 +69,9 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
