@@ -22,6 +22,7 @@ import javax.swing.JToolBar;
 
 import Controller.Controller;
 import Model.Network;
+import Model.Node;
 
 /**
  * 
@@ -42,45 +43,55 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
+	public static Node mSelectedNode;
+
+
+	/**
+	 * 
+	 */
 	public Frame(Controller controller) {
 		mController = controller;
-		
+		mSelectedNode = null;
 		mPanelGraph = new GraphPanel();
-		
+
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
 		this.setLayout(new BorderLayout());
+		mPanelGraph.addMouseListener(this);
 
 		mMenuBar = new JMenuBar();
 
 		mLabelInfos=new JLabel();
 		mNodeInfos=new JLabel();
-		
+
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
 		mLoadPlanButton = new JButton(icon);
 		mLoadPlanButton.setActionCommand(ACTION_LOAD_MAP);
 		mLoadPlanButton.setToolTipText("Charger plan");
+		mLoadPlanButton.addActionListener(this);
 		toolbar.add(mLoadPlanButton);
 
 		icon = new ImageIcon("img/load_deliveries.png");
 		mLoadDeliveriesButton = new JButton(icon);
 		mLoadDeliveriesButton.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
+		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mLoadDeliveriesButton);
 
 		icon = new ImageIcon("img/export.png");
 		mExportButton = new JButton(icon);
 		mExportButton.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExportButton.setToolTipText("Exporter feuilles de route");
+		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
 
 		this.add(toolbar, BorderLayout.NORTH);
 
 
 		mLabelInfos.setText("Infos générales");
-		mNodeInfos.setText("Infos du noeud sélectionné");
+		mNodeInfos.setText("<html>Noeud sélectionné : <br>Aucun");
 
 		mMenuEdition = new JMenu("Edition");
 
@@ -187,6 +198,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	protected JLabel mLabelInfos;
 
+
 	/**
 	 * 
 	 */
@@ -244,10 +256,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		{
 		case(ACTION_LOAD_MAP) :
 			mController.loadNetworkXML();
-			break;
+		break;
 		case(ACTION_LOAD_DELIVERIES):
 			mController.loadDeliveriesXML();
-			break;
+		break;
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
@@ -259,10 +271,22 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		for(NodeView nv : mPanelGraph.getListNodeView())
+		if(mPanelGraph.getListNodeView() != null)
 		{
-			nv.onClick(arg0);
+			for(NodeView nv : mPanelGraph.getListNodeView())
+			{
+				nv.onClick(arg0);
+			}
 		}
+
+		if(mSelectedNode != null)
+		{
+			String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+mSelectedNode.getId()+"<br>Livraison : ";
+			nodeInfos += (mSelectedNode.hasDelivery()) ? "Oui <br>Intervalle horaire : "+mSelectedNode.getDelivery().getArrivalHour()+" à "+mSelectedNode.getDelivery().getDepartureHour() 
+					: "Non"; 
+			mNodeInfos.setText(nodeInfos);
+		}
+		repaint();
 
 	}
 
@@ -281,7 +305,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}
-	
+
 	/**
 	 * 
 	 */

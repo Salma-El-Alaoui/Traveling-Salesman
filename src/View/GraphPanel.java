@@ -42,6 +42,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 	 */
 	protected int mTranslationY;
 		
+		
 	/**
 	 * 
 	 */
@@ -108,8 +109,6 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 				nv.paint(g, mScale, mTranslationX, mTranslationY);
 			}			
 		}
-		g.setColor(Color.red);
-		g.drawString(""+mScale, 10, 10);
 	}
 
 	public List<NodeView> getListNodeView() {
@@ -139,6 +138,10 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 		if(arg0.getWheelRotation() == -1)
 		{
 			mScale += 0.1;
+			if(mScale>4)
+			{
+				mScale = 4;
+			}
 		}else if(arg0.getWheelRotation() == 1)
 		{
 			mScale -= 0.1;
@@ -183,8 +186,15 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		mTranslationX = mTempX + DRAG_SPEED*(arg0.getX() - mMouseClickX );
-		mTranslationY = mTempY + DRAG_SPEED*(arg0.getY() - mMouseClickY );
+
+		if(arg0.getX() > getWidth() || arg0.getY()>getHeight() || arg0.getX() < 0 || arg0.getY() < 0)
+		{
+
+		}else{
+			mTranslationX = mTempX + DRAG_SPEED*(arg0.getX() - mMouseClickX );
+			mTranslationY = mTempY + DRAG_SPEED*(arg0.getY() - mMouseClickY );
+		}
+
 		repaint();
 
 	}

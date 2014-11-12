@@ -16,12 +16,27 @@ public class NodeView implements View {
 	/**
 	 * 
 	 */
-	public final static int DIAMETER = 12;
+	public final static int DIAMETER = 14;
 
 	/**
 	 * 
 	 */
 	protected boolean mIsSelected = false;
+	
+	/**
+	 * 
+	 */
+	protected double mScale;
+	
+	/**
+	 * 
+	 */
+	protected int mTranslationX;
+	
+	/**
+	 * 
+	 */
+	protected int mTranslationY;
 
 
 	/**
@@ -70,6 +85,9 @@ public class NodeView implements View {
 	@Override
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
 		Graphics2D g2D = (Graphics2D) g;
+		mScale = scale;
+		mTranslationX = translationX;
+		mTranslationY = translationY;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mNode.hasDelivery())
 		{
@@ -89,12 +107,13 @@ public class NodeView implements View {
 	public void onClick(MouseEvent arg0) {
 		int xClick = arg0.getX();
 		int yClick = arg0.getY();
-		int xNode = mNode.getX();
-		int yNode = mNode.getY();
-		if(xClick<xNode+DIAMETER && xClick<xNode-DIAMETER 
-				&& yClick<yNode+DIAMETER && yClick<yNode-DIAMETER)
+		int xNode = (int)((mScale*(mNode.getX()-DIAMETER/2))+mTranslationX);
+		int yNode = (int)((mScale*(mNode.getY()-DIAMETER/2))+mTranslationY);
+		if(xClick<xNode+mScale*DIAMETER && xClick>xNode-mScale*DIAMETER 
+				&& yClick<yNode+mScale*DIAMETER && yClick>yNode-mScale*DIAMETER)
 		{
 			//TODO check command
+			Frame.mSelectedNode = mNode;
 			setNodeSelected();
 		}
 
