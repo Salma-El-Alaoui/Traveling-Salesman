@@ -27,7 +27,7 @@ public class SegmentView implements View {
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
-		int diameter = 20;
+		int offset = NodeView.DIAMETER/2;
 
 		int x1 = mSegment.getDepartureNode().getX();
 		int y1 = mSegment.getDepartureNode().getY();
@@ -39,32 +39,32 @@ public class SegmentView implements View {
 		
 		if(y2<y1 && x2<x1)//Up left
 		{
-			g.drawLine(x1-diameter, y1, x2, y2+diameter);
-			g.drawLine(x1, y1-diameter, x2+diameter, y2);
+			g.drawLine(x1, y1-offset, x2+offset, y2);
+			g.drawLine(x1-offset, y1, x2, y2+offset);
 		}else if(y2>y1 && x2<x1)//Bottom left
 		{
-			g.drawLine(x1-diameter, y1, x2, y2-diameter);
-			g.drawLine(x1, y1+diameter, x2+diameter, y2);
+			g.drawLine(x1-offset, y1, x2, y2-offset);
+			g.drawLine(x1, y1+offset, x2+offset, y2);
 		}else if(y2>y1 && x2>x1)//Bottom right
 		{
-			g.drawLine(x1, y1+diameter, x2-diameter, y2);
-			g.drawLine(x1+diameter, y1, x2, y2-diameter);
+			g.drawLine(x1, y1+offset, x2-offset, y2);
+			g.drawLine(x1+offset, y1, x2, y2-offset);
 		}else if(y2<y1 && x2>x1)//Up right
 		{
-			g.drawLine(x1+diameter, y1, x2, y2+diameter);
-			g.drawLine(x1, y1-diameter, x2-diameter, y2);
+			g.drawLine(x1+offset, y1, x2, y2+offset);
+			g.drawLine(x1, y1-offset, x2-offset, y2);
 		}
 		
 		//Limit points
 		if(y1==y2)
 		{
-			g.drawLine(x1, y1-diameter, x2, y2-diameter);
-			g.drawLine(x1, y1+diameter, x2, y2+diameter);
+			g.drawLine(x1, y1-offset, x2, y2-offset);
+			g.drawLine(x1, y1+offset, x2, y2+offset);
 		}
 		if(x1==x2)
 		{
-			g.drawLine(x1-diameter, y1, x2-diameter, y2);
-			g.drawLine(x1+diameter, y1, x2+diameter, y2);
+			g.drawLine(x1-offset, y1, x2-offset, y2);
+			g.drawLine(x1+offset, y1, x2+offset, y2);
 		}
 		
 	}

@@ -14,7 +14,7 @@ public class NodeView implements View {
 	/**
 	 * 
 	 */
-	private static int DIAMETER = 20;
+	public final static int DIAMETER = 10;
 	
 	/**
 	 * 
@@ -77,8 +77,7 @@ public class NodeView implements View {
 		{
 			g.setColor(Color.black);
 		}
-		g.fillOval(mNode.getX(), mNode.getY(), DIAMETER, DIAMETER);
-		
+		g.fillOval(mNode.getX()-DIAMETER/2, mNode.getY()-DIAMETER/2, DIAMETER, DIAMETER);
 	}
 
 	@Override
@@ -87,8 +86,10 @@ public class NodeView implements View {
 		int yClick = arg0.getY();
 		int xNode = mNode.getX();
 		int yNode = mNode.getY();
-		if(xClick<xNode+20 && xClick<xNode-20 && yClick<yNode+20 && yClick<yNode-20)
+		if(xClick<xNode+DIAMETER && xClick<xNode-DIAMETER 
+				&& yClick<yNode+DIAMETER && yClick<yNode-DIAMETER)
 		{
+			//TODO check command
 			setNodeSelected();
 		}
 		
