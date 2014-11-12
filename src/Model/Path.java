@@ -54,7 +54,7 @@ public class Path {
         return mPathTime;
     }
 
-	public List<Segment> getmSegmentList() {
+	public List<Segment> getSegmentList() {
 		return mSegmentList;
 	}
 

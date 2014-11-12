@@ -42,7 +42,7 @@ public class TourView implements View {
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
 
 		Graphics2D g2D = (Graphics2D) g;
-		List<Path> listPath = mTour.getmPathList();
+		List<Path> listPath = mTour.getPathList();
 		Delivery d = new Delivery();
 		Path p = new Path();
 		int diff = 0;
@@ -51,11 +51,11 @@ public class TourView implements View {
 		{
 			if(i<listPath.size()-1)
 			{
-				d = mTour.getmDeliveryList().get(i);
+				d = mTour.getDeliveryList().get(i);
 			}
 			p = listPath.get(i);
 
-			List<Segment> listSegment = p.getmSegmentList();
+			List<Segment> listSegment = p.getSegmentList();
 			for(Segment s : listSegment)
 			{
 				Node depNode = s.getDepartureNode();
