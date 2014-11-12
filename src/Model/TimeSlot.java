@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.awt.Color;
 import java.util.*;
 
@@ -12,14 +11,12 @@ import org.w3c.dom.NodeList;
  */
 public class TimeSlot implements XmlParse {
 
-
-
 	protected Color color;
 
 	public TimeSlot() {
 		mDeliveryList = new ArrayList<Delivery>();
+		setColor();
 	}
-
 
 	/**
 	 * 
@@ -37,14 +34,12 @@ public class TimeSlot implements XmlParse {
 
 	protected List<Delivery> mDeliveryList;
 
-
 	/**
 	 * @return
 	 */
 	public List<Delivery> getAllDeliveries() {
 		return mDeliveryList;
 	}
-
 
 	/**
 	 * @return
@@ -56,7 +51,6 @@ public class TimeSlot implements XmlParse {
 	public int getEndHour() {
 		return mEndHour;
 	}
-
 
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
@@ -81,7 +75,7 @@ public class TimeSlot implements XmlParse {
 		Integer deliveriesNumber = listDeliveries.getLength();
 
 		for (int i = 0; i < deliveriesNumber; i++) {
-			Delivery delivery = new Delivery();
+			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
 			try {
@@ -116,17 +110,23 @@ public class TimeSlot implements XmlParse {
 		}
 		return res;
 	}
+
 	@Override
 	public String toString() {
-		return "(Time Slot : startHour " + mStartHour + ", endHour " + mEndHour + "Deliveries " + mDeliveryList.toString() + "); ";
+		return "(Time Slot : startHour " + mStartHour + ", endHour " + mEndHour
+				+ "Deliveries " + mDeliveryList.toString() + "); ";
 	}
 
 	public Color getColor() {
 		return color;
 	}
 
+	private void setColor() {
+		Random random = new Random();
+		int randomInt = random.nextInt(256);
+
+		this.color = new Color(0, 255, randomInt);
+
+	}
 
 }
-
-
-

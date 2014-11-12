@@ -23,6 +23,7 @@ public class Delivery implements XmlParse {
 	 */
 	public Delivery(Node node)
 	{
+		node.setDelivery(this);
 		mNode=node;
 	}
 
@@ -49,6 +50,10 @@ public class Delivery implements XmlParse {
 	 */
 	public Delivery() {
 	}
+
+	public Delivery(TimeSlot timeSlot) {
+		mTimeSlot = timeSlot;
+		}
 
 	protected int mId;
 
@@ -134,6 +139,8 @@ public class Delivery implements XmlParse {
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
 
 		mNode = network.getNode(nodeId);
+		mNode.setDelivery(this);
+
 
 		if (mNode == null){
 			throw new InvalidDeliveryRequestFileException("Le noeud " + nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");

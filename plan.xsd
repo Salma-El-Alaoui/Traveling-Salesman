@@ -27,6 +27,7 @@
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>
+
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute type="xs:int" name="id" use="required" />
@@ -38,9 +39,13 @@
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-		<xs:unique name="UniqueNodeID">
+		<xs:keyref name="refNode" refer="NodeID">
+			<xs:selector xpath="Noeud/LeTronconSortant" />
+			<xs:field xpath="@idNoeudDestination" />
+		</xs:keyref>
+		<xs:key name="NodeID">
 			<xs:selector xpath="Noeud" />
 			<xs:field xpath="@id" />
-		</xs:unique>
+		</xs:key>
 	</xs:element>
 </xs:schema>
