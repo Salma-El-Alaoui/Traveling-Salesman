@@ -54,23 +54,27 @@ public class TourView implements View {
 				d = mTour.getmDeliveryList().get(i);
 			}
 			p = listPath.get(i);
-			
-			Node depNode = p.getmSegmentList().get(i).getDepartureNode();
-			Node arrNode = p.getmSegmentList().get(i).getArrivalNode();
-			Couple c = new Couple(depNode, arrNode);
-			if(mMapTraces.containsKey(c))
+
+			List<Segment> listSegment = p.getmSegmentList();
+			for(Segment s : listSegment)
 			{
-				mMapTraces.put(c, mMapTraces.get(c)+1);
-				diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
-			}else
-			{
-				mMapTraces.put(c, 1);
+				Node depNode = s.getDepartureNode();
+				Node arrNode = s.getArrivalNode();
+				Couple c = new Couple(depNode, arrNode);
+				if(mMapTraces.containsKey(c))
+				{
+					mMapTraces.put(c, mMapTraces.get(c)+1);
+					diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
+				}else
+				{
+					mMapTraces.put(c, 1);
+				}
+
+				g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-8));
+				g2D.setColor(d.getTimeSlot().getColor());
+				g2D.drawLine((int)(scale*depNode.getX())+translationX+diff, (int)(scale*depNode.getY())+translationY+diff, 
+						(int)(scale*arrNode.getX())+translationX+diff, (int)(scale*arrNode.getY())+translationY+diff);
 			}
-			
-			g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-8));
-			g2D.setColor(d.getTimeSlot().getColor());
-			g2D.drawLine((int)(scale*depNode.getX())+translationX+diff, (int)(scale*depNode.getY())+translationY+diff, 
-					(int)(scale*arrNode.getX())+translationX+diff, (int)(scale*arrNode.getY())+translationY+diff);
 		}
 	}
 
