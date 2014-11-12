@@ -71,20 +71,23 @@ public class DeliveryRequest {
 		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
 		this.mTour = new Tour();
-		int previousId;
-		for (int i = 0; i < nodesId.length; i++) {
-			previousId = nodesId[i];
-			Node previousNode = this.network.getNode(previousId);
+		
+		int warehouseIndex = mapIdToIndex.get(mWarehouse.getId());
+		int previousIndex = warehouseIndex;
+		int nextIndex;
+
+		do {
+			nextIndex = nodesIndex[previousIndex];
+			Node previousNode = this.network.getNode(nodesId[previousIndex]);
 			if(previousNode.getDelivery() != null){
-				this.mTour.addDelivery(this.network.getNode(previousId).getDelivery());				
+				this.mTour.addDelivery(previousNode.getDelivery());				
 			}
 			
-			if (i != nodesId.length - 1) {
-				this.mTour.addPath(mapIndexPath.get(nodesIndex[i]).get(nodesIndex[i+1]));
-			} else {
-				this.mTour.addPath(mapIndexPath.get(nodesIndex[i]).get(nodesIndex[0]));				
-			}
-		}
+			this.mTour.addPath(mapIndexPath.get(previousIndex).get(nextIndex));
+			previousIndex = nextIndex;
+
+		}while(previousIndex != warehouseIndex);
+				
 		this.mTour.updateHour();
 	}
 
