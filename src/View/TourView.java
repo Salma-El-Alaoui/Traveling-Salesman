@@ -1,7 +1,8 @@
 package View;
 
-import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.Map;
 
 import Model.Delivery;
@@ -16,7 +17,9 @@ public class TourView implements View {
 	/**
 	 * 
 	 */
-	public TourView() {
+	public TourView(Tour tour) {
+		mMapTraces = new HashMap<Couple, Integer>();
+		mTour = tour;
 	}
 
 	/**
@@ -28,14 +31,6 @@ public class TourView implements View {
 	 * Map counting traced paths between two given nodes
 	 */
 	protected Map<Couple, Integer> mMapTraces;
-
-	/**
-	 * @return Tour associated with TourView
-	 */
-	public Tour getTour() {
-		// TODO si null, etc...
-		return mTour; 
-	}
 
 	@Override
 	public void paint(Graphics g) {
@@ -56,7 +51,6 @@ public class TourView implements View {
 			if(mMapTraces.containsKey(c))
 			{
 				mMapTraces.put(c, mMapTraces.get(c)+1);
-				
 				int diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
 				
 				g.drawLine(dFirst.getNode().getX()+diff, dFirst.getNode().getY()+diff, dSecond.getNode().getY()+diff, dSecond.getNode().getY()+diff);
@@ -74,7 +68,7 @@ public class TourView implements View {
 	}
 
 	@Override
-	public void onClick(Event E) {
+	public void onClick(MouseEvent E) {
 		// TODO Auto-generated method stub
 
 	}

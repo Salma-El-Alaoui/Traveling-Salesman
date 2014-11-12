@@ -56,13 +56,7 @@ public class Node implements XmlParse {
 	/**
      * 
      */
-    private List<Segment> mInSegmentList;
-
- 
-
-
-
-    
+    private List<Segment> mInSegmentList;    
 
     protected boolean mIsSelected;
 
@@ -79,6 +73,14 @@ public class Node implements XmlParse {
         return false;
     }
     
+    /**
+     * @return
+     */
+    public boolean isWarehouse() {
+        // TODO implement here
+        return mIsWarehouse;
+    }
+
     public void addInSegment(Segment segment){
     	mInSegmentList.add(segment);
     }

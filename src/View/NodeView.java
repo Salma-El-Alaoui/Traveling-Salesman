@@ -1,8 +1,10 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
 
 import Model.Node;
 
@@ -11,65 +13,90 @@ import Model.Node;
  */
 public class NodeView implements View {
 
-    /**
-     * 
-     */
-    public NodeView() {
-    }
+	/**
+	 * 
+	 */
+	public final static int DIAMETER = 12;
 
-    /**
-     * 
-     */
-    protected Node mNode;
+	/**
+	 * 
+	 */
+	protected boolean mIsSelected = false;
 
-    /**
-     * @return
-     */
-    public void setNodeSelected() {
-        // TODO implement here
-    }
 
-    /**
-     * @return
-     */
-    public Node getNode() {
-        // TODO implement here
-        return null;
-    }
+	/**
+	 * 
+	 */
+	public NodeView(Node node) {
+		mNode = node;
+	}
 
-    /**
-     * @param boolean 
-     * @return
-     */
-    public void activateAdd(boolean addActivated) {
-        // TODO implement here
-    }
+	/**
+	 * 
+	 */
+	protected Node mNode;
 
-    /**
-     * @param Node node
-     * @return
-     */
-    public void addDelivery(Node node) {
-        // TODO implement here
-    }
+	/**
+	 * @return
+	 */
+	public void setNodeSelected() {
+		// TODO implement here
+	}
 
-	@Override
-	public void paint(Graphics g) {
-		if(mNode.hasDelivery())
-		{
-			g.setColor(Color.red);
-		}else
-		{
-			g.setColor(Color.black);
-		}
-		g.fillOval(mNode.getX(), mNode.getY(), 20, 20);
-		
+	/**
+	 * @return
+	 */
+	public Node getNode() {
+		// TODO implement here
+		return mNode;
+	}
+
+	/**
+	 * @param boolean 
+	 * @return
+	 */
+	public void activateAdd(boolean addActivated) {
+		// TODO implement here
+	}
+
+	/**
+	 * @param Node node
+	 * @return
+	 */
+	public void addDelivery(Node node) {
+		// TODO implement here
 	}
 
 	@Override
-	public void onClick(Event E) {
-		// TODO Auto-generated method stub
-		
+	public void paint(Graphics g) {
+		Graphics2D g2D = (Graphics2D) g;
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		if(mNode.hasDelivery())
+		{
+			g2D.setColor(Color.orange);
+		}else if(mNode.isWarehouse()) //TODO faire la méthode
+		{
+			g2D.setColor(Color.blue);
+		}else
+		{
+			g2D.setColor(new Color(122,122,122));
+		}
+		g2D.fillOval(mNode.getX()-DIAMETER/2, mNode.getY()-DIAMETER/2, DIAMETER, DIAMETER);
+	}
+
+	@Override
+	public void onClick(MouseEvent arg0) {
+		int xClick = arg0.getX();
+		int yClick = arg0.getY();
+		int xNode = mNode.getX();
+		int yNode = mNode.getY();
+		if(xClick<xNode+DIAMETER && xClick<xNode-DIAMETER 
+				&& yClick<yNode+DIAMETER && yClick<yNode-DIAMETER)
+		{
+			//TODO check command
+			setNodeSelected();
+		}
+
 	}
 
 }

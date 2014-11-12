@@ -233,5 +233,9 @@ public class DeliveryRequest {
 
 		return mapPath;
 	}
+	
+	public Tour getTour(){
+		return mTour;
+	}
 
 }

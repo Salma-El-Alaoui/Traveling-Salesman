@@ -1,20 +1,15 @@
 package Controller;
 
+import java.io.File;
 import java.util.Stack;
 
 import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
-
-import java.io.File;
-import java.util.*;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import Model.Node;
 import View.ErrorDialogView;
 import View.FileChooserView;
+import View.Frame;
 
 /**
  * 
@@ -23,9 +18,11 @@ public class Controller {
 	/**
      * 
      */
-	public Controller() {
+    public Controller() {
+    	mFrame = new Frame(this);
+    	mCommandStack = new Stack<Command>();
 		mNetwork = new Network();
-	}
+    }
 
 	/**
      * 
@@ -38,7 +35,12 @@ public class Controller {
 	/**
      * 
      */
-	protected Network mNetwork;
+    protected Network mNetwork;
+    
+    /**
+     * 
+     */
+    protected Frame mFrame;
 
 
 	/**
@@ -156,27 +158,31 @@ public class Controller {
 		//auto refreshing thanks to Observer pattern
 	}
 
-	public static void main(String args[]) {
-
+	public void loadNetworkXML() {
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
-		Network network = new Network();
+		mNetwork = new Network();
 		try {
-			network.parseNetworkFile(f1);
-			System.out.println(network);
-
-			System.out.println("==============Delivery Request=============");
-
-			FileChooserView deliveryRequestChooserView = new FileChooserView();
-			File f2 = deliveryRequestChooserView.paint();
-			network.parseDeliveryRequestFile(f2);
-
-			System.out.println(network.getDeliveryRequest());
+			mNetwork.parseNetworkFile(f1);
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
-
+		mFrame.setNetwork(mNetwork);
+	}
+	
+	public void loadDeliveriesXML() {
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paint();
+		try {
+			mNetwork.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			new ErrorDialogView().paint(ex);
+		}
+		mNetwork.getDeliveryRequest().calculateTour();
+		//TODO refactor call
+		mFrame.setNetwork(mNetwork);
 	}
 
 }
