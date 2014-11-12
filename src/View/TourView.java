@@ -70,7 +70,7 @@ public class TourView implements View {
 					mMapTraces.put(c, 1);
 				}
 
-				g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-8));
+				g2D.setStroke(new BasicStroke(3));
 				g2D.setColor(d.getTimeSlot().getColor());
 				g2D.drawLine((int)(scale*depNode.getX())+translationX+diff, (int)(scale*depNode.getY())+translationY+diff, 
 						(int)(scale*arrNode.getX())+translationX+diff, (int)(scale*arrNode.getY())+translationY+diff);
