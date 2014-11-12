@@ -34,6 +34,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
+	private final static String ACTION_CALCULATE_TOUR = "ACTION_CALCULATE_TOUR";
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
@@ -70,6 +71,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLoadDeliveriesButton.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
 		toolbar.add(mLoadDeliveriesButton);
+		
+		icon = new ImageIcon("img/chart_line_edit.png");
+		mCalculateTourButton = new JButton(icon);
+		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
+		mCalculateTourButton.setToolTipText("Calculer la tournée");
+		toolbar.add(mCalculateTourButton);
+		
 
 		icon = new ImageIcon("img/export.png");
 		mExportButton = new JButton(icon);
@@ -104,6 +112,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
+		
+		mCalculateTour = new JMenuItem("Calculer la tournée");
+		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
+		mCalculateTour.addActionListener(this);
+		mMenuFile.add(mCalculateTour);
 
 		mExport = new JMenuItem("Exporter feuille de route");
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
@@ -145,6 +158,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected JButton mLoadDeliveriesButton;
+	
+
+	/**
+	 * 
+	 */
+	protected JButton mCalculateTourButton;
+	
+	
 
 	/**
 	 * 
@@ -166,6 +187,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	protected JMenuItem mRemoveDelivery;
 
 	protected JMenuItem mloadDeliveries;
+	
+	protected JMenuItem mCalculateTour;
 
 	protected JMenuItem mExport;
 
@@ -234,6 +257,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		case(ACTION_LOAD_DELIVERIES):
 			mController.loadDeliveriesXML();
 		break;
+		case(ACTION_CALCULATE_TOUR):
+			mController.calculateTour();
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
@@ -288,6 +313,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLoadMap.setEnabled(true);
 			mLoadDeliveriesButton.setEnabled(false);
 			mloadDeliveries.setEnabled(false);
+			mCalculateTour.setEnabled(false);
+			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(false);
@@ -310,6 +337,21 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLoadMap.setEnabled(true);
 			mLoadDeliveriesButton.setEnabled(true);
 			mloadDeliveries.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
+			mExportButton.setEnabled(false);
+			mExport.setEnabled(false);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case TOUR_CALCULATED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(false);

@@ -7,6 +7,8 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -16,7 +18,7 @@ import Model.Node;
 /**
  * 
  */
-public class GraphPanel extends JPanel implements MouseWheelListener {
+public class GraphPanel extends JPanel implements MouseWheelListener,Observer {
 	
 	public static double scale;
 
@@ -27,6 +29,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener {
     	this.setPreferredSize(new Dimension(600,600));
     	scale = 600/800;
     	this.addMouseWheelListener(this);
+    	
     }
 
     /**
@@ -69,6 +72,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener {
 	
 	public void setNetwork(Network n){
 		if(n != null){
+			n.addObserver(this);
 	    	mNetworkView = new NetworkView(n, n.getSegmentList());
 	    	mListNodeView = new ArrayList<NodeView>();
 	    	Map<Integer,Node> mapNode = n.getNodesList();
@@ -98,6 +102,12 @@ public class GraphPanel extends JPanel implements MouseWheelListener {
 				scale = 0.1;
 			}
 		}
+		repaint();
+		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
 		repaint();
 		
 	}
