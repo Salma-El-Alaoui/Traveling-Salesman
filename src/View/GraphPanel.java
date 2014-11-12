@@ -10,6 +10,8 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -19,7 +21,8 @@ import Model.Node;
 /**
  * 
  */
-public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener {
+
+public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener, Observer {
 
 	/**
 	 * 
@@ -91,6 +94,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 	 */
 	protected TourView mTourView;
 
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -116,16 +120,15 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 
 	public void setNetwork(Network n){
 		if(n != null){
-			mNetworkView = new NetworkView(n, n.getSegmentList());
-			mListNodeView = new ArrayList<NodeView>();
-			Map<Integer,Node> mapNode = n.getNodesList();
-			for(int i=0;i<mapNode.size();i++)
-			{
-				mListNodeView.add(new NodeView(mapNode.get(i)));
-			}			
-			if(n.getDeliveryRequest() != null && n.getDeliveryRequest().getTour() != null){
-				mTourView = new TourView(n.getDeliveryRequest().getTour());	    		
-			}
+			n.addObserver(this);
+	    	mNetworkView = new NetworkView(n, n.getSegmentList());
+	    	mListNodeView = new ArrayList<NodeView>();
+	    	mTourView = null;
+	    	Map<Integer,Node> mapNode = n.getNodesList();
+	    	for(int i=0;i<mapNode.size();i++)
+	    	{
+	    		mListNodeView.add(new NodeView(mapNode.get(i)));
+	    	}			
 		} else {
 			// TODO
 		}
@@ -203,4 +206,15 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 
 	}
 
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if(arg0 instanceof Network){
+			Network n = (Network) arg0;
+	    	if(n.getDeliveryRequest() != null && n.getDeliveryRequest().getTour() != null){
+		    	mTourView = new TourView(n.getDeliveryRequest().getTour());	    		
+	    	}
+		}
+		repaint();
+	}
+    
 }

@@ -89,6 +89,8 @@ public class DeliveryRequest {
 		}while(previousIndex != warehouseIndex);
 				
 		this.mTour.updateHour();
+
+		network.networkChanged();
 	}
 
 	private int[] decodeMapNode(Map<Integer, Integer> mapIdToIndex, int[] nodesIndex) {

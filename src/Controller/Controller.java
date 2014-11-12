@@ -15,57 +15,52 @@ import View.Frame;
  * 
  */
 public class Controller {
-	
-	public enum State{
-		NEW,
-		NETWORK_LOADED,
-		DELIVERY_REQUEST_LOADED,
-		TOUR_NODE_SELECTED,
-		OTHER_NODE_SELECTED,
-		ADDING_DELIVERY
+
+	public enum State {
+		NEW, NETWORK_LOADED, DELIVERY_REQUEST_LOADED, TOUR_CALCULATED, TOUR_NODE_SELECTED, OTHER_NODE_SELECTED, ADDING_DELIVERY
 	}
 
 	private State mState;
-	
+
 	/**
      * 
      */
-    public Controller() {
-    	mState=State.NEW;
-    	mFrame = new Frame(this);
-    	mCommandStack = new Stack<Command>();
+	public Controller() {
+		mState = State.NEW;
+		mFrame = new Frame(this);
+		mCommandStack = new Stack<Command>();
 		mNetwork = new Network();
-    }
+	}
 
 	/**
      * 
      */
 
 	protected Stack<Command> mCommandStack;
-	
+
 	protected Stack<Command> mUndoStack;
 
 	/**
      * 
      */
-    protected Network mNetwork;
-    
-    /**
+	protected Network mNetwork;
+
+	/**
      * 
      */
-    protected Frame mFrame;
+	protected Frame mFrame;
 
+	/**
+	 * Change the controller's state and update the frame
+	 * 
+	 * @param state
+	 *            new state
+	 */
+	private void setState(State state) {
+		mState = state;
+		mFrame.changeState(mState);
+	}
 
-    /**
-     * Change the controller's state and update the frame
-     * @param state new state
-     */
-    private void setState(State state)
-    {
-    	mState=state;
-    	mFrame.changeState(mState);
-    }
-    
 	/**
 	 * @return
 	 */
@@ -108,18 +103,14 @@ public class Controller {
 	/**
 	 * Update the Controller's state when add delivery menu item is clicked
 	 */
-	public void addDeliveryClicked()
-	{
-		if(mState.equals(State.OTHER_NODE_SELECTED))
-		{
+	public void addDeliveryClicked() {
+		if (mState.equals(State.OTHER_NODE_SELECTED)) {
 			setState(State.ADDING_DELIVERY);
-		} else if(mState.equals(State.ADDING_DELIVERY))
-		{
+		} else if (mState.equals(State.ADDING_DELIVERY)) {
 			setState(State.OTHER_NODE_SELECTED);
 		}
 	}
-	
-	
+
 	/**
 	 * Add the selected node as a delivery after previousNode
 	 * 
@@ -149,52 +140,43 @@ public class Controller {
 		}
 		// auto refreshing thanks to Observer pattern
 	}
-	
+
 	/**
 	 * Undo the last command executed
 	 */
-	public void undo()
-	{
-		if(mCommandStack.isEmpty())
-		{
+	public void undo() {
+		if (mCommandStack.isEmpty()) {
 			System.out.println("Empty command stack");
 			return;
 		}
-		
-		Command command=mCommandStack.pop();
-		
-		if(command.undo())
-		{
+
+		Command command = mCommandStack.pop();
+
+		if (command.undo()) {
 			mUndoStack.push(command);
-		}
-		else
-		{
+		} else {
 			System.out.println("Can't undo command");
 		}
-		//auto refreshing thanks to Observer pattern
+		// auto refreshing thanks to Observer pattern
 	}
-	
+
 	/**
 	 * Execute the last command undone
 	 */
-	public void redo(){
-		if(mUndoStack.isEmpty())
-		{
+	public void redo() {
+		if (mUndoStack.isEmpty()) {
 			System.out.println("Empty undo command stack");
 			return;
 		}
-		
-		Command command=mUndoStack.pop();
-		
-		if(command.execute())
-		{
+
+		Command command = mUndoStack.pop();
+
+		if (command.execute()) {
 			mCommandStack.push(command);
-		}
-		else
-		{
+		} else {
 			System.out.println("Can't redo command");
-		}	
-		//auto refreshing thanks to Observer pattern
+		}
+		// auto refreshing thanks to Observer pattern
 	}
 
 	public void loadNetworkXML() {
@@ -210,20 +192,23 @@ public class Controller {
 		mFrame.setNetwork(mNetwork);
 		setState(State.NETWORK_LOADED);
 	}
-	
+
 	public void loadDeliveriesXML() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
 		try {
-			mNetwork.parseDeliveryRequestFile(f2);
+			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
-		mNetwork.getDeliveryRequest().calculateTour();
-		//TODO refactor call
-		mFrame.setNetwork(mNetwork);
+
 		setState(State.DELIVERY_REQUEST_LOADED);
+	}
+	
+	public void calculateTour(){
+		mNetwork.getDeliveryRequest().calculateTour();
+		setState(State.TOUR_CALCULATED);
 	}
 
 }
