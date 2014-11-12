@@ -76,7 +76,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mCalculateTourButton = new JButton(icon);
 		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTourButton.setToolTipText("Calculer la tournée");
-		mLoadDeliveriesButton.addActionListener(this);
+		mCalculateTourButton.addActionListener(this);
 		toolbar.add(mCalculateTourButton);
 		
 
