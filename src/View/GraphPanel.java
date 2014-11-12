@@ -2,6 +2,8 @@ package View;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +16,17 @@ import Model.Node;
 /**
  * 
  */
-public class GraphPanel extends JPanel {
+public class GraphPanel extends JPanel implements MouseWheelListener {
+	
+	public static double scale;
 
     /**
      * 
      */
     public GraphPanel() {
-    	this.setPreferredSize(new Dimension(800,800));
-    	
+    	this.setPreferredSize(new Dimension(600,600));
+    	scale = 600/800;
+    	this.addMouseWheelListener(this);
     }
 
     /**
@@ -78,6 +83,23 @@ public class GraphPanel extends JPanel {
 			// TODO
 		}
 		repaint();
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent arg0) {
+		if(arg0.getWheelRotation() == 1)
+		{
+			scale += 0.1;
+		}else if(arg0.getWheelRotation() == -1)
+		{
+			scale -= 0.1;
+			if(scale<0.1)
+			{
+				scale = 0.1;
+			}
+		}
+		repaint();
+		
 	}
     
 }

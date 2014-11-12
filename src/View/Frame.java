@@ -38,15 +38,16 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 
+	
 
 	/**
 	 * 
 	 */
-	public Frame(Controller controller) {
+	public Frame(Controller controller) {		
 		mController = controller;
-		
+
 		mPanelGraph = new GraphPanel();
-		
+
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
@@ -56,7 +57,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mLabelInfos=new JLabel();
 		mNodeInfos=new JLabel();
-		
+
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
 		mLoadPlanButton = new JButton(icon);
@@ -85,31 +86,29 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mMenuEdition = new JMenu("Edition");
 
 		mAddDelivery=new JMenuItem("Ajouter une livraison");
-		mAddDelivery.setEnabled(false);
 		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
-		JMenuItem removeDelivery=new JMenuItem("Supprimer une livraison");
-		removeDelivery.setEnabled(false);
-		removeDelivery.addActionListener(this);
-		mMenuEdition.add(removeDelivery);
+		mRemoveDelivery=new JMenuItem("Supprimer une livraison");
+		mRemoveDelivery.addActionListener(this);
+		mMenuEdition.add(mRemoveDelivery);
 
 		mMenuFile = new JMenu("Fichier");
-		JMenuItem loadMap = new JMenuItem("Charger Plan");
-		loadMap.setActionCommand(ACTION_LOAD_MAP);
-		loadMap.addActionListener(this);
-		mMenuFile.add(loadMap);
+		mLoadMap = new JMenuItem("Charger Plan");
+		mLoadMap.setActionCommand(ACTION_LOAD_MAP);
+		mLoadMap.addActionListener(this);
+		mMenuFile.add(mLoadMap);
 
-		JMenuItem loadDeliveries = new JMenuItem("Charger Demande de livraison");
-		loadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
-		loadDeliveries.addActionListener(this);
-		mMenuFile.add(loadDeliveries);
+		mloadDeliveries = new JMenuItem("Charger Demande de livraison");
+		mloadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
+		mloadDeliveries.addActionListener(this);
+		mMenuFile.add(mloadDeliveries);
 
-		JMenuItem export = new JMenuItem("Exporter feuille de route");
-		export.setActionCommand(ACTION_EXPORT_ROADMAP);
-		export.addActionListener(this);
-		mMenuFile.add(export);
+		mExport = new JMenuItem("Exporter feuille de route");
+		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
+		mExport.addActionListener(this);
+		mMenuFile.add(mExport);
 
 		mMenuBar.add(mMenuFile);
 
@@ -127,7 +126,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
-
+		changeState(Controller.State.NEW);
 		this.setVisible(true);
 
 	}
@@ -160,12 +159,15 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
+	protected JMenuItem mLoadMap;
+
 	protected JMenuItem mAddDelivery;
 
-	/**
-	 * 
-	 */
-	protected boolean mAddDeliveryClicked;
+	protected JMenuItem mRemoveDelivery;
+
+	protected JMenuItem mloadDeliveries;
+
+	protected JMenuItem mExport;
 
 	/**
 	 * 
@@ -202,14 +204,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	private Controller mController;
 
-	/**
-	 * Enable or disable click on the add delivery menu item
-	 * @param activated true to enable, false to disable
-	 */
-	public void activateAddItem(boolean activated) {
-		mAddDelivery.setEnabled(activated);
-		mAddDeliveryClicked=false;
-	}
 
 	/**
 	 */
@@ -230,28 +224,20 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		// TODO implement here
 	}
 
-	/**
-	 * Return true if the add delivery menu item has been selected
-	 * @return true if the add delivery menu item has been selected
-	 */
-	public boolean isAddSelected() {
-		return mAddDeliveryClicked;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		switch(arg0.getActionCommand())
 		{
 		case(ACTION_LOAD_MAP) :
 			mController.loadNetworkXML();
-			break;
+		break;
 		case(ACTION_LOAD_DELIVERIES):
 			mController.loadDeliveriesXML();
-			break;
+		break;
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
-			mAddDeliveryClicked=true;
+			mController.addDeliveryClicked();	
 		break;
 		}
 	}
@@ -281,11 +267,89 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void setNetwork(Network n){
 		mPanelGraph.setNetwork(n);
 	}
+
+
+	/**
+	 * Update the frame depending on the state
+	 * @param state current state
+	 */
+	public void changeState(Controller.State state)
+	{
+		switch (state){
+		case NEW:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(false);
+			mloadDeliveries.setEnabled(false);
+			mExportButton.setEnabled(false);
+			mExport.setEnabled(false);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case NETWORK_LOADED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(false);
+			mExport.setEnabled(false);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case DELIVERY_REQUEST_LOADED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(true);
+			mExport.setEnabled(true);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case TOUR_NODE_SELECTED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(true);
+			mExport.setEnabled(true);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(true);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case OTHER_NODE_SELECTED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(true);
+			mExport.setEnabled(true);
+			mAddDelivery.setEnabled(true);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter une livraison");
+			break;
+		case ADDING_DELIVERY:
+			mLoadPlanButton.setEnabled(false);
+			mLoadMap.setEnabled(false);
+			mLoadDeliveriesButton.setEnabled(false);
+			mloadDeliveries.setEnabled(false);
+			mExportButton.setEnabled(false);
+			mExport.setEnabled(false);
+			mAddDelivery.setEnabled(true);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Annuler ajout livraison");
+			break;
+		}
+	}
+
 }
