@@ -68,11 +68,9 @@ public class DeliveryRequest {
 				&& t < MAX_COMPUTE_TIME);
 
 		int[] nodesIndex = tsp.getNext();
-
 		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
 		this.mTour = new Tour();
-
 		int previousId;
 		for (int i = 0; i < nodesId.length; i++) {
 			previousId = nodesId[i];
@@ -83,6 +81,8 @@ public class DeliveryRequest {
 			
 			if (i != nodesId.length - 1) {
 				this.mTour.addPath(mapIndexPath.get(nodesIndex[i]).get(nodesIndex[i+1]));
+			} else {
+				this.mTour.addPath(mapIndexPath.get(nodesIndex[i]).get(nodesIndex[0]));				
 			}
 		}
 		this.mTour.updateHour();
