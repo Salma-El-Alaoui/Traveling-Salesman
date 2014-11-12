@@ -70,7 +70,7 @@ public class Dijkstra {
     		List<Segment> outSegmentList = currentNode.getOutSegmentList();
     		for(Segment outSegment : outSegmentList){
     			Node nextNode = outSegment.getArrivalNode();
-    			int newDistance = distance.get(currentNode.getId()) + (int) outSegment.getTime(); 
+    			int newDistance = distance.get(currentNode) + (int) outSegment.getTime(); 
     			if(distance.get(nextNode) == null || distance.get(nextNode)>newDistance){
     				nodeToVisit.remove(nextNode);
     				distance.put(nextNode, newDistance);

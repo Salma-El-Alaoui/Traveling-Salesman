@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.Map;
 
 import Model.Delivery;
@@ -17,6 +18,7 @@ public class TourView implements View {
 	 * 
 	 */
 	public TourView(Tour tour) {
+		mMapTraces = new HashMap<Couple, Integer>();
 		mTour = tour;
 	}
 
@@ -29,14 +31,6 @@ public class TourView implements View {
 	 * Map counting traced paths between two given nodes
 	 */
 	protected Map<Couple, Integer> mMapTraces;
-
-	/**
-	 * @return Tour associated with TourView
-	 */
-	public Tour getTour() {
-		// TODO si null, etc...
-		return mTour; 
-	}
 
 	@Override
 	public void paint(Graphics g) {

@@ -180,6 +180,9 @@ public class Controller {
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
+		mNetwork.getDeliveryRequest().calculateTour();
+		//TODO refactor call
+		mFrame.setNetwork(mNetwork);
 	}
 
 }
