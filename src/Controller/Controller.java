@@ -65,6 +65,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		}  catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 
 	}
@@ -185,6 +187,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 		mNetwork.getDeliveryRequest().calculateTour();
 		//TODO refactor call

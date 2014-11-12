@@ -14,6 +14,6 @@ public interface XmlParse {
 	 * @throws DeliveryRequestParseException
 	 *             when a blocking eroor occurs
 	 */
-	public String buildFromXML(Element element, Network network) throws InvalidDeliveryRequestFileException;
+	public String buildFromXML(Element element, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile;
 
 }

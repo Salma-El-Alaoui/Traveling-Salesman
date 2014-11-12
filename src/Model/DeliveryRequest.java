@@ -107,13 +107,15 @@ public class DeliveryRequest {
 		return mTour.removeDelivery(node.getDelivery());
 	}
 
-	public String buildFromXML(Element deliveryRequestElement, Network network) throws InvalidDeliveryRequestFileException {
+	public String buildFromXML(Element deliveryRequestElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 
 		try {
 			setWarehouseFromXML(deliveryRequestElement, network);
 			buildTimeSlotsFromXML(deliveryRequestElement, network);
 		} catch (InvalidDeliveryRequestFileException iDRFE){
 			throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+		} catch (WarningDeliveryRequestFile wa){
+			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 
 		return "OK";
@@ -140,7 +142,7 @@ public class DeliveryRequest {
 	}
 
 	private void buildTimeSlotsFromXML(Element deliveryRequestElement,
-			Network network) throws InvalidDeliveryRequestFileException{
+			Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
 		NodeList listTimeSlots = deliveryRequestElement
 				.getElementsByTagName("Plage");
 		Integer numberOfSlots = listTimeSlots.getLength();
@@ -155,10 +157,16 @@ public class DeliveryRequest {
 				timeSlot.buildFromXML(timeSlotElement, network);
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+			} catch (WarningDeliveryRequestFile wa){
+				throw new WarningDeliveryRequestFile(wa.getMessage());
 			}
 
 			mTimeSlotList.add(timeSlot);
 
+		}
+		
+		if (Delivery.flagOneClientHasMoreThanOneAdress>0){
+			throw new WarningDeliveryRequestFile(Delivery.listClientWithMoreThanOneAdress);
 		}
 	}
 

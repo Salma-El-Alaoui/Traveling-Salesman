@@ -142,7 +142,8 @@ public class Network {
 	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
-			InvalidDeliveryRequestFileException {
+			InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile{
 		String msg;
 		try {
 
@@ -165,6 +166,8 @@ public class Network {
 														// file.
 			throw new InvalidDeliveryRequestFileException(ex.getMessage());
 
+		} catch (WarningDeliveryRequestFile wa){
+			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 		return msg;
 

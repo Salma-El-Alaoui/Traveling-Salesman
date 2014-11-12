@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.w3c.dom.Element;
 
 /**
@@ -9,7 +12,10 @@ public class Delivery implements XmlParse {
 
 
 	private static final int DELIVERY_TIME = 10*60;
-
+	
+	protected static Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
+	protected static int flagOneClientHasMoreThanOneAdress = 0;
+	protected static String listClientWithMoreThanOneAdress = new String("Les clients suivants ont plusieurs adresses : ");
 
 
 	/**
@@ -122,7 +128,7 @@ public class Delivery implements XmlParse {
 
 
 	@Override
-	public String buildFromXML(Element deliveryElement, Network network) throws InvalidDeliveryRequestFileException{
+	public String buildFromXML(Element deliveryElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
@@ -131,6 +137,16 @@ public class Delivery implements XmlParse {
 
 		if (mNode == null){
 			throw new InvalidDeliveryRequestFileException("Le noeud " + nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");
+		}
+		
+		// Check if one client has just one and only one adress
+		if (m_clientAdress.get(mClient) != null){
+			if(!m_clientAdress.get(mClient).equals(mNode)){
+				flagOneClientHasMoreThanOneAdress++;
+				listClientWithMoreThanOneAdress += mClient + " ";
+			}
+		} else {
+			m_clientAdress.put(mClient, mNode);
 		}
 		
 		return null;

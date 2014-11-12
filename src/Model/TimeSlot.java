@@ -59,7 +59,7 @@ public class TimeSlot implements XmlParse {
 
 
 	@Override
-	public String buildFromXML(Element timeSlotElement, Network network) throws InvalidDeliveryRequestFileException {
+	public String buildFromXML(Element timeSlotElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
@@ -89,7 +89,6 @@ public class TimeSlot implements XmlParse {
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
 			}
-
 			mDeliveryList.add(delivery);
 		}
 

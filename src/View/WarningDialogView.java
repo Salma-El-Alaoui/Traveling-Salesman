@@ -8,7 +8,7 @@ public class WarningDialogView {
 	public void paint(Exception ex){
 		try{
 			JOptionPane.showMessageDialog(new JFrame(),
-					ex.getMessage().split(":")[1],
+					ex.getMessage(),
 					ex.getClass().getSimpleName(),
 					JOptionPane.WARNING_MESSAGE);
 		} catch (ArrayIndexOutOfBoundsException eob){
