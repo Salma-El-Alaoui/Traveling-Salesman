@@ -19,6 +19,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import Controller.Controller;
+
 /**
  * 
  */
@@ -38,9 +40,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
-	public Frame(GraphPanel gPanel) {
+	public Frame(Controller controller) {
+		mController = controller;
 		
-		mPanelGraph = gPanel;
+		mPanelGraph = new GraphPanel();
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
@@ -152,8 +155,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	protected JMenu mMenuEdition;
 
+	/**
+	 * 
+	 */
 	protected JMenuItem mAddDelivery;
 
+	/**
+	 * 
+	 */
 	protected boolean mAddDeliveryClicked;
 
 	/**
@@ -186,8 +195,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	public List<NodeView> listNodeView;
 
-
-
+	/**
+	 *
+	 */
+	private Controller mController;
 
 	/**
 	 * Enable or disable click on the add delivery menu item
@@ -239,12 +250,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDeliveryClicked=true;
 		break;
 		}
-	}
-
-	public static void main(String[] args)
-	{
-		Frame frame=new Frame();
-		frame.setVisible(true);
 	}
 
 

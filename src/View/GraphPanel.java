@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,23 +19,15 @@ public class GraphPanel extends JPanel {
     /**
      * 
      */
-    public GraphPanel(Network n) {
+    public GraphPanel() {
     	this.setPreferredSize(new Dimension(800,800));
-    	mNetworkView = new NetworkView(n, n.getSegmentList());
-    	mTourView = new TourView(n.getDeliveryRequest().getTour());
-    	
-    	Map<Integer,Node> mapNode = n.getNodesList();
-    	for(int i=0;i<mapNode.size();i++)
-    	{
-    		listNodeView.add(new NodeView(mapNode.get(i)));
-    	}
     	
     }
 
     /**
      * 
      */
-    protected List<NodeView> listNodeView;
+    protected List<NodeView> mListNodeView;
     
     /**
      * 
@@ -49,17 +42,35 @@ public class GraphPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		mNetworkView.paint(g);
-		mTourView.paint(g);
+		if(mNetworkView != null){
+			mNetworkView.paint(g);			
+		}
+
+		if(mTourView != null){
+			mTourView.paint(g);			
+		}
 		
-		for(NodeView nv : listNodeView)
-		{
-			nv.paint(g);
+		if(mListNodeView != null){
+			for(NodeView nv : mListNodeView)
+			{
+				nv.paint(g);
+			}			
 		}
 	}
 
 	public List<NodeView> getListNodeView() {
-		return listNodeView;
+		return mListNodeView;
+	}
+	
+	public void setNetwork(Network n){
+    	mNetworkView = new NetworkView(n, n.getSegmentList());
+    	mTourView = new TourView(n.getDeliveryRequest().getTour());
+    	mListNodeView = new ArrayList<NodeView>();
+    	Map<Integer,Node> mapNode = n.getNodesList();
+    	for(int i=0;i<mapNode.size();i++)
+    	{
+    		mListNodeView.add(new NodeView(mapNode.get(i)));
+    	}
 	}
 	
 	

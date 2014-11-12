@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import Model.Network;
 import Model.Node;
+import View.Frame;
 
 /**
  * 
@@ -14,6 +15,8 @@ public class Controller {
      * 
      */
     public Controller() {
+    	mFrame = new Frame(this);
+    	mCommandStack = new Stack<Command>();
     }
 
     /**
@@ -26,6 +29,10 @@ public class Controller {
      */
     protected Network mNetwork;
     
+    /**
+     * 
+     */
+    protected Frame mFrame;
 
     /**
      * @return
