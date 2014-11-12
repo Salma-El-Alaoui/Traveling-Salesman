@@ -10,23 +10,15 @@ import View.FileChooserView;
 import junit.framework.*;
 
 public class XmlParseTest extends TestCase{
-	public void testNetworkNotNull()
+	public void testNetworkNotNull() throws InvalidNetworkFileException,InvalidDeliveryRequestFileException
 	{
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		Network network = new Network();
-		try {
-			network.parseNetworkFile(f1);
-		} catch (InvalidNetworkFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidDeliveryRequestFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		network.parseNetworkFile(f1);
 		assertNotSame(network, new Network());	
 	}
-	
+
 	public void testDeliveryRequest10NotNull()
 	{
 		Network network = new Network();
@@ -52,7 +44,7 @@ public class XmlParseTest extends TestCase{
 		}
 		assertNotSame(network.getDeliveryRequest(), new DeliveryRequest());
 	}
-	
+
 	public void testDeliveryRequest20NotNull()
 	{
 		Network network = new Network();
