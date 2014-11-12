@@ -68,7 +68,7 @@ public class NodeView implements View {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, double scale, int translationX, int translationY) {
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mNode.hasDelivery())
@@ -81,7 +81,8 @@ public class NodeView implements View {
 		{
 			g2D.setColor(new Color(122,122,122));
 		}
-		g2D.fillOval(mNode.getX()-DIAMETER/2, mNode.getY()-DIAMETER/2, DIAMETER, DIAMETER);
+		g2D.fillOval((int)(scale*(mNode.getX()-DIAMETER/2))+translationX, (int)(scale*(mNode.getY()-DIAMETER/2)+translationY), 
+				(int)(scale*DIAMETER), (int)(scale*DIAMETER));
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class TourView implements View {
 	protected Map<Couple, Integer> mMapTraces;
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, double scale, int translationX, int translationY) {
 		for(int i=0;i<mTour.getmDeliveryList().size();i++)
 		{
 			Delivery dFirst = mTour.getmDeliveryList().get(i);

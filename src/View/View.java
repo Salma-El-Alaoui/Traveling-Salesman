@@ -13,7 +13,7 @@ public interface View {
     /**
      * @param Graphics g
      */
-    public void paint(Graphics g);
+    public void paint(Graphics g, double scale, int translationX, int translationY);
 
     /**
      * @param Event E

@@ -28,9 +28,9 @@ import Model.Network;
  */
 public class Frame extends JFrame implements ActionListener, MouseListener {
 
-	private final static int WIDTH = 1366;
-	private final static int HEIGHT = 768;
-	private final static int INFOS_WIDTH = 300;
+	private final static int WIDTH = 800;
+	private final static int HEIGHT = 600;
+	private final static double INFOS_WIDTH = 0.2;
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
@@ -115,7 +115,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuBar.add(mMenuEdition);
 
-		mLabelInfos.setPreferredSize(new Dimension(INFOS_WIDTH,HEIGHT));
+		mLabelInfos.setPreferredSize(new Dimension((int)(INFOS_WIDTH*WIDTH),HEIGHT));
 
 		this.add(mPanelGraph, BorderLayout.WEST);
 
