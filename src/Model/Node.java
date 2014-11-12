@@ -183,4 +183,8 @@ public class Node implements XmlParse {
 		return mY;
 	}
 
+	public void setDelivery(Delivery delivery) {
+		mDelivery = delivery;
+	}
+
 }

@@ -44,66 +44,42 @@ public class ShortestPathGraph implements Graph {
      * the first key is the id of the origin node
      * the second key is the id of the destination node
      */
-    public ShortestPathGraph(Map<Integer, Map<Integer,Path>> pathMap) {
-
-    	for (Map.Entry<Integer, Map<Integer,Path>> entry : pathMap.entrySet())
-    	{ 		
-    		this.mNb += entry.getValue().size();
-    	}
+    public ShortestPathGraph(Map<Integer, Map<Integer,Path>> pathMap, int nb) {
     	
-    	this.mMax = Integer.MAX_VALUE;
-    	this.mMin = Integer.MIN_VALUE;
+    	mNb = nb;
+    	
+    	this.mMax = Integer.MIN_VALUE;
+    	this.mMin = Integer.MAX_VALUE;
     	
     	initializeCosts(pathMap);
-    	
     }
-    
-    /**
-     * 
-     * @return
-     */
-    public Map<Integer,Integer>indexMap(Map<Integer, Map<Integer,Path>> pathMap){
-    	
-    	Map<Integer, Integer> indexMap = new HashMap<Integer,Integer>();
-    	int i = 0;
-    	for (Map.Entry<Integer, Map<Integer,Path>> entry : pathMap.entrySet())
-    	{
-    		indexMap.put(entry.getKey(),i);
-    		i++;
-    	}
-    	return indexMap;
-    }
-    
+        
     /**
      * Initializes the map the costs and successors of our graph
      * @param Map<Integer, Map<Integer,Path>> pathMap
      */
     private void initializeCosts(Map<Integer, Map<Integer,Path>> pathMap){
-    	
-    	
-    	Map<Integer, Integer> indexMap = indexMap (pathMap);
     	this.mSucc = new HashMap<Integer,int[]>();
     	this.mCostMatrix = new int[this.mNb][this.mNb];
     	int length = 0;
     	int originNode = 0;
     	for (Map.Entry<Integer, Map<Integer,Path>> entry : pathMap.entrySet())
     	{
-    		originNode = indexMap.get(entry.getKey());
+    		originNode = entry.getKey();
     		length =entry.getValue().size();   		
-    		Map<Integer,Integer> costMap = new HashMap<Integer,Integer>();
     		int[] succ = new int[length]; 
-    		
     		int cost = 0;
         	int destNode = 0;
         	int j=0;
     		for (Map.Entry<Integer,Path> value : entry.getValue().entrySet())
         	{	
-    			destNode = indexMap.get(value.getKey());
+    			destNode = value.getKey();
+    			succ[j]=destNode;
+    			
     			cost = value.getValue().getGlobalTime();
     			//updating the cost map and the array of successors for each key.
-    			costMap.put(destNode,cost); 
-    			succ[j]=destNode;
     			this.mCostMatrix[originNode][destNode]=cost;
+    			
     			//updating the maximum and minimum costs of the graph
     			if(cost < this.mMin)
     				mMin = cost;

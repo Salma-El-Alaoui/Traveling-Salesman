@@ -75,7 +75,7 @@ public class TimeSlot implements XmlParse {
 		Integer deliveriesNumber = listDeliveries.getLength();
 
 		for (int i = 0; i < deliveriesNumber; i++) {
-			Delivery delivery = new Delivery();
+			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
 			delivery.buildFromXML(deliveryElement, network);

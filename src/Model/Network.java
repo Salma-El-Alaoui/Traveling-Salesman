@@ -156,7 +156,7 @@ public class Network {
 
 			Element deliveryRequestElement = document.getDocumentElement();
 			
-			this.mDeliveryRequest = new DeliveryRequest();
+			this.mDeliveryRequest = new DeliveryRequest(this);
 
 			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
 					this);
