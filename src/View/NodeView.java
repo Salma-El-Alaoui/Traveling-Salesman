@@ -2,6 +2,8 @@ package View;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 
 import Model.Node;
@@ -14,70 +16,72 @@ public class NodeView implements View {
 	/**
 	 * 
 	 */
-	public final static int DIAMETER = 10;
-	
+	public final static int DIAMETER = 12;
+
 	/**
 	 * 
 	 */
 	protected boolean mIsSelected = false;
-	
-	
-    /**
-     * 
-     */
-    public NodeView(Node node) {
-    	mNode = node;
-    }
 
-    /**
-     * 
-     */
-    protected Node mNode;
 
-    /**
-     * @return
-     */
-    public void setNodeSelected() {
-        // TODO implement here
-    }
+	/**
+	 * 
+	 */
+	public NodeView(Node node) {
+		mNode = node;
+	}
 
-    /**
-     * @return
-     */
-    public Node getNode() {
-        // TODO implement here
-        return mNode;
-    }
+	/**
+	 * 
+	 */
+	protected Node mNode;
 
-    /**
-     * @param boolean 
-     * @return
-     */
-    public void activateAdd(boolean addActivated) {
-        // TODO implement here
-    }
+	/**
+	 * @return
+	 */
+	public void setNodeSelected() {
+		// TODO implement here
+	}
 
-    /**
-     * @param Node node
-     * @return
-     */
-    public void addDelivery(Node node) {
-        // TODO implement here
-    }
+	/**
+	 * @return
+	 */
+	public Node getNode() {
+		// TODO implement here
+		return mNode;
+	}
+
+	/**
+	 * @param boolean 
+	 * @return
+	 */
+	public void activateAdd(boolean addActivated) {
+		// TODO implement here
+	}
+
+	/**
+	 * @param Node node
+	 * @return
+	 */
+	public void addDelivery(Node node) {
+		// TODO implement here
+	}
 
 	@Override
 	public void paint(Graphics g) {
+		Graphics2D g2D = (Graphics2D) g;
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mNode.hasDelivery())
 		{
-			g.setColor(Color.orange);
+			g2D.setColor(Color.orange);
 		}else if(mNode.isWarehouse()) //TODO faire la méthode
 		{
-			g.setColor(Color.blue);
+			g2D.setColor(Color.blue);
 		}else
 		{
-			g.setColor(Color.black);
+			g2D.setColor(new Color(122,122,122));
 		}
-		g.fillOval(mNode.getX()-DIAMETER/2, mNode.getY()-DIAMETER/2, DIAMETER, DIAMETER);
+		g2D.fillOval(mNode.getX()-DIAMETER/2, mNode.getY()-DIAMETER/2, DIAMETER, DIAMETER);
 	}
 
 	@Override
@@ -92,7 +96,7 @@ public class NodeView implements View {
 			//TODO check command
 			setNodeSelected();
 		}
-		
+
 	}
 
 }
