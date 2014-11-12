@@ -44,13 +44,14 @@ public class Network {
 	/**
 	 * 
 	 */
-
-
 	public Map<Integer, Node> getNodesList() {
 		return mNodesList;
 	}
 
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Segment> getSegmentList() {
 		return mSegmentList;
 	}

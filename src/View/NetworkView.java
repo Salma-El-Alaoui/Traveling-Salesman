@@ -2,6 +2,7 @@ package View;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import Model.Network;
@@ -17,6 +18,7 @@ public class NetworkView implements View {
      */
     public NetworkView(Network network, List<Segment> listSegment) {
     	mNetwork = network;
+    	listSegmentView = new ArrayList<SegmentView>();
     	for(Segment s : listSegment)
     	{
     		listSegmentView.add(new SegmentView(s));

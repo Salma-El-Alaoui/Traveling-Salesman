@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import Controller.Controller;
+import Model.Network;
 
 /**
  * 
@@ -45,6 +47,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		
 		mPanelGraph = new GraphPanel();
 		
+		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
 		this.setLayout(new BorderLayout());
@@ -53,8 +56,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mLabelInfos=new JLabel();
 		mNodeInfos=new JLabel();
-
-
+		
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
 		mLoadPlanButton = new JButton(icon);
@@ -115,7 +117,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mLabelInfos.setPreferredSize(new Dimension(INFOS_WIDTH,HEIGHT));
 
-		this.add(mPanelGraph, BorderLayout.CENTER);
+		this.add(mPanelGraph, BorderLayout.WEST);
 
 
 		JPanel panelInfos = new JPanel();  
@@ -241,8 +243,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		switch(arg0.getActionCommand())
 		{
 		case(ACTION_LOAD_MAP) :
+			mController.loadNetworkXML();
 			break;
 		case(ACTION_LOAD_DELIVERIES):
+			mController.loadDeliveriesXML();
 			break;
 		case(ACTION_EXPORT_ROADMAP):
 			break;
@@ -264,7 +268,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-
 	}
 
 	@Override
@@ -273,14 +276,16 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void setNetwork(Network n){
+		mPanelGraph.setNetwork(n);
+	}
 }

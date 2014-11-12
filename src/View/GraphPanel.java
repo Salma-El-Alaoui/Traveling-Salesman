@@ -63,18 +63,20 @@ public class GraphPanel extends JPanel {
 	}
 	
 	public void setNetwork(Network n){
-    	mNetworkView = new NetworkView(n, n.getSegmentList());
-    	mTourView = new TourView(n.getDeliveryRequest().getTour());
-    	mListNodeView = new ArrayList<NodeView>();
-    	Map<Integer,Node> mapNode = n.getNodesList();
-    	for(int i=0;i<mapNode.size();i++)
-    	{
-    		mListNodeView.add(new NodeView(mapNode.get(i)));
-    	}
+		if(n != null){
+	    	mNetworkView = new NetworkView(n, n.getSegmentList());
+// TODO	    	mTourView = new TourView(n.getDeliveryRequest().getTour());
+	    	mListNodeView = new ArrayList<NodeView>();
+	    	Map<Integer,Node> mapNode = n.getNodesList();
+	    	for(int i=0;i<mapNode.size();i++)
+	    	{
+	    		mListNodeView.add(new NodeView(mapNode.get(i)));
+	    	}			
+		} else {
+			// TODO
+		}
+		repaint();
 	}
-	
-	
-    
     
 
 
