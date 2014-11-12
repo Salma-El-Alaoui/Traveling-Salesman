@@ -36,7 +36,6 @@ public class Network {
 
 
 	public Network() {
-		this.mDeliveryRequest = new DeliveryRequest();
 		mNodesList = new HashMap<Integer, Node>();
 		mSegmentList = new ArrayList<Segment>();
 	}
@@ -156,6 +155,8 @@ public class Network {
 			Utils.FileValidator(document, "livraison.xsd");
 
 			Element deliveryRequestElement = document.getDocumentElement();
+			
+			this.mDeliveryRequest = new DeliveryRequest();
 
 			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
 					this);
