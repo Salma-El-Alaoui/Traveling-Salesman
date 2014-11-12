@@ -13,8 +13,8 @@ import org.w3c.dom.NodeList;
 public class DeliveryRequest {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
 	public DeliveryRequest(Network network) {
 		this.network = network;
@@ -22,8 +22,8 @@ public class DeliveryRequest {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Network network;
 
 	public DeliveryRequest() {
@@ -31,8 +31,8 @@ public class DeliveryRequest {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Node mWarehouse;
 
 	/**
@@ -42,8 +42,8 @@ public class DeliveryRequest {
 	protected List<TimeSlot> mTimeSlotList;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Tour mTour;
 
 	static final int MAX_COMPUTE_TIME = 10000;
@@ -52,9 +52,10 @@ public class DeliveryRequest {
 	 * Computes the most interesting tour and initializes the tour object
 	 */
 	public void calculateTour() {
+		Map<Integer, Integer> mapIdToIndex = generateMapIdToIndex();
 
-		Map<Integer, Map<Integer, Path>> pathMap = createPathMap();
-		ShortestPathGraph graph = new ShortestPathGraph(pathMap);
+		Map<Integer, Map<Integer, Path>> mapIndexPath = createPathMap(mapIdToIndex);
+		ShortestPathGraph graph = new ShortestPathGraph(mapIndexPath, mapIdToIndex.size());
 		TSP tsp = new TSP(graph);
 		SolutionState state;
 		int bound = graph.getNbVertices() * graph.getMaxArcCost() + 1;
@@ -66,22 +67,59 @@ public class DeliveryRequest {
 		} while (state != SolutionState.OPTIMAL_SOLUTION_FOUND
 				&& t < MAX_COMPUTE_TIME);
 
-		int[] nodes = tsp.getNext();
-		this.mTour = new Tour();
+		int[] nodesIndex = tsp.getNext();
+		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
-		int previous, next;
-		for (int i = 0; i < nodes.length; i++) {
-			previous = nodes[i];
-			this.mTour
-					.addDelivery(this.network.getNode(previous).getDelivery());
-			if (i != nodes.length - 1) {
-				next = nodes[i + 1];
-				this.mTour.addPath(pathMap.get(previous).get(next));
+		this.mTour = new Tour();
+		
+		int warehouseIndex = mapIdToIndex.get(mWarehouse.getId());
+		int previousIndex = warehouseIndex;
+		int nextIndex;
+
+		do {
+			nextIndex = nodesIndex[previousIndex];
+			Node previousNode = this.network.getNode(nodesId[previousIndex]);
+			if(previousNode.getDelivery() != null){
+				this.mTour.addDelivery(previousNode.getDelivery());				
 			}
-			this.mTour.updateHour();
-		}
+			
+			this.mTour.addPath(mapIndexPath.get(previousIndex).get(nextIndex));
+			previousIndex = nextIndex;
+
+		}while(previousIndex != warehouseIndex);
+				
+		this.mTour.updateHour();
 
 		network.networkChanged();
+	}
+
+	private int[] decodeMapNode(Map<Integer, Integer> mapIdToIndex, int[] nodesIndex) {
+		int [] result = new int[nodesIndex.length];
+		Map<Integer, Integer> mapIndexToId = new HashMap<Integer, Integer>();
+		for(Map.Entry<Integer, Integer> e : mapIdToIndex.entrySet()){
+			mapIndexToId.put(e.getValue(), e.getKey());
+		}
+
+		for(int i=0;i<nodesIndex.length;i++){
+			result[i] = mapIndexToId.get(nodesIndex[i]);
+		}
+		return result;
+	}
+
+	private Map<Integer, Integer> generateMapIdToIndex() {
+		int i = 0;
+		Map<Integer, Integer> mapNode = new HashMap<Integer, Integer>();
+
+		mapNode.put(mWarehouse.getId(), i);
+		i++;
+
+		for(TimeSlot t : mTimeSlotList){
+			for(Delivery d : t.getAllDeliveries()){
+				mapNode.put(d.getNode().getId(), i);
+				i++;
+			}
+		}
+		return mapNode;
 	}
 
 	/**
@@ -168,7 +206,7 @@ public class DeliveryRequest {
 	 * @return the initialized map
 	 * 
 	 */
-	private Map<Integer, Map<Integer, Path>> createPathMap() {
+	private Map<Integer, Map<Integer, Path>> createPathMap(Map<Integer, Integer> mapNode) {
 		Map<Integer, Map<Integer, Path>> mapPath = new HashMap<Integer, Map<Integer, Path>>();
 		int nbSlots = mTimeSlotList.size();
 
@@ -179,9 +217,9 @@ public class DeliveryRequest {
 		for (Delivery delivery : firstTimeSlot.getAllDeliveries()) {
 			Node destination = delivery.getNode();
 			Path path = dWarehouse.calculateShortestPathTo(destination);
-			destDeliveries.put(destination.getId(), path);
+			destDeliveries.put(mapNode.get(destination.getId()), path);
 		}
-		mapPath.put(mWarehouse.getId(), destDeliveries);
+		mapPath.put(mapNode.get(mWarehouse.getId()), destDeliveries);
 
 		// internal links between the nodes in all the time slots
 		for (int i = 0; i < nbSlots; i++) {
@@ -194,47 +232,36 @@ public class DeliveryRequest {
 				// internal links in the current time slot
 				for (Delivery destDelivery : timeSlot.getAllDeliveries()) {
 					if (destDelivery != originDelivery) {// we should discuss
-															// this
+						// this
 						Node destination = destDelivery.getNode();
 						Path path = dOrigin
 								.calculateShortestPathTo(destination);
-						destDeliveries.put(destination.getId(), path);
+						destDeliveries.put(mapNode.get(destination.getId()), path);
 					}
 				}
 
 				// links with the next time slot
 				if (i != nbSlots - 1) { // if we're not dealing with last time
-										// slot
+					// slot
 					TimeSlot nextTimeSlot = mTimeSlotList.get(i + 1);
 					for (Delivery destDelivery : nextTimeSlot
 							.getAllDeliveries()) {
 						Node destination = destDelivery.getNode();
 						Path path = dOrigin
 								.calculateShortestPathTo(destination);
-						destDeliveries.put(destination.getId(), path);
+						destDeliveries.put(mapNode.get(destination.getId()), path);
 					}
-					mapPath.put(origin.getId(), destDeliveries);
+				} else {
+					Path path = dOrigin.calculateShortestPathTo(mWarehouse);
+					destDeliveries.put(mapNode.get(mWarehouse.getId()), path);
 				}
-
+				mapPath.put(mapNode.get(origin.getId()), destDeliveries);
 			}
-
-		}
-
-		// link the all the nodes in the last time slot with the warehouse
-		TimeSlot lastTimeSlot = mTimeSlotList.get(nbSlots - 1);
-		Dijkstra dLast;
-		destDeliveries = new HashMap<Integer, Path>();
-		for (Delivery delivery : lastTimeSlot.getAllDeliveries()) {
-			Node origin = delivery.getNode();
-			dLast = new Dijkstra(origin);
-			Path path = dLast.calculateShortestPathTo(mWarehouse);
-			destDeliveries.put(mWarehouse.getId(), path);
-			mapPath.put(origin.getId(), destDeliveries);
 		}
 
 		return mapPath;
 	}
-	
+
 	public Tour getTour(){
 		return mTour;
 	}

@@ -70,7 +70,7 @@ public class Node implements XmlParse {
      */
     public boolean hasDelivery() {
         // TODO implement here
-        return false;
+        return mDelivery!=null;
     }
     
     /**
@@ -181,6 +181,10 @@ public class Node implements XmlParse {
 
 	public int getY() {
 		return mY;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		mDelivery = delivery;
 	}
 
 }

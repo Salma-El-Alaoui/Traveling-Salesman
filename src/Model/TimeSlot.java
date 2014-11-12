@@ -67,7 +67,7 @@ public class TimeSlot implements XmlParse {
 		Integer deliveriesNumber = listDeliveries.getLength();
 
 		for (int i = 0; i < deliveriesNumber; i++) {
-			Delivery delivery = new Delivery();
+			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
 			delivery.buildFromXML(deliveryElement, network);
@@ -112,19 +112,9 @@ public class TimeSlot implements XmlParse {
 
 	private void setColor() {
 		Random random = new Random();
-		int red = random.nextInt(256);
-		int green = random.nextInt(256);
-		int blue = random.nextInt(256);
+		int randomInt = random.nextInt(256);
 
-		Color mix = new Color(32, 178, 170); // Base color
-		// mix the color
-		if (mix != null) {
-			red = (red + mix.getRed()) / 2;
-			green = (green + mix.getGreen()) / 2;
-			blue = (blue + mix.getBlue()) / 2;
-		}
-
-		this.color = new Color(red, green, blue);
+		this.color = new Color(0, 255, randomInt);
 
 	}
 

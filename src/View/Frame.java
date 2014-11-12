@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,15 +21,16 @@ import javax.swing.JToolBar;
 
 import Controller.Controller;
 import Model.Network;
+import Model.Node;
 
 /**
  * 
  */
 public class Frame extends JFrame implements ActionListener, MouseListener {
 
-	private final static int WIDTH = 1366;
-	private final static int HEIGHT = 768;
-	private final static int INFOS_WIDTH = 300;
+	private final static int WIDTH = 800;
+	private final static int HEIGHT = 600;
+	private final static double INFOS_WIDTH = 0.2;
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
@@ -39,20 +39,18 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 
-	
-
 	/**
 	 * 
 	 */
 	public Frame(Controller controller) {		
 		mController = controller;
-
 		mPanelGraph = new GraphPanel();
 
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
 		this.setLayout(new BorderLayout());
+		mPanelGraph.addMouseListener(this);
 
 		mMenuBar = new JMenuBar();
 
@@ -64,18 +62,21 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLoadPlanButton = new JButton(icon);
 		mLoadPlanButton.setActionCommand(ACTION_LOAD_MAP);
 		mLoadPlanButton.setToolTipText("Charger plan");
+		mLoadPlanButton.addActionListener(this);
 		toolbar.add(mLoadPlanButton);
 
 		icon = new ImageIcon("img/load_deliveries.png");
 		mLoadDeliveriesButton = new JButton(icon);
 		mLoadDeliveriesButton.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
+		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mLoadDeliveriesButton);
 		
 		icon = new ImageIcon("img/chart_line_edit.png");
 		mCalculateTourButton = new JButton(icon);
 		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTourButton.setToolTipText("Calculer la tournée");
+		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mCalculateTourButton);
 		
 
@@ -83,13 +84,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton = new JButton(icon);
 		mExportButton.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExportButton.setToolTipText("Exporter feuilles de route");
+		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
 
 		this.add(toolbar, BorderLayout.NORTH);
 
 
 		mLabelInfos.setText("Infos générales");
-		mNodeInfos.setText("Infos du noeud sélectionné");
+		mNodeInfos.setText("<html>Noeud sélectionné : <br>Aucun");
 
 		mMenuEdition = new JMenu("Edition");
 
@@ -127,7 +129,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuBar.add(mMenuEdition);
 
-		mLabelInfos.setPreferredSize(new Dimension(INFOS_WIDTH,HEIGHT));
+		mLabelInfos.setPreferredSize(new Dimension((int)(INFOS_WIDTH*WIDTH),HEIGHT));
 
 		this.add(mPanelGraph, BorderLayout.WEST);
 
@@ -212,6 +214,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	protected JLabel mLabelInfos;
 
+
 	/**
 	 * 
 	 */
@@ -270,10 +273,21 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		for(NodeView nv : mPanelGraph.getListNodeView())
+		if(mPanelGraph.getListNodeView() != null)
 		{
-			nv.onClick(arg0);
+			for(NodeView nv : mPanelGraph.getListNodeView())
+			{
+				if(nv.onClick(arg0))
+				{
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId()+"<br>Livraison : ";
+					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "+nv.getNode().getDelivery().getArrivalHour()+" à "+nv.getNode().getDelivery().getDepartureHour() 
+							: "Non"; 
+					mNodeInfos.setText(nodeInfos);
+				}
+			}
 		}
+
+		repaint();
 
 	}
 

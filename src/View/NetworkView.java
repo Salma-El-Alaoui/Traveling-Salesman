@@ -37,15 +37,16 @@ public class NetworkView implements View {
     public List<SegmentView> listSegmentView;
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, double scale, int translationX, int translationY) {
 		for(int i=0; i<listSegmentView.size();i++)
 		{
-			listSegmentView.get(i).paint(g);
+			listSegmentView.get(i).paint(g, scale, translationX, translationY);
 		}
 	}
 
 	@Override
-	public void onClick(MouseEvent E) {
+	public boolean onClick(MouseEvent E) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
