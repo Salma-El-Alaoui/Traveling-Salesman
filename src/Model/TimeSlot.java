@@ -110,7 +110,7 @@ public class TimeSlot implements XmlParse {
 		return color;
 	}
 
-	public void setColor() {
+	private void setColor() {
 		Random random = new Random();
 		int red = random.nextInt(256);
 		int green = random.nextInt(256);
