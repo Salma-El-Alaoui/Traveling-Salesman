@@ -186,9 +186,15 @@ public class Tour {
 		}
 	}
 
-	public List<Delivery> getmDeliveryList() {
+	public List<Delivery> getDeliveryList() {
 		return mDeliveryList;
 	}
+
+
+	public List<Path> getPathList() {
+		return mPathList;
+	}
+    
 
 
 }

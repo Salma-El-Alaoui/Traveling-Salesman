@@ -28,7 +28,7 @@ public class SegmentView implements View {
     }
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, double scale, int translationX, int translationY) {
 
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -38,18 +38,20 @@ public class SegmentView implements View {
 		int x2 = mSegment.getArrivalNode().getX();
 		int y2 = mSegment.getArrivalNode().getY();
 		
-		g2D.setStroke(new BasicStroke(NodeView.DIAMETER-3));
+		g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-3));
 		g2D.setColor(Color.black);
-		g2D.drawLine(x1, y1, x2, y2);
+		g2D.drawLine((int)(scale*x1)+translationX, (int)(scale*y1)+translationY, 
+				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);
 		
-		g2D.setStroke(new BasicStroke(NodeView.DIAMETER-5));
+		g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-5));
 		g2D.setColor(Color.lightGray);
-		g2D.drawLine(x1, y1, x2, y2);
-		
+		g2D.drawLine((int)(scale*x1)+translationX, (int)(scale*y1)+translationY, 
+				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);		
 	}
 
 	@Override
-	public void onClick(MouseEvent E) {
+	public boolean onClick(MouseEvent E) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

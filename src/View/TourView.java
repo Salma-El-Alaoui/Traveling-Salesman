@@ -1,12 +1,18 @@
 package View;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Model.Delivery;
 import Model.Node;
+import Model.Path;
+import Model.Segment;
 import Model.Tour;
 
 /**
@@ -26,49 +32,55 @@ public class TourView implements View {
 	 * 
 	 */
 	protected Tour mTour;
-	
+
 	/**
 	 * Map counting traced paths between two given nodes
 	 */
 	protected Map<Couple, Integer> mMapTraces;
 
 	@Override
-	public void paint(Graphics g) {
-		for(int i=0;i<mTour.getmDeliveryList().size();i++)
-		{
-			Delivery dFirst = mTour.getmDeliveryList().get(i);
-			g.setColor(dFirst.getTimeSlot().getColor());
-			
-			Delivery dSecond;
-			if(i == mTour.getmDeliveryList().size()-1)
-			{
-				dSecond =  mTour.getmDeliveryList().get(0);
-			}else
-			{
-				dSecond =  mTour.getmDeliveryList().get(i+1);
-			}
-			Couple c = new Couple(dFirst.getNode(), dSecond.getNode()); //TODO A verifier, pas sûr
-			if(mMapTraces.containsKey(c))
-			{
-				mMapTraces.put(c, mMapTraces.get(c)+1);
-				int diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
-				
-				g.drawLine(dFirst.getNode().getX()+diff, dFirst.getNode().getY()+diff, dSecond.getNode().getY()+diff, dSecond.getNode().getY()+diff);
-			}else
-			{
-				mMapTraces.put(c, 1);
-				g.drawLine(dFirst.getNode().getX(), dFirst.getNode().getY(), dSecond.getNode().getY(), dSecond.getNode().getY());
-			}
-			
-			
-			
-			
-		}
+	public void paint(Graphics g, double scale, int translationX, int translationY) {
 
+		Graphics2D g2D = (Graphics2D) g;
+		List<Path> listPath = mTour.getPathList();
+		Delivery d = new Delivery();
+		Path p = new Path();
+		int diff = 0;
+
+		for(int i=0; i<listPath.size();i++)
+		{
+			if(i<listPath.size()-1)
+			{
+				d = mTour.getDeliveryList().get(i);
+			}
+			p = listPath.get(i);
+
+			List<Segment> listSegment = p.getSegmentList();
+			for(Segment s : listSegment)
+			{
+				Node depNode = s.getDepartureNode();
+				Node arrNode = s.getArrivalNode();
+				Couple c = new Couple(depNode, arrNode);
+				if(mMapTraces.containsKey(c))
+				{
+					mMapTraces.put(c, mMapTraces.get(c)+1);
+					diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
+				}else
+				{
+					mMapTraces.put(c, 1);
+				}
+
+				g2D.setStroke(new BasicStroke(3));
+				g2D.setColor(d.getTimeSlot().getColor());
+				g2D.drawLine((int)(scale*depNode.getX())+translationX+diff, (int)(scale*depNode.getY())+translationY+diff, 
+						(int)(scale*arrNode.getX())+translationX+diff, (int)(scale*arrNode.getY())+translationY+diff);
+			}
+		}
 	}
 
 	@Override
-	public void onClick(MouseEvent E) {
+	public boolean onClick(MouseEvent E) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}
@@ -82,12 +94,12 @@ public class TourView implements View {
 		 * 
 		 */
 		Node departureNode;
-		
+
 		/**
 		 * 
 		 */
 		Node arrivalNode;
-		
+
 		/**
 		 * 
 		 */
