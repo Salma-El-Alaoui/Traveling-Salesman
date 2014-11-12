@@ -56,14 +56,14 @@ public class Controller {
     protected Frame mFrame;
 
 
-    public State getState(){
-    	return mState;
-    }
-    
-    public void setState(State state)
+    /**
+     * Change the controller's state and update the frame
+     * @param state new state
+     */
+    private void setState(State state)
     {
     	mState=state;
-    	mFrame.changeState();
+    	mFrame.changeState(mState);
     }
     
 	/**
@@ -105,6 +105,21 @@ public class Controller {
 
 	}
 
+	/**
+	 * Update the Controller's state when add delivery menu item is clicked
+	 */
+	public void addDeliveryClicked()
+	{
+		if(mState.equals(State.OTHER_NODE_SELECTED))
+		{
+			setState(State.ADDING_DELIVERY);
+		} else if(mState.equals(State.ADDING_DELIVERY))
+		{
+			setState(State.OTHER_NODE_SELECTED);
+		}
+	}
+	
+	
 	/**
 	 * Add the selected node as a delivery after previousNode
 	 * 

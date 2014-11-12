@@ -126,7 +126,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
-		changeState();
+		changeState(Controller.State.NEW);
 		this.setVisible(true);
 
 	}
@@ -237,13 +237,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
-			if(mController.getState().equals(Controller.State.OTHER_NODE_SELECTED))
-			{
-				mController.setState(Controller.State.ADDING_DELIVERY);
-			}else //ADDING_DELIVERY
-			{
-				mController.setState(Controller.State.DELIVERY_REQUEST_LOADED);
-			}			
+			mController.addDeliveryClicked();	
 		break;
 		}
 	}
@@ -282,10 +276,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	}
 
 
-
-	public void changeState()
+	/**
+	 * Update the frame depending on the state
+	 * @param state current state
+	 */
+	public void changeState(Controller.State state)
 	{
-		Controller.State state=mController.getState();
 		switch (state){
 		case NEW:
 			mLoadPlanButton.setEnabled(true);
