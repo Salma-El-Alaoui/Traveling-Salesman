@@ -1,12 +1,9 @@
 package Model;
 
-
 import java.awt.Color;
 import java.util.List;
 
-
 import java.util.*;
-
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,14 +13,12 @@ import org.w3c.dom.NodeList;
  */
 public class TimeSlot implements XmlParse {
 
-
-    
-    protected Color color;
+	protected Color color;
 
 	public TimeSlot() {
 		mDeliveryList = new ArrayList<Delivery>();
+		setColor();
 	}
-
 
 	/**
      * 
@@ -41,7 +36,6 @@ public class TimeSlot implements XmlParse {
 
 	protected List<Delivery> mDeliveryList;
 
-
 	/**
 	 * @return
 	 */
@@ -49,18 +43,16 @@ public class TimeSlot implements XmlParse {
 		return mDeliveryList;
 	}
 
+	/**
+	 * @return
+	 */
+	public int getStartHour() {
+		return mStartHour;
+	}
 
-    /**
-     * @return
-     */
-    public int getStartHour() {
-        return mStartHour;
-    }
-    
-    public int getEndHour() {
-        return mEndHour;
-    }
-
+	public int getEndHour() {
+		return mEndHour;
+	}
 
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network) {
@@ -107,17 +99,33 @@ public class TimeSlot implements XmlParse {
 		}
 		return res;
 	}
+
 	@Override
 	public String toString() {
-		return "(Time Slot : startHour " + mStartHour + ", endHour " + mEndHour + "Deliveries " + mDeliveryList.toString() + "); ";
+		return "(Time Slot : startHour " + mStartHour + ", endHour " + mEndHour
+				+ "Deliveries " + mDeliveryList.toString() + "); ";
 	}
 
 	public Color getColor() {
 		return color;
 	}
-	
+
+	private void setColor() {
+		Random random = new Random();
+		int red = random.nextInt(256);
+		int green = random.nextInt(256);
+		int blue = random.nextInt(256);
+
+		Color mix = new Color(32, 178, 170); // Base color
+		// mix the color
+		if (mix != null) {
+			red = (red + mix.getRed()) / 2;
+			green = (green + mix.getGreen()) / 2;
+			blue = (blue + mix.getBlue()) / 2;
+		}
+
+		this.color = new Color(red, green, blue);
+
+	}
 
 }
-
-
-
