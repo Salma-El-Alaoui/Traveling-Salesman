@@ -340,6 +340,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLoadMap.setEnabled(true);
 			mLoadDeliveriesButton.setEnabled(true);
 			mloadDeliveries.setEnabled(true);
+			mCalculateTour.setEnabled(false);
+			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(false);
