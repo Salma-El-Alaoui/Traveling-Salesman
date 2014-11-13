@@ -372,7 +372,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
 				HEIGHT));
 
-		this.add(mPanelGraph, BorderLayout.WEST);
+		this.add(mPanelGraph, BorderLayout.CENTER);
 
 		JLabel legend = new JLabel(new ImageIcon("img/legende.png"));
 		
