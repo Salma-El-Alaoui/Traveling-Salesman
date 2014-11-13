@@ -67,8 +67,6 @@ public class Controller {
 	 * 
 	 */
 	public void onNodeSelected(Node node) {
-		mNetwork.setSelectedNode(node);
-		mFrame.setSelectedNode(node);
 		if(mState == State.ADDING_DELIVERY && node.hasDelivery()){
 			addDelivery(node);
 		} 
@@ -82,6 +80,8 @@ public class Controller {
 				setState(Controller.State.OTHER_NODE_SELECTED);			
 			}			
 		}
+		mNetwork.setSelectedNode(node);
+		mFrame.setSelectedNode(node);
 	}
 
 	/**
