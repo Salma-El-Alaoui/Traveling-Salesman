@@ -187,26 +187,28 @@ public class DeliveryRequest {
 		Integer numberOfSlots = listTimeSlots.getLength();
 
 		Element timeSlotElement;
+		String listClientsWithSeveralAdresses = "";
+		Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
+
 
 		for (int i = 0; i < numberOfSlots; i++) {
 			TimeSlot timeSlot = new TimeSlot();
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
 			try {
-				timeSlot.buildFromXML(timeSlotElement, network);
+				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress);
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
-			} catch (WarningDeliveryRequestFile wa){
-				throw new WarningDeliveryRequestFile(wa.getMessage());
 			}
 
 			mTimeSlotList.add(timeSlot);
 
 		}
 		
-		if (Delivery.flagOneClientHasMoreThanOneAdress>0){
-			throw new WarningDeliveryRequestFile(Delivery.listClientWithMoreThanOneAdress);
+		if (!listClientsWithSeveralAdresses.equals("")){
+			throw new WarningDeliveryRequestFile("Les clients suivants ont plusieurs adresses : "+listClientsWithSeveralAdresses);
 		}
+		
 	}
 
 	@Override

@@ -53,13 +53,14 @@ public class TimeSlot implements XmlParse {
 	}
 
 	@Override
-	public String buildFromXML(Element timeSlotElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
+	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses, Map<Integer, Node> map_clientAdress) throws InvalidDeliveryRequestFileException{
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
 		mEndHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureFin"));
 
+		// Check if time slots are not well concived
 		String ex;
 		if (mStartHour>mEndHour){
 			ex = "Une des plages horaires est mal construite et commence après avoir fini...";
@@ -78,18 +79,21 @@ public class TimeSlot implements XmlParse {
 			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
+			// Check one client has only one adress
 			try {
-				delivery.buildFromXML(deliveryElement, network);
+				String tmp = delivery.buildFromXML(deliveryElement, network, listClientsWithSeveralAdresses, map_clientAdress );
+				if (tmp != "OK"){
+					listClientsWithSeveralAdresses = tmp;
+				}
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
 			}
 			mDeliveryList.add(delivery);
 		}
-
-		return "";
+		return listClientsWithSeveralAdresses;
 
 	}
-
+	
 	private int stringToCustomTimestamp(String hour) {
 		// hour must be of format 'H(H):m(m):s(s)' or 'H(H):m(m)'
 		String[] parsedDate = hour.split(":");
@@ -127,6 +131,14 @@ public class TimeSlot implements XmlParse {
 
 		this.color = new Color(0, 255, randomInt);
 
+	}
+
+	@Override
+	public String buildFromXML(Element element, Network network)
+			throws InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

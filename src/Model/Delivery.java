@@ -12,11 +12,6 @@ public class Delivery implements XmlParse {
 
 
 	private static final int DELIVERY_TIME = 10*60;
-	
-	protected static Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
-	protected static int flagOneClientHasMoreThanOneAdress = 0;
-	protected static String listClientWithMoreThanOneAdress = new String("Les clients suivants ont plusieurs adresses : ");
-
 
 	/**
 	 * @param node
@@ -53,7 +48,7 @@ public class Delivery implements XmlParse {
 
 	public Delivery(TimeSlot timeSlot) {
 		mTimeSlot = timeSlot;
-		}
+	}
 
 	protected int mId;
 
@@ -133,7 +128,7 @@ public class Delivery implements XmlParse {
 
 
 	@Override
-	public String buildFromXML(Element deliveryElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
+	public String buildFromXML(Element deliveryElement, Network network, String listClientsWithSeveralAdresses, Map<Integer, Node> map_clientAdress ) throws InvalidDeliveryRequestFileException{
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
@@ -141,26 +136,33 @@ public class Delivery implements XmlParse {
 		mNode = network.getNode(nodeId);
 		mNode.setDelivery(this);
 
-
 		if (mNode == null){
 			throw new InvalidDeliveryRequestFileException("Le noeud " + nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");
 		}
-		
+
 		// Check if one client has just one and only one adress
-		if (m_clientAdress.get(mClient) != null){
-			if(!m_clientAdress.get(mClient).equals(mNode)){
-				flagOneClientHasMoreThanOneAdress++;
-				listClientWithMoreThanOneAdress += mClient + " ";
+		if (map_clientAdress.get(mClient) != null){
+			if(!map_clientAdress.get(mClient).equals(mNode)){
+				listClientsWithSeveralAdresses += mClient + " ";
+				return listClientsWithSeveralAdresses;
 			}
 		} else {
-			m_clientAdress.put(mClient, mNode);
+			map_clientAdress.put(mClient, mNode);
+			return "OK";
 		}
-		
 		return null;
 	}
 	@Override
 	public String toString() {
 		return "(Delivery : ID " + mId + " ,Node " + mNode + " ,Client " + mClient + ");";
+	}
+
+	@Override
+	public String buildFromXML(Element element, Network network)
+			throws InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
