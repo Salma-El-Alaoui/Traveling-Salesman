@@ -17,132 +17,117 @@ public class NodeView implements View {
 	 * 
 	 */
 	public final static int DIAMETER = 14;
-	
-	/**
-	 * 
-	 */
-	private final static Color WAREHOUSE_COLOR = Color.BLUE;
-	
-	/**
-	 * 
-	 */
-	private final static Color NODE_COLOR = Color.GRAY;
-	
-	/**
-	 * 
-	 */
-	private final static Color DELIVERY_COLOR = Color.YELLOW;
-	
-	/**
-	 * 
-	 */
-	private final static Color DELIVERY_ERROR_COLOR = Color.RED;
-	
-	/**
-	 * 
-	 */
-	protected boolean mIsSelected = false;
-	
-	/**
-	 * 
-	 */
-	protected double mScale;
-	
-	/**
-	 * 
-	 */
-	protected int mTranslationX;
-	
-	/**
-	 * 
-	 */
-	protected int mTranslationY;
-
 
 	/**
-	 * 
+	 * Color of the warehouse Node
+	 */
+	private final static Color WAREHOUSE_COLOR = new Color(85, 83, 184);
+
+	/**
+	 * Color of a classic Node
+	 */
+	private final static Color NODE_COLOR = Color.DARK_GRAY;
+
+	/**
+	 * Color of a delivery Node
+	 */
+	private final static Color DELIVERY_COLOR = new Color(68, 148, 15);
+
+	/**
+	 * Color of a delivery Node with an error
+	 */
+	private final static Color DELIVERY_ERROR_COLOR = new Color(148, 24, 15);
+
+	/**
+	 * Create the Associated view to the node
+	 * @param node Associated Node
 	 */
 	public NodeView(Node node) {
 		mNode = node;
 	}
 
 	/**
+	 * Scale factor
+	 */
+	protected double mScale;
+
+	/**
 	 * 
+	 */
+	protected int mTranslationX;
+
+	/**
+	 * 
+	 */
+	protected int mTranslationY;
+
+	/**
+	 * Associated Node
 	 */
 	protected Node mNode;
 
 	/**
-	 * @return
-	 */
-	public void setNodeSelected() {
-		// TODO implement here
-	}
-
-	/**
-	 * @return
+	 * Return the Associated Node
+	 * @return Associated Node
 	 */
 	public Node getNode() {
-		// TODO implement here
 		return mNode;
 	}
 
-	/**
-	 * @param boolean 
-	 * @return
-	 */
-	public void activateAdd(boolean addActivated) {
-		// TODO implement here
-	}
-
-	/**
-	 * @param Node node
-	 * @return
-	 */
-	public void addDelivery(Node node) {
-		// TODO implement here
-	}
-
 	@Override
-	public void paint(Graphics g, double scale, int translationX, int translationY) {
+	public void paint(Graphics g, double scale, int translationX,
+			int translationY) {
 		Graphics2D g2D = (Graphics2D) g;
 		mScale = scale;
 		mTranslationX = translationX;
 		mTranslationY = translationY;
-		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		if(mNode.hasDelivery())
-		{
-			if(mNode.getDelivery().isInTimeslot()){
-				g2D.setColor(DELIVERY_COLOR);				
-			} else {
-				g2D.setColor(DELIVERY_ERROR_COLOR);
-			}
-		}else if(mNode.isWarehouse()) //TODO faire la méthode
-		{
-			g2D.setColor(WAREHOUSE_COLOR);
-		}else
-		{
-			g2D.setColor(NODE_COLOR);
-		}
-		g2D.fillOval((int)(scale*(mNode.getX()-DIAMETER/2))+translationX, (int)(scale*(mNode.getY()-DIAMETER/2)+translationY), 
-				(int)(scale*DIAMETER), (int)(scale*DIAMETER));
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		g2D.setColor(getNodeColor());
+		g2D.fillOval((int) (scale * (mNode.getX() - DIAMETER / 2))
+				+ translationX,
+				(int) (scale * (mNode.getY() - DIAMETER / 2) + translationY),
+				(int) (scale * DIAMETER), (int) (scale * DIAMETER));
 	}
 
 	@Override
 	public boolean onClick(MouseEvent arg0) {
 		int xClick = arg0.getX();
 		int yClick = arg0.getY();
-		int xNode = (int)((mScale*(mNode.getX()-DIAMETER/2))+mTranslationX);
-		int yNode = (int)((mScale*(mNode.getY()-DIAMETER/2))+mTranslationY);
-		if(xClick<xNode+mScale*DIAMETER && xClick>xNode-mScale*DIAMETER 
-				&& yClick<yNode+mScale*DIAMETER && yClick>yNode-mScale*DIAMETER)
-		{
-			//TODO check command
-			setNodeSelected();
+		int xNode = (int) ((mScale * (mNode.getX() - DIAMETER / 2)) + mTranslationX);
+		int yNode = (int) ((mScale * (mNode.getY() - DIAMETER / 2)) + mTranslationY);
+		if (xClick < xNode + mScale * DIAMETER
+				&& xClick > xNode - mScale * DIAMETER
+				&& yClick < yNode + mScale * DIAMETER
+				&& yClick > yNode - mScale * DIAMETER) {
 			return true;
-		
 		}
 		return false;
-
+	}
+	
+	/**
+	 * Return the color according to the node state
+	 * @return Color of the node
+	 */
+	private Color getNodeColor(){
+		Color c;
+		if (mNode.hasDelivery()) {
+			if (mNode.getDelivery().isInTimeslot()) {
+				c = DELIVERY_COLOR;
+			} else {
+				c = DELIVERY_ERROR_COLOR;
+			}
+		} else if (mNode.isWarehouse())
+		{
+			c = WAREHOUSE_COLOR;
+		} else {
+			c = NODE_COLOR;
+		}
+		if(mNode.isSelected()){
+			c = c.brighter().brighter();
+		}
+		return c;
 	}
 
 }

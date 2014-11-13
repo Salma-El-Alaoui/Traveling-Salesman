@@ -106,10 +106,6 @@ public class Node implements XmlParse {
      */
     public void setSelectedNode(boolean isSelected) {
     	mIsSelected=isSelected;
-    	if(isSelected)
-    	{
-    		mNetwork.setSelectedNode(this);
-    	}  	      
     }
     
 
