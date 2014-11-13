@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 
 /**
- * 
+ * Class View
  */
 public interface View {
 

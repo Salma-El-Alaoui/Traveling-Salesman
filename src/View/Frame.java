@@ -26,29 +26,179 @@ import Model.Network;
 import Model.Node;
 
 /**
- * 
+ * Frame that the user will see when he uses the program
  */
 public class Frame extends JFrame implements ActionListener, MouseListener {
 
+	/**
+	 * Width of the frame
+	 */
 	private final static int WIDTH = 1000;
+	/**
+	 * Height of the frame
+	 */
 	private final static int HEIGHT = 700;
+	/**
+	 * Ratio of width for informations display
+	 */
 	private final static double INFOS_WIDTH = 0.2;
 
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_CALCULATE_TOUR = "ACTION_CALCULATE_TOUR";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_EXIT = "ACTION_EXIT";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_REMOVE_DELIVERY = "ACTION_REMOVE_DELIVERY";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_UNDO = "ACTION_UNDO";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String ACTION_REDO = "ACTION_REDO";
 
+	
 	private final static String STRING_UNDO = "Annuler";
 	private final static String STRING_REDO = "Refaire";
+	
+	/**
+	 * Button corresponding to the Export Roadmap command
+	 */
+	protected JButton mExportButton;
 
 	/**
-	 * 
+	 * Button corresponding to the Load Plan command
+	 */
+	protected JButton mLoadPlanButton;
+
+	/**
+	 * Button corresponding to the Load Deliveries command
+	 */
+	protected JButton mLoadDeliveriesButton;
+
+
+	/**
+	 * Button corresponding to the Calculate Tour command
+	 */
+	protected JButton mCalculateTourButton;
+
+
+	/**
+	 * Menu "File" of the Frame
+	 */
+	protected JMenu mMenuFile;
+
+	/**
+	 * Menu "Edition" of the Frame
+	 */
+	protected JMenu mMenuEdition;
+
+	/**
+	 * Item "Load Map" into "File" menu
+	 */
+	protected JMenuItem mLoadMap;
+
+	/**
+	 * Item "Add Delivery" into "Edition" menu
+	 */
+	protected JMenuItem mAddDelivery;
+
+	/**
+	 * Item "Remove Delivery" into "Edition" menu
+	 */
+	protected JMenuItem mRemoveDelivery;
+
+	/**
+	 * Item "Undo" into "Edition" menu
+	 */
+	protected JMenuItem mUndo;
+
+	/**
+	 * Item "Redo" into "Edition" menu
+	 */
+	protected JMenuItem mRedo;
+
+	/**
+	 * Item "Load Deliveries" into "File" menu
+	 */
+	protected JMenuItem mloadDeliveries;
+
+	/**
+	 * Item "Calculate Tour" into "File" menu
+	 */
+	protected JMenuItem mCalculateTour;
+
+	/**
+	 * Item "Export" into "File" menu
+	 */
+	protected JMenuItem mExport;
+
+	/**
+	 * Item "Exit" into "File" menu
+	 */
+	protected JMenuItem mExit;
+
+	/**
+	 * Menubar of the Frame
+	 */
+	protected JMenuBar mMenuBar;
+
+	/**
+	 * Toolbar of the Frame
+	 */
+	protected JToolBar toolbar;
+
+	/**
+	 * Label containing Node informations
+	 */
+	protected JLabel mNodeInfos;
+
+	/**
+	 * Label containing general informations
+	 */
+	protected JLabel mLabelInfos;
+
+	/**
+	 * Panel containing the graph
+	 */
+	protected GraphPanel mPanelGraph;
+
+	/**
+	 * List containing all NodeViews
+	 */
+	public List<NodeView> listNodeView;
+
+	/**
+	 * Controller used to handle view/model interations
+	 */
+	private Controller mController;
+
+	/**
+	 * @param controller Instance of Controller which will handle view/model interactions
+	 * Constructor of Frame
 	 */
 	public Frame(Controller controller) {
 		mController = controller;
@@ -148,6 +298,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExport.addActionListener(this);
 		mMenuFile.add(mExport);
 
+		mMenuFile.addSeparator();
+		
 		mExit = new JMenuItem("Quitter");
 		mExit.setActionCommand(ACTION_EXIT);
 		mExit.addActionListener(this);
@@ -174,116 +326,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-	/**
-	 * 
-	 */
-	protected JButton mExportButton;
-
-	/**
-	 * 
-	 */
-	protected JButton mLoadPlanButton;
-
-	/**
-	 * 
-	 */
-	protected JButton mLoadDeliveriesButton;
-
-
-	/**
-	 * 
-	 */
-	protected JButton mCalculateTourButton;
-
-
-	/**
-	 * 
-	 */
-	protected JMenu mMenuFile;
-
-	/**
-	 * 
-	 */
-	protected JMenu mMenuEdition;
-
-	/**
-	 * 
-	 */
-	protected JMenuItem mLoadMap;
-
-	protected JMenuItem mAddDelivery;
-
-	protected JMenuItem mRemoveDelivery;
-
-
-	protected JMenuItem mUndo;
-
-	protected JMenuItem mRedo;
-
-	protected JMenuItem mloadDeliveries;
-
-	protected JMenuItem mCalculateTour;
-
-	protected JMenuItem mExport;
-
-	protected JMenuItem mExit;
-
-	/**
-	 * 
-	 */
-	protected JMenuBar mMenuBar;
-
-	/**
-	 * 
-	 */
-	protected JToolBar toolbar;
-
-	/**
-	 * 
-	 */
-	protected JLabel mNodeInfos;
-
-	/**
-	 * 
-	 */
-	protected JLabel mLabelInfos;
-
-	/**
-	 * 
-	 */
-	protected GraphPanel mPanelGraph;
-
-	/**
-	 * 
-	 */
-	public List<NodeView> listNodeView;
-
-	/**
-	 *
-	 */
-	private Controller mController;
-
-
-	/**
-	 */
-	public void clicBrowseDeliveries() {
-		// TODO implement here
-	}
-
-	/**
-	 * @param String
-	 *            error
-	 */
-	public void displayError(String error) {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public void clickBrowseNetwork() {
-		// TODO implement here
-	}
-
+	
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -351,6 +394,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
+	/**
+	 * Method used to write into the label containing node informations
+	 * @param node Node selected in the frame
+	 */
 	public void setSelectedNode(Node node){
 		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId();
 		if(node.isWarehouse())
@@ -376,7 +423,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	}
 
 
-
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 	}
@@ -394,7 +440,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	}
 
 	/**
-	 * 
+	 * Set the network of the frame
 	 */
 	public void setNetwork(Network n) {
 		mPanelGraph.setNetwork(n);
@@ -503,6 +549,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
+	/**
+	 * Set undo/redo buttons
+	 * @param undoMessage 
+	 * @param redoMessage
+	 */
 	public void setUndoRedo(String undoMessage, String redoMessage){
 		if(undoMessage != null){
 			mUndo.setText(STRING_UNDO + " " +undoMessage);

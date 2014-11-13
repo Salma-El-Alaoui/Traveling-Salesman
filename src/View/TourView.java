@@ -16,20 +16,12 @@ import Model.Segment;
 import Model.Tour;
 
 /**
- * 
+ * Class TourView
  */
 public class TourView implements View {
 
 	/**
-	 * 
-	 */
-	public TourView(Tour tour) {
-		mMapTraces = new HashMap<String, Integer>();
-		mTour = tour;
-	}
-
-	/**
-	 * 
+	 * Tour corresponding to the TourView
 	 */
 	protected Tour mTour;
 
@@ -37,6 +29,17 @@ public class TourView implements View {
 	 * Map counting traced paths between two given nodes
 	 */
 	protected Map<String, Integer> mMapTraces;
+
+	/**
+	 * Constructor of TourView
+	 * @param tour Tour for the View
+	 */
+
+	public TourView(Tour tour) {
+		mMapTraces = new HashMap<String, Integer>();
+		mTour = tour;
+	}
+
 
 	@Override
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
@@ -46,7 +49,6 @@ public class TourView implements View {
 		List<Path> listPath = mTour.getPathList();
 		Delivery d = new Delivery();
 		Path p = new Path();
-		int diff = 0;
 
 		for(int i=0; i<listPath.size();i++)
 		{
@@ -58,7 +60,6 @@ public class TourView implements View {
 			List<Segment> listSegment = p.getSegmentList();
 			for(Segment s : listSegment)
 			{
-				diff = 0;
 				Node depNode = s.getDepartureNode();
 				Node arrNode = s.getArrivalNode();
 				String str ="";
@@ -66,7 +67,6 @@ public class TourView implements View {
 				{
 					str = arrNode.getId()+";"+depNode.getId();
 					mMapTraces.put(str, mMapTraces.get(str)+1);
-					diff = (int)Math.pow(-1, mMapTraces.get(str))*mMapTraces.get(str) + 1;
 				}else if(mMapTraces.containsKey(depNode.getId()+";"+arrNode.getId()))
 				{
 					str = depNode.getId()+";"+arrNode.getId();

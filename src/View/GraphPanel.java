@@ -19,80 +19,82 @@ import Model.Network;
 import Model.Node;
 
 /**
- * 
+ * Class GraphPanel
  */
 
 public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener, Observer {
 
 	/**
-	 * 
+	 * Speed at which the panel gets dragged
 	 */
 	private static final int DRAG_SPEED= 1;
 	
 	/**
-	 * 
+	 * Scale used for the zoom
 	 */
 	protected double mScale;
 
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationX;
 
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationY;
 		
 		
 	/**
-	 * 
+	 * Used to prevent the graph from returning to his basic position when dragged
 	 */
 	protected int mTempX;
 	
 	/**
-	 * 
+	 * Used to prevent the graph from returning to his basic position when dragged
 	 */
 	protected int mTempY;
 	
 
 	/**
-	 * 
+	 * Coordinate in Y of the click
 	 */
 	protected int mMouseClickY;
 
 	/**
-	 * 
+	 * Coordinate in X of the click
 	 */
 	protected int mMouseClickX;
+	
+	/**
+	 * List of NodeView displayed in the graph
+	 */
+	protected List<NodeView> mListNodeView;
 
 	/**
-	 * 
+	 * NetworkView displayed in the graph
+	 */
+	protected NetworkView mNetworkView;
+
+	/**
+	 * TourView displayed in the graph
+	 */
+	protected TourView mTourView;
+
+	/**
+	 * Constructor of GraphPanel
 	 */
 	public GraphPanel() {
 		this.setPreferredSize(new Dimension(700,600));
 		mScale = 600.0/900;
 		mTranslationX = 0;
 		mTranslationY = 0;
+		mTempX = 0;
+		mTempY = 0;
 		this.addMouseWheelListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 	}
-
-	/**
-	 * 
-	 */
-	protected List<NodeView> mListNodeView;
-
-	/**
-	 * 
-	 */
-	protected NetworkView mNetworkView;
-
-	/**
-	 * 
-	 */
-	protected TourView mTourView;
 
 
 	@Override
@@ -114,10 +116,18 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 		}
 	}
 
+	/**
+	 * 
+	 * @return The list of NodeViews
+	 */
 	public List<NodeView> getListNodeView() {
 		return mListNodeView;
 	}
 
+	/**
+	 * Set the Network of GraphPanel
+	 * @param n 
+	 */
 	public void setNetwork(Network n){
 		if(n != null){
 			n.addObserver(this);
@@ -130,7 +140,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 	    		mListNodeView.add(new NodeView(mapNode.get(i)));
 	    	}			
 		} else {
-			// TODO
+
 		}
 		repaint();
 	}

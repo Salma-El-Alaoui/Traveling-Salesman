@@ -9,97 +9,76 @@ import java.awt.event.MouseEvent;
 import Model.Node;
 
 /**
- * 
+ * Class NodeView
  */
 public class NodeView implements View {
 
 	/**
-	 * 
+	 * Diameter of the circle
 	 */
 	public final static int DIAMETER = 14;
-	
+
 	/**
-	 * 
+	 * Color of the warehouse
 	 */
 	private final static Color WAREHOUSE_COLOR = Color.BLUE;
-	
+
 	/**
-	 * 
+	 * Color of simple node
 	 */
 	private final static Color NODE_COLOR = Color.GRAY;
-	
+
 	/**
-	 * 
+	 * Color of delivered node
 	 */
 	private final static Color DELIVERY_COLOR = Color.YELLOW;
-	
+
 	/**
-	 * 
+	 * Color of node with delivery error
 	 */
 	private final static Color DELIVERY_ERROR_COLOR = Color.RED;
-	
+
 	/**
-	 * 
+	 * If the node is selected or not
 	 */
 	protected boolean mIsSelected = false;
-	
+
 	/**
-	 * 
+	 * Scale used for the zoom
 	 */
 	protected double mScale;
-	
+
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationX;
-	
+
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationY;
 
+	/**
+	 * Node corresponding to the NodeView
+	 */
+	protected Node mNode;
+
 
 	/**
-	 * 
+	 * Constructor of NodeView
+	 * @param node Node for the View
 	 */
 	public NodeView(Node node) {
 		mNode = node;
 	}
 
-	/**
-	 * 
-	 */
-	protected Node mNode;
 
 	/**
-	 * @return
-	 */
-	public void setNodeSelected() {
-		// TODO implement here
-	}
-
-	/**
-	 * @return
+	 * @return current Node
 	 */
 	public Node getNode() {
 		// TODO implement here
 		return mNode;
-	}
-
-	/**
-	 * @param boolean 
-	 * @return
-	 */
-	public void activateAdd(boolean addActivated) {
-		// TODO implement here
-	}
-
-	/**
-	 * @param Node node
-	 * @return
-	 */
-	public void addDelivery(Node node) {
-		// TODO implement here
 	}
 
 	@Override
@@ -136,10 +115,9 @@ public class NodeView implements View {
 		if(xClick<xNode+mScale*DIAMETER && xClick>xNode-mScale*DIAMETER 
 				&& yClick<yNode+mScale*DIAMETER && yClick>yNode-mScale*DIAMETER)
 		{
-			//TODO check command
-			setNodeSelected();
+
 			return true;
-		
+
 		}
 		return false;
 
