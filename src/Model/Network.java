@@ -149,6 +149,7 @@ public class Network extends Observable {
 
 			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
 			networkChanged();
+			networkChanged(document);
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException
@@ -179,6 +180,11 @@ public class Network extends Observable {
 							// to indicate that this object has no longer
 							// changed.
 	}
+	
+	public void networkChanged(Document doc){
+		setChanged();
+		notifyObservers(doc);
+	}
 
 	/**
 	 * @param File
@@ -186,7 +192,7 @@ public class Network extends Observable {
 	 * @throws InvalidNetworkFileException
 	 * @throws InvalidDeliveryRequestFileException
 	 */
-	public String parseNetworkFile(File networkFile)
+	public void parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 		String msg = "OK";
@@ -198,6 +204,8 @@ public class Network extends Observable {
 			Document document = constructeur.parse(networkFile); // Might
 			// throw
 			// exceptions
+			
+			
 
 			Utils.FileValidator(document, "plan.xsd");
 
@@ -206,6 +214,8 @@ public class Network extends Observable {
 			buildNodesFromXML(networkElement);
 
 			buildSegmentsFromXML(networkElement);
+			
+			
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
@@ -216,8 +226,8 @@ public class Network extends Observable {
 		} catch (WarningDeliveryRequestFile warning) {
 			throw new WarningDeliveryRequestFile(warning.getMessage());
 		}
-
-		return msg;
+		
+		
 	}
 
 	private String buildNodesFromXML(Element networkElement) {
