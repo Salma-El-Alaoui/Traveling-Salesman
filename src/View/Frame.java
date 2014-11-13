@@ -55,7 +55,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	public Frame(Controller controller) {
 		mController = controller;
 		mPanelGraph = new GraphPanel();
-		mXMLTreePanel = new XMLTreePanel();
+		mXMLTreePanel = new XMLTreePanel(controller);
 
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
