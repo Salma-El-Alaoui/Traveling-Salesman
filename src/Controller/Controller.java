@@ -130,17 +130,20 @@ public class Controller {
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		mNetwork = new Network();
-		try {
-			mNetwork.parseNetworkFile(f1);
-			mFrame.setNetwork(mNetwork);
-			mInvoker.clear();
-			updateUndoRedoFrame();
-			setState(State.NETWORK_LOADED);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		} catch (WarningDeliveryRequestFile wa){
-			new WarningDialogView().paint(wa);
+		// User cancel loading network
+		if (f1!=null){
+			try {
+				mNetwork.parseNetworkFile(f1);
+				mFrame.setNetwork(mNetwork);
+				mInvoker.clear();
+				updateUndoRedoFrame();
+				setState(State.NETWORK_LOADED);
+			} catch (InvalidNetworkFileException
+					| InvalidDeliveryRequestFileException ex) {
+				new ErrorDialogView().paint(ex);
+			} catch (WarningDeliveryRequestFile wa){
+				new WarningDialogView().paint(wa);
+			}
 		}
 
 	}
@@ -148,16 +151,19 @@ public class Controller {
 	public void browseDeliveryClicked() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
-		try {
-			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
-			setState(State.DELIVERY_REQUEST_LOADED);
-			mInvoker.clear();
-			updateUndoRedoFrame();
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		} catch (WarningDeliveryRequestFile wa){
-			new WarningDialogView().paint(wa);
+		// User cancel loading
+		if (f2!=null){
+			try {
+				mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+				setState(State.DELIVERY_REQUEST_LOADED);
+				mInvoker.clear();
+				updateUndoRedoFrame();
+			} catch (InvalidNetworkFileException
+					| InvalidDeliveryRequestFileException ex) {
+				new ErrorDialogView().paint(ex);
+			} catch (WarningDeliveryRequestFile wa){
+				new WarningDialogView().paint(wa);
+			}
 		}
 
 
