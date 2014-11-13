@@ -20,7 +20,7 @@ import View.WarningDialogView;
 public class Controller {
 
 	public enum State {
-		NEW, NETWORK_LOADED, DELIVERY_REQUEST_LOADED, TOUR_CALCULATED, TOUR_NODE_SELECTED, OTHER_NODE_SELECTED, ADDING_DELIVERY
+		NEW, NETWORK_LOADED, DELIVERY_REQUEST_LOADED, TOUR_CALCULATED, TOUR_NODE_SELECTED, WAREHOUSE_SELECTED, OTHER_NODE_SELECTED, ADDING_DELIVERY
 	}
 
 	private State mState;
@@ -80,16 +80,20 @@ public class Controller {
 		} 
 		if(mState == State.TOUR_CALCULATED 
 				|| mState == State.OTHER_NODE_SELECTED 
+				|| mState == State.WAREHOUSE_SELECTED
 				|| mState == State.TOUR_NODE_SELECTED
 				|| mState == State.ADDING_DELIVERY) {
 			if(node.hasDelivery()){
 				setState(Controller.State.TOUR_NODE_SELECTED);			
-			} else {
+			} else if(node.isWarehouse()){
+				setState(State.WAREHOUSE_SELECTED);
+			}else{
 				setState(Controller.State.OTHER_NODE_SELECTED);			
 			}			
 
 		}
 		mNetwork.setSelectedNode(node);
+		mNetwork.networkChanged();
 		mFrame.setSelectedNode(node);
 	}
 

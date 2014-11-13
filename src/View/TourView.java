@@ -16,71 +16,77 @@ import Model.Segment;
 import Model.Tour;
 
 /**
- * 
+ * Class TourView
  */
 public class TourView implements View {
 
-	/**
-	 * 
-	 */
-	public TourView(Tour tour) {
-		mMapTraces = new HashMap<String, Integer>();
-		mTour = tour;
-	}
 
 	/**
-	 * 
+	*	Tour corresponding to the View
 	 */
 	protected Tour mTour;
 
 	/**
 	 * Map counting traced paths between two given nodes
 	 */
-	protected Map<String, Integer> mMapTraces;
+	protected Map<Segment, Integer> mMapTraces;
+
+	/**
+	 * Constructor of TourView
+	 * @param tour Tour for the View
+	 */
+
+	public TourView(Tour tour) {
+		mMapTraces = new HashMap<Segment, Integer>();
+		mTour = tour;
+	}
+
 
 	@Override
-	public void paint(Graphics g, double scale, int translationX, int translationY) {
+	public void paint(Graphics g, double scale, int translationX,
+			int translationY) {
 
-		mMapTraces = new HashMap<String, Integer>();
+		mMapTraces = new HashMap<Segment, Integer>();
 		Graphics2D g2D = (Graphics2D) g;
 		List<Path> listPath = mTour.getPathList();
-		Delivery d = new Delivery();
 		Path p = new Path();
 		int diff = 0;
 
-		for(int i=0; i<listPath.size();i++)
-		{
-			if(i<listPath.size()-1)
-			{
-				d = mTour.getDeliveryList().get(i);
+		for (int i = 0; i < listPath.size(); i++) {
+			if (i < listPath.size() - 1) {
+				Delivery d = mTour.getDeliveryList().get(i);
+				g2D.setColor(d.getTimeSlot().getColor());
 			}
 			p = listPath.get(i);
 			List<Segment> listSegment = p.getSegmentList();
-			for(Segment s : listSegment)
-			{
+
+			for (Segment s : listSegment) {
 				diff = 0;
 				Node depNode = s.getDepartureNode();
 				Node arrNode = s.getArrivalNode();
-				String str ="";
-				if(mMapTraces.containsKey(arrNode.getId()+";"+depNode.getId()))
-				{
-					str = arrNode.getId()+";"+depNode.getId();
-					mMapTraces.put(str, mMapTraces.get(str)+1);
-					diff = (int)Math.pow(-1, mMapTraces.get(str))*mMapTraces.get(str) + 1;
-				}else if(mMapTraces.containsKey(depNode.getId()+";"+arrNode.getId()))
-				{
-					str = depNode.getId()+";"+arrNode.getId();
-					mMapTraces.put(str, mMapTraces.get(str)+1);
-				}else{
-					str = depNode.getId()+";"+arrNode.getId();
-					mMapTraces.put(depNode.getId()+";"+arrNode.getId(), 1);
+
+				if (mMapTraces.get(s) != null) {
+					diff = mMapTraces.get(s);
+					diff +=2 ;
+					mMapTraces.put(s, diff);
+				} else {
+					diff = 1;
+					mMapTraces.put(s, diff);
 				}
 
-				Stroke dashed = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[]{8*mMapTraces.get(str)}, 0);
-				g2D.setStroke(dashed);
-				g2D.setColor(d.getTimeSlot().getColor());
-				g2D.drawLine((int)(scale*depNode.getX())+translationX, (int)(scale*depNode.getY())+translationY, 
-						(int)(scale*arrNode.getX())+translationX, (int)(scale*arrNode.getY())+translationY);
+				double dX = arrNode.getX() - depNode.getX();
+				double dY = arrNode.getY() - depNode.getY();
+
+				double norm = Math.sqrt(dX*dX + dY*dY);
+
+				g2D.setStroke(new BasicStroke((float) (scale)));
+				g2D.translate(dY/norm * scale * diff, - dX/norm * scale * diff);
+				g2D.drawLine((int) (scale * depNode.getX()) + translationX,
+						(int) (scale * depNode.getY()) + translationY,
+						(int) (scale * arrNode.getX()) + translationX,
+						(int) (scale * arrNode.getY()) + translationY);
+				g2D.translate(- dY/norm * scale * diff, dX/norm * scale * diff);
+
 			}
 		}
 	}

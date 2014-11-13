@@ -199,7 +199,7 @@ public class DeliveryRequest {
 
 
 		for (int i = 0; i < numberOfSlots; i++) {
-			TimeSlot timeSlot = new TimeSlot();
+			TimeSlot timeSlot = new TimeSlot(i);
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
 			try {
