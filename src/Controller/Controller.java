@@ -153,12 +153,13 @@ public class Controller {
 		mNetwork = new Network();
 		try {
 			mNetwork.parseNetworkFile(f1);
+			mFrame.setNetwork(mNetwork);
+			setState(State.NETWORK_LOADED);
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
-		mFrame.setNetwork(mNetwork);
-		setState(State.NETWORK_LOADED);
+		
 	}
 
 	public void browseDeliveryClicked() {
@@ -166,12 +167,13 @@ public class Controller {
 		File f2 = deliveryRequestChooserView.paint();
 		try {
 			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+			setState(State.DELIVERY_REQUEST_LOADED);
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
 
-		setState(State.DELIVERY_REQUEST_LOADED);
+		
 	}
 
 	public void calculateTourClicked(){
