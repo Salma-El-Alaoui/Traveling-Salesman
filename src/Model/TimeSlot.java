@@ -1,6 +1,8 @@
 package Model;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 import org.w3c.dom.Element;
@@ -58,16 +60,18 @@ public class TimeSlot implements XmlParse {
 	}
 
 	public String getFormattedStartHour() {
-		String hours = ((Integer) (mStartHour / 3600)).toString();
-		String minutes = ((Integer) ((mStartHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mStartHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mStartHour / 3600);
+		String minutes = nf.format((mStartHour % 3600) / 60);
+		String seconds = nf.format(mStartHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
 	public String getFormattedEndHour() {
-		String hours = ((Integer) (mEndHour / 3600)).toString();
-		String minutes = ((Integer) ((mEndHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mEndHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mEndHour / 3600);
+		String minutes = nf.format((mEndHour % 3600) / 60);
+		String seconds = nf.format(mEndHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 

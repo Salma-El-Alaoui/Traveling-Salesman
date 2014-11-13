@@ -194,6 +194,7 @@ public class Tour {
 					- mPathList.get(0).getGlobalTime();
 			int globalTime = mStartHour;
 			for(int i=0 ; i<mDeliveryList.size() ; i++){
+				globalTime += mPathList.get(i).getGlobalTime();
 				Delivery delivery = mDeliveryList.get(i);
 				delivery.setArrivalHour(globalTime);
 				globalTime = delivery.getDepartureHour();

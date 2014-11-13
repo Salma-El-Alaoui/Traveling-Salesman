@@ -23,7 +23,7 @@ public class Path {
     /**
      * Required time to travel across the path
      */
-    private int mPathTime;
+    private float mPathTime;
     
     /**
      * Append the specified segment to the beginning of the segment list
@@ -51,7 +51,7 @@ public class Path {
      * @return The total time needed to follow the path
      */
     public int getGlobalTime() {
-        return mPathTime;
+        return (int) mPathTime;
     }
 
 	public List<Segment> getSegmentList() {

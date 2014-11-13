@@ -1,5 +1,7 @@
 package Model;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,9 +82,10 @@ public class Delivery implements XmlParse {
 		return mArrivalHour;
 	}
 	public String getFormattedArrivalHour(){
-		String hours = ((Integer) (mArrivalHour / 3600)).toString();
-		String minutes = ((Integer) ((mArrivalHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mArrivalHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mArrivalHour / 3600);
+		String minutes = nf.format((mArrivalHour % 3600) / 60);
+		String seconds = nf.format(mArrivalHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 	
@@ -94,9 +97,10 @@ public class Delivery implements XmlParse {
 		return mDeliveryHour;
 	}
 	public String getFormattedDeliveryHour(){
-		String hours = ((Integer) (mDeliveryHour / 3600)).toString();
-		String minutes = ((Integer) ((mDeliveryHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mDeliveryHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mDeliveryHour / 3600);
+		String minutes = nf.format((mDeliveryHour % 3600) / 60);
+		String seconds = nf.format(mDeliveryHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
@@ -108,9 +112,10 @@ public class Delivery implements XmlParse {
 	}
 
 	public String getFormattedDepartureHour(){
-		String hours = ((Integer) (mDepartureHour / 3600)).toString();
-		String minutes = ((Integer) ((mDepartureHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mDepartureHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mDepartureHour / 3600);
+		String minutes = nf.format((mDepartureHour % 3600) / 60);
+		String seconds = nf.format(mDepartureHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
