@@ -9,6 +9,8 @@ import Model.Node;
  */
 public class AddCommand implements Command {
 
+	private static final String ADD_NAME = "Ajout Livraison";
+	
 	/**
 	 * 
 	 */
@@ -41,6 +43,11 @@ public class AddCommand implements Command {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return ADD_NAME;
 	}
 
 }

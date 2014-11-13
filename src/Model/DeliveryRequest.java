@@ -70,7 +70,7 @@ public class DeliveryRequest {
 		int[] nodesIndex = tsp.getNext();
 		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
-		this.mTour = new Tour();
+		this.mTour = new Tour(mWarehouse);
 		
 		int warehouseIndex = mapIdToIndex.get(mWarehouse.getId());
 		int previousIndex = warehouseIndex;

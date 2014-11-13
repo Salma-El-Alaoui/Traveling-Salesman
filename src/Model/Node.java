@@ -69,7 +69,6 @@ public class Node implements XmlParse {
      * @return
      */
     public boolean hasDelivery() {
-        // TODO implement here
         return mDelivery!=null;
     }
     
@@ -77,7 +76,6 @@ public class Node implements XmlParse {
      * @return
      */
     public boolean isWarehouse() {
-        // TODO implement here
         return mIsWarehouse;
     }
 
@@ -99,8 +97,7 @@ public class Node implements XmlParse {
      * @return
      */
     public Network getNetwork() {
-        // TODO implement here
-        return null;
+        return mNetwork;
     }
 
     /**
