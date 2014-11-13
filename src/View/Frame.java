@@ -38,6 +38,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
+	private final static String ACTION_REMOVE_DELIVERY = "ACTION_REMOVE_DELIVERY";
+	private final static String ACTION_UNDO = "ACTION_UNDO";
+	private final static String ACTION_REDO = "ACTION_REDO";
+	
+	private final static String STRING_UNDO = "Annuler";
+	private final static String STRING_REDO = "Refaire";
 
 	/**
 	 * 
@@ -93,12 +99,30 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuEdition = new JMenu("Edition");
 
-		mAddDelivery = new JMenuItem("Ajouter une livraison");
+
+		mUndo=new JMenuItem("Annuler");
+		mUndo.setActionCommand(ACTION_UNDO);
+		mUndo.addActionListener(this);
+		mUndo.setEnabled(false);
+		mMenuEdition.add(mUndo);
+
+		mRedo=new JMenuItem("Refaire");
+		mRedo.setActionCommand(ACTION_REDO);
+		mRedo.addActionListener(this);
+		mRedo.setEnabled(false);
+		mMenuEdition.add(mRedo);
+		
+		mMenuEdition.addSeparator();
+		
+		mAddDelivery=new JMenuItem("Ajouter une livraison");
 		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
+
 		mRemoveDelivery = new JMenuItem("Supprimer une livraison");
+		mRemoveDelivery=new JMenuItem("Supprimer une livraison");
+		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
 
@@ -183,6 +207,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	protected JMenuItem mRemoveDelivery;
 
+	protected JMenuItem mUndo;
+	
+	protected JMenuItem mRedo;
+
 	protected JMenuItem mloadDeliveries;
 
 	protected JMenuItem mCalculateTour;
@@ -224,6 +252,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	private Controller mController;
 
+
 	/**
 	 */
 	public void clicBrowseDeliveries() {
@@ -243,27 +272,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	public void clickBrowseNetwork() {
 		// TODO implement here
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		switch (arg0.getActionCommand()) {
-		case (ACTION_LOAD_MAP):
-			mController.loadNetworkXML();
-			break;
-		case (ACTION_LOAD_DELIVERIES):
-			mController.loadDeliveriesXML();
-			break;
-		case (ACTION_CALCULATE_TOUR):
-			mController.calculateTour();
-			break;
-		case (ACTION_EXPORT_ROADMAP):
-			mController.saveRoadmapClicked();
-			break;
-		case (ACTION_ADD_DELIVERY):
-			mController.addDeliveryClicked();
-			break;
-		}
-	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -281,10 +290,47 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 				}
 			}
 		}
-
-		repaint();
-
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		switch(arg0.getActionCommand())
+		{
+		case(ACTION_LOAD_MAP) :
+			mController.browseNetworkClicked();
+			break;
+		case(ACTION_LOAD_DELIVERIES):
+			mController.browseDeliveryClicked();
+			break;
+		case(ACTION_CALCULATE_TOUR):
+			mController.calculateTourClicked();
+			break;
+		case(ACTION_EXPORT_ROADMAP):
+			break;
+		case(ACTION_ADD_DELIVERY):
+			mController.addDeliveryClicked();
+			break;
+		case(ACTION_REMOVE_DELIVERY):
+			mController.removeDeliveryClicked();
+			break;
+		case(ACTION_REDO):
+			mController.redoClicked();
+			break;
+		case(ACTION_UNDO):
+			mController.undoClicked();
+			break;
+		}
+	}
+
+
+	public void setSelectedNode(Node node){
+		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId()+"<br>Livraison : ";
+		nodeInfos += (node.hasDelivery()) ? "Oui <br>Intervalle horaire : "+node.getDelivery().getArrivalHour()+" à "+node.getDelivery().getDepartureHour() 
+				: "Non"; 
+		mNodeInfos.setText(nodeInfos);
+	}
+	
+
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -375,6 +421,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLoadDeliveriesButton.setEnabled(true);
 			mloadDeliveries.setEnabled(true);
 			mExportButton.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
@@ -385,6 +433,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLoadMap.setEnabled(true);
 			mLoadDeliveriesButton.setEnabled(true);
 			mloadDeliveries.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(true);
@@ -399,10 +449,29 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(true);
+			mCalculateTour.setEnabled(false);
+			mCalculateTourButton.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
 			break;
 		}
 	}
 
+	public void setUndoRedo(String undoMessage, String redoMessage){
+		if(undoMessage != null){
+			mUndo.setText(STRING_UNDO + " " +undoMessage);
+			mUndo.setEnabled(true);
+		}else{
+			mUndo.setText(STRING_UNDO);
+			mUndo.setEnabled(false);
+		}
+		
+		if(redoMessage != null){
+			mRedo.setText(STRING_REDO + " " +redoMessage);
+			mRedo.setEnabled(true);
+		}else{
+			mRedo.setText(STRING_REDO);
+			mRedo.setEnabled(false);
+		}
+	}
 }

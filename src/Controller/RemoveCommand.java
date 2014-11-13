@@ -9,6 +9,8 @@ import Model.Node;
  */
 public class RemoveCommand implements Command {
 
+	private static final String REMOVE_NAME = "Suppression Livraison";
+	
 	/**
 	 * Node to remove
 	 */
@@ -38,6 +40,11 @@ public class RemoveCommand implements Command {
 	@Override
 	public boolean undo() {
 		return mNode.getNetwork().addDelivery(mPreviousNode, mNode);	
+	}
+
+	@Override
+	public String getName() {
+		return REMOVE_NAME;
 	}
 
 }

@@ -8,9 +8,11 @@ import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
 import Model.Node;
+import Model.WarningDeliveryRequestFile;
 import View.ErrorDialogView;
 import View.FileChooserView;
 import View.Frame;
+import View.WarningDialogView;
 
 /**
  * 
@@ -24,31 +26,28 @@ public class Controller {
 	private State mState;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Controller() {
 		mState = State.NEW;
 		mFrame = new Frame(this);
-		mCommandStack = new Stack<Command>();
+		mInvoker = new Invoker();
 		mNetwork = new Network();
 	}
 
 	/**
-     * 
-     */
-
-	protected Stack<Command> mCommandStack;
-
-	protected Stack<Command> mUndoStack;
+	 * 
+	 */
+	private Invoker mInvoker;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Network mNetwork;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Frame mFrame;
 
 	/**
@@ -63,42 +62,35 @@ public class Controller {
 	}
 
 	/**
-	 * @return
+	 * 
 	 */
-	public Node getSelectedNode() {
-		// TODO implement here
-		return null;
-	}
 
-	/**
-	 * @return
-	 */
-	public void browseDeliveryClicked() {
-		try {
-			FileChooserView deliveryRequestChooserView = new FileChooserView();
-			File f2 = deliveryRequestChooserView.paintOpen();
-			mNetwork.parseDeliveryRequestFile(f2);
+	
+	private void updateUndoRedoFrame(){
+		mFrame.setUndoRedo(mInvoker.getUndoName(), mInvoker.getRedoName());
 
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		}
 
 	}
 
-	/**
-	 * @return
-	 */
-	public void browseNetworkClicked() {
-		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paintOpen();
-		try {
-			mNetwork.parseNetworkFile(f1);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		}
 
+
+	public void onNodeSelected(Node node) {
+		if(mState == State.ADDING_DELIVERY && node.hasDelivery()){
+			addDelivery(node);
+		} 
+		if(mState == State.TOUR_CALCULATED 
+				|| mState == State.OTHER_NODE_SELECTED 
+				|| mState == State.TOUR_NODE_SELECTED
+				|| mState == State.ADDING_DELIVERY) {
+			if(node.hasDelivery()){
+				setState(Controller.State.TOUR_NODE_SELECTED);			
+			} else {
+				setState(Controller.State.OTHER_NODE_SELECTED);			
+			}			
+
+		}
+		mNetwork.setSelectedNode(node);
+		mFrame.setSelectedNode(node);
 	}
 
 	/**
@@ -107,8 +99,86 @@ public class Controller {
 	public void addDeliveryClicked() {
 		if (mState.equals(State.OTHER_NODE_SELECTED)) {
 			setState(State.ADDING_DELIVERY);
-		} else if (mState.equals(State.ADDING_DELIVERY)) {
-			setState(State.OTHER_NODE_SELECTED);
+		} else if(mState == State.ADDING_DELIVERY){
+			if(mNetwork.getSelectedNode().hasDelivery()){
+				setState(Controller.State.TOUR_NODE_SELECTED);			
+			} else {
+				setState(Controller.State.OTHER_NODE_SELECTED);			
+			}			
+
+		}
+	}
+
+	/**
+	 * Update the Controller's state when remove delivery menu item is clicked
+	 */
+	public void removeDeliveryClicked() {
+		if (mState == State.TOUR_NODE_SELECTED) {
+			removeDelivery(mNetwork.getSelectedNode());
+		}
+	}
+
+	public void undoClicked() {
+		mInvoker.undo();
+		updateUndoRedoFrame();
+		mNetwork.networkChanged();
+	}
+
+	public void redoClicked() {
+		mInvoker.redo();
+		updateUndoRedoFrame();
+		mNetwork.networkChanged();
+	}
+
+	public void browseNetworkClicked() {
+		FileChooserView networkChooserView = new FileChooserView();
+		File f1 = networkChooserView.paintOpen();
+		mNetwork = new Network();
+		try {
+			mNetwork.parseNetworkFile(f1);
+			mFrame.setNetwork(mNetwork);
+			mInvoker.clear();
+			updateUndoRedoFrame();
+			setState(State.NETWORK_LOADED);
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
+		}
+
+	}
+
+	public void browseDeliveryClicked() {
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+			setState(State.DELIVERY_REQUEST_LOADED);
+			mInvoker.clear();
+			updateUndoRedoFrame();
+		} catch (InvalidNetworkFileException
+				| InvalidDeliveryRequestFileException ex) {
+			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
+		}
+
+
+	}
+
+	public void calculateTourClicked(){
+		mNetwork.getDeliveryRequest().calculateTour();
+		mInvoker.clear();
+		updateUndoRedoFrame();
+		if(mNetwork.getSelectedNode() != null){
+			if(mNetwork.getSelectedNode().hasDelivery()){
+				setState(State.TOUR_NODE_SELECTED);
+			} else {
+				setState(State.OTHER_NODE_SELECTED);
+			}
+		} else {
+			setState(State.TOUR_CALCULATED);			
 		}
 	}
 
@@ -118,13 +188,13 @@ public class Controller {
 	 * @param previousNode
 	 *            node after which we insert the delivery
 	 */
-	public void addDelivery(Node previousNode) {
+	private void addDelivery(Node previousNode) {
 		Node selectedNode = mNetwork.getSelectedNode();
 		Command addCommand = new AddCommand(previousNode, selectedNode);
-		if (addCommand.execute()) {
-			mCommandStack.push(addCommand);
-		}
-		setState(State.DELIVERY_REQUEST_LOADED);
+		mInvoker.addAndExecute(addCommand);
+		mNetwork.networkChanged();
+		setState(State.TOUR_CALCULATED);
+		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
 	}
 
@@ -134,84 +204,13 @@ public class Controller {
 	 * @param node
 	 *            the node associated with the delivery to remove
 	 */
-	public void removeDelivery(Node node) {
+	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
-		if (rmCommand.execute()) {
-			mCommandStack.push(rmCommand);
-		}
-		// auto refreshing thanks to Observer pattern
-	}
-
-	/**
-	 * Undo the last command executed
-	 */
-	public void undo() {
-		if (mCommandStack.isEmpty()) {
-			System.out.println("Empty command stack");
-			return;
-		}
-
-		Command command = mCommandStack.pop();
-
-		if (command.undo()) {
-			mUndoStack.push(command);
-		} else {
-			System.out.println("Can't undo command");
-		}
-		// auto refreshing thanks to Observer pattern
-	}
-
-	/**
-	 * Execute the last command undone
-	 */
-	public void redo() {
-		if (mUndoStack.isEmpty()) {
-			System.out.println("Empty undo command stack");
-			return;
-		}
-
-		Command command = mUndoStack.pop();
-
-		if (command.execute()) {
-			mCommandStack.push(command);
-		} else {
-			System.out.println("Can't redo command");
-		}
-		// auto refreshing thanks to Observer pattern
-	}
-
-	public void loadNetworkXML() {
-		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paintOpen();
-		mNetwork = new Network();
-		try {
-			mNetwork.parseNetworkFile(f1);
-			mFrame.setNetwork(mNetwork);
-			setState(State.NETWORK_LOADED);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		}
-		
-	}
-
-	public void loadDeliveriesXML() {
-		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paintOpen();
-		try {
-			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
-			setState(State.DELIVERY_REQUEST_LOADED);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		}
-
-		
-	}
-	
-	public void calculateTour(){
-		mNetwork.getDeliveryRequest().calculateTour();
+		mInvoker.addAndExecute(rmCommand);
+		mNetwork.networkChanged();
 		setState(State.TOUR_CALCULATED);
+		updateUndoRedoFrame();
+		// auto refreshing thanks to Observer pattern
 	}
 	
 	public void saveRoadmapClicked(){
