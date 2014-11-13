@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
@@ -149,11 +150,13 @@ public class Delivery implements XmlParse {
 	@Override
 	public String buildFromXML(Element deliveryElement, Network network,
 			String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress)
+			Map<Integer, Node> map_clientAdress,
+			List<Integer> list_allAdress)
 					throws InvalidDeliveryRequestFileException {
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
+		Integer nodeIdInteger = new Integer(nodeId);
 
 		mNode = network.getNode(nodeId);
 
@@ -166,7 +169,12 @@ public class Delivery implements XmlParse {
 			
 			mNode.setDelivery(this);
 
-			// Check if one client has just one and only one adress
+			if(list_allAdress.contains(nodeIdInteger)){
+				throw new InvalidDeliveryRequestFileException("L'adresse "+nodeId+" ne peut pas être associée à deux Clients");
+			}
+			else list_allAdress.add(nodeIdInteger);
+			
+			// Check 1 Client had 1 Adress 
 			if (map_clientAdress.get(mClient) != null) {
 				if (!map_clientAdress.get(mClient).equals(mNode)) {
 					listClientsWithSeveralAdresses += mClient + " ";

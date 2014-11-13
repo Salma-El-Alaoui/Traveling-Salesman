@@ -195,6 +195,7 @@ public class DeliveryRequest {
 		Element timeSlotElement;
 		String listClientsWithSeveralAdresses = "";
 		Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
+		List<Integer> list_allAdress = new ArrayList<Integer>();
 
 
 		for (int i = 0; i < numberOfSlots; i++) {
@@ -202,7 +203,7 @@ public class DeliveryRequest {
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
 			try {
-				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress);
+				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress, list_allAdress);
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
 			}
