@@ -195,6 +195,26 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Controller used to handle view/model interations
 	 */
 	private Controller mController;
+	
+	/**
+	 * Button to Undo
+	 */
+	protected JButton mUndoButton;
+	
+	/**
+	 * Button to Redo
+	 */
+	protected JButton mRedoButton;
+	
+	/**
+	 * Button to Add Delivery
+	 */
+	protected JButton mAddDeliveryButton;
+	
+	/**
+	 * Button to Remove Delivery
+	 */
+	protected JButton mRemoveDeliveryButton;
 
 	/**
 	 * @param controller Instance of Controller which will handle view/model interactions
@@ -244,6 +264,42 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton.setToolTipText("Exporter feuille de route");
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
+		
+		toolbar.addSeparator(new Dimension (20,10));
+		
+		icon = new ImageIcon("img/add-user-icon.png");
+		mAddDeliveryButton = new JButton(icon);
+		mAddDeliveryButton.setActionCommand(ACTION_ADD_DELIVERY);
+		mAddDeliveryButton.setToolTipText("Ajouter une livraison");
+		mAddDeliveryButton.addActionListener(this);
+		mAddDeliveryButton.setEnabled(false);
+		toolbar.add(mAddDeliveryButton);
+		
+		icon = new ImageIcon("img/remove-user-icon.png");
+		mRemoveDeliveryButton = new JButton(icon);
+		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
+		mRemoveDeliveryButton.setToolTipText("Ajouter une livraison");
+		mRemoveDeliveryButton.addActionListener(this);
+		mRemoveDeliveryButton.setEnabled(false);
+		toolbar.add(mRemoveDeliveryButton);
+		
+		icon = new ImageIcon("img/undo.png");
+		mUndoButton = new JButton(icon);
+		mUndoButton.setActionCommand(ACTION_UNDO);
+		mUndoButton.setToolTipText("Défaire l'ajout");
+		mUndoButton.addActionListener(this);
+		mUndoButton.setEnabled(false);
+		toolbar.add(mUndoButton);
+		
+		icon = new ImageIcon("img/redo.png");
+		mRedoButton = new JButton(icon);
+		mRedoButton.setActionCommand(ACTION_REDO);
+		mRedoButton.setToolTipText("Refaire l'ajout");
+		mRedoButton.addActionListener(this);
+		mRedoButton.setEnabled(false);
+		toolbar.add(mRedoButton);
+		
+		
 
 		this.add(toolbar, BorderLayout.NORTH);
 
@@ -272,7 +328,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
-		mRemoveDelivery=new JMenuItem("Supprimer la livraison");
+
+
+		mRemoveDelivery = new JMenuItem("Supprimer une livraison");
+
 		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
@@ -325,8 +384,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setVisible(true);
 
 	}
-
-	
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -463,9 +520,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez charger un réseau via le menu fichier ou la barre d'actions </html>");
 			break;
 		case NETWORK_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -476,9 +536,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
 			break;
 		case DELIVERY_REQUEST_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -489,9 +552,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez générer la tournée via le menu fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_CALCULATED:
 			mLoadPlanButton.setEnabled(true);
@@ -502,9 +568,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez supprimer une livraison en cliquant dessus puis sur Supprimer la livraison<br><br>"
+					+ "Vous pouvez ajouter une livraison en cliquant sur le noeud à ajouter puis sur Ajouter la livraison<br><br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -515,9 +586,27 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTour.setEnabled(true);
 			mCalculateTourButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(true);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez supprimer la livraison sélectionnée en cliquant sur Supprimer la livraison<br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
+			break;
+		case WAREHOUSE_SELECTED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
+			mExport.setEnabled(true);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case OTHER_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -528,9 +617,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(true);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(true);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez ajouter une livraison sur le noeud sélectionné en cliquant sur Ajouter la livraison<br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case ADDING_DELIVERY:
 			mLoadPlanButton.setEnabled(false);
@@ -540,12 +633,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(true);
+			mAddDeliveryButton.setEnabled(true);
 			mCalculateTour.setEnabled(false);
 			mCalculateTourButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
+			mLabelInfos.setText("<html>Cliquez sur la livraison après laquelle vous voulez insérer la nouvelle livraison</html>");
 			break;
-
 		}
 	}
 
@@ -558,17 +653,21 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		if(undoMessage != null){
 			mUndo.setText(STRING_UNDO + " " +undoMessage);
 			mUndo.setEnabled(true);
+			mUndoButton.setEnabled(true);
 		}else{
 			mUndo.setText(STRING_UNDO);
 			mUndo.setEnabled(false);
+			mUndoButton.setEnabled(false);
 		}
 
 		if(redoMessage != null){
 			mRedo.setText(STRING_REDO + " " +redoMessage);
 			mRedo.setEnabled(true);
+			mRedoButton.setEnabled(true);
 		}else{
 			mRedo.setText(STRING_REDO);
 			mRedo.setEnabled(false);
+			mRedoButton.setEnabled(false);
 		}
 	}
 }
