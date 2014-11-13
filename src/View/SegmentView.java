@@ -38,12 +38,12 @@ public class SegmentView implements View {
 		int x2 = mSegment.getArrivalNode().getX();
 		int y2 = mSegment.getArrivalNode().getY();
 		
-		g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-3));
+		g2D.setStroke(new BasicStroke((int)(scale*(NodeView.DIAMETER-5))));
 		g2D.setColor(Color.black);
 		g2D.drawLine((int)(scale*x1)+translationX, (int)(scale*y1)+translationY, 
 				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);
 		
-		g2D.setStroke(new BasicStroke((int)(scale*NodeView.DIAMETER)-5));
+		g2D.setStroke(new BasicStroke((int)(scale*(NodeView.DIAMETER-6))));
 		g2D.setColor(Color.lightGray);
 		g2D.drawLine((int)(scale*x1)+translationX, (int)(scale*y1)+translationY, 
 				(int)(scale*x2)+translationX, (int)(scale*y2)+translationY);		
