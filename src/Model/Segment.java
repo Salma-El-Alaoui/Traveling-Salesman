@@ -70,11 +70,14 @@ public class Segment {
 	public int buildFromXML(Node departureNode, Element segmentElement,
 			Network network) {
 
-		int noeudDestinationInt = Integer.parseInt(segmentElement
-				.getAttribute("idNoeudDestination"));
+		int res = -1;
+		int noeudDestinationInt = Integer.parseInt(segmentElement.getAttribute("idNoeudDestination"));
 
 		if (noeudDestinationInt == departureNode.getId()) {
 			ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE++;
+			res = noeudDestinationInt;
+			System.out.println("res : " + res);
+			System.out.println("noeudDestinationInt : " + noeudDestinationInt);
 		}
 
 		mDepartureNode = departureNode;
@@ -99,8 +102,10 @@ public class Segment {
 																// segments of
 																// its ToNode.
 
-		return ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE;
-
+		network.updateNode(mDepartureNode.getId(), null , this); // This segment is the out segment of its FromNode
+		network.updateNode(mArrivalNode.getId(), this, null); // This segment is the in segments of its ToNode.
+		
+		return res;
 	}
 
 	@Override

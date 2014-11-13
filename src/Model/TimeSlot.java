@@ -90,7 +90,8 @@ public class TimeSlot implements XmlParse {
 	}
 
 	@Override
-	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses, Map<Integer, Node> map_clientAdress) throws InvalidDeliveryRequestFileException{
+	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses,
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException{
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
@@ -116,9 +117,9 @@ public class TimeSlot implements XmlParse {
 			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
-			// Check one client has only one adress
+			// Check 1-1 between Client and Adress
 			try {
-				String tmp = delivery.buildFromXML(deliveryElement, network, listClientsWithSeveralAdresses, map_clientAdress );
+				String tmp = delivery.buildFromXML(deliveryElement, network, listClientsWithSeveralAdresses, map_clientAdress, list_allAdress );
 				if (tmp != "OK"){
 					listClientsWithSeveralAdresses = tmp;
 				}

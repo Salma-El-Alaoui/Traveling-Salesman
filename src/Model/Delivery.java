@@ -3,6 +3,7 @@ package Model;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
@@ -154,33 +155,42 @@ public class Delivery implements XmlParse {
 	@Override
 	public String buildFromXML(Element deliveryElement, Network network,
 			String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress)
+			Map<Integer, Node> map_clientAdress,
+			List<Integer> list_allAdress)
 					throws InvalidDeliveryRequestFileException {
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
+		Integer nodeIdInteger = new Integer(nodeId);
 
 		mNode = network.getNode(nodeId);
-		mNode.setDelivery(this);
 
 		if (mNode == null) {
 			throw new InvalidDeliveryRequestFileException(
-					"Le noeud "
-							+ nodeId
-							+ " dans les demandes de Livraisons n'existe pas dans le Réseau");
-		}
-
-		// Check if one client has just one and only one adress
-		if (map_clientAdress.get(mClient) != null) {
-			if (!map_clientAdress.get(mClient).equals(mNode)) {
-				listClientsWithSeveralAdresses += mClient + " ";
-				return listClientsWithSeveralAdresses;
-			}
+					"Le noeud "	+ nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");
+			
+		// Node not in the Network	
 		} else {
-			map_clientAdress.put(mClient, mNode);
-			return "OK";
+			
+			mNode.setDelivery(this);
+
+			if(list_allAdress.contains(nodeIdInteger)){
+				throw new InvalidDeliveryRequestFileException("L'adresse "+nodeId+" ne peut pas être associée à deux Clients");
+			}
+			else list_allAdress.add(nodeIdInteger);
+			
+			// Check 1 Client had 1 Adress 
+			if (map_clientAdress.get(mClient) != null) {
+				if (!map_clientAdress.get(mClient).equals(mNode)) {
+					listClientsWithSeveralAdresses += mClient + " ";
+					return listClientsWithSeveralAdresses;
+				}
+			} else {
+				map_clientAdress.put(mClient, mNode);
+				return "OK";
+			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override

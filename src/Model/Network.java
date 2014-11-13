@@ -126,6 +126,7 @@ public class Network extends Observable {
 	 * @return
 	 * @throws InvalidDeliveryRequestFileException
 	 * @throws InvalidNetworkFileException
+	 * @throws WarningDeliveryRequestFile
 	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
@@ -146,24 +147,24 @@ public class Network extends Observable {
 
 			this.mDeliveryRequest = new DeliveryRequest(this);
 
-			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
-					this);
+			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
 			networkChanged();
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException
 				| InvalidDeliveryRequestFileException ex) { // Syntactic errors
-															// in XML
+			// in XML
 
 			// file.
 			throw new InvalidDeliveryRequestFileException(ex.getMessage());
 
 		} catch (WarningDeliveryRequestFile wa) {
+			networkChanged();
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 		return msg;
 	}
-	
+
 	public void clearNodeContent(){
 		for(Node n : mNodesList.values()){
 			n.setDelivery(null);
@@ -239,6 +240,9 @@ public class Network extends Observable {
 	private int buildSegmentsFromXML(Element networkElement)
 			throws WarningDeliveryRequestFile {
 
+		int nodeRes = 0;
+		int flagNodeRes = 0;
+
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
 
@@ -259,16 +263,18 @@ public class Network extends Observable {
 
 				Segment segment = new Segment();
 				segmentElement = (Element) listSegments.item(j);
-				segment.buildFromXML(departureNode, segmentElement, this);
+				nodeRes = segment.buildFromXML(departureNode, segmentElement, this);
+				if (nodeRes!=-1){
+					flagNodeRes = nodeRes;
+				}
 				mSegmentList.add(segment);
 			}
 
 		}
-		// Au moins une erreur où le node de départ et le même que le node
-		// d'arrivée
+		// Au moins une erreur ou le node de depart et le même que le node d'arrivee
 		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE > 0) {
 			throw new WarningDeliveryRequestFile(
-					"Error xml DeliveryRequest - Noeud de départ similaire au Noeud d'arrivée");
+					"Erreur dans le fichier des livraisons - Noeud de départ "+ flagNodeRes + " similaire au Noeud d'arrivée");
 		} else
 			return 0;
 	}
@@ -288,7 +294,7 @@ public class Network extends Observable {
 		}
 		return res;
 	}
-	
-	
+
+
 
 }
