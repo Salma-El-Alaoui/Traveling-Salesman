@@ -75,7 +75,7 @@ public class Controller {
 
 
 	public void onNodeSelected(Node node) {
-		if(mState == State.ADDING_DELIVERY){
+		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery()||node.isWarehouse())){
 			addDelivery(node);
 		} 
 		if(mState == State.TOUR_CALCULATED 
