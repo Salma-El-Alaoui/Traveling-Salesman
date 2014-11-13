@@ -143,5 +143,14 @@ public class Delivery implements XmlParse {
 		return "(Delivery : ID " + mId + " ,Node " + mNode + " ,Client " + mClient + ");";
 	}
 
+	/**
+	 * Indicates if the node is in it TimeSlot
+	 * @return True if the Delivery is in it timeslot
+	 */
+	public boolean isInTimeslot() {
+		return mDeliveryHour >= mTimeSlot.getStartHour() 
+				&& mDeliveryHour <= mTimeSlot.getEndHour();
+	}
+
 
 }
