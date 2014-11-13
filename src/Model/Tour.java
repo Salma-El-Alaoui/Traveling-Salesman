@@ -10,7 +10,8 @@ public class Tour {
 	/**
 	 * 
 	 */
-	public Tour() {
+	public Tour(Node wareHouse) {
+		mWarehouse = wareHouse;
 		mPathList = new ArrayList<Path>();
 		mDeliveryList = new ArrayList<Delivery>();
 	}
@@ -84,9 +85,8 @@ public class Tour {
 			return false;
 		}
 
-		Network network=previousNode.getNetwork();
-		Path firstPath=network.calculateShortestPath(previousNode, newNode);
-		Path secondPath=network.calculateShortestPath(newNode, nextNode);
+		Path firstPath=Dijkstra.calculateShortestPath(previousNode, newNode);
+		Path secondPath=Dijkstra.calculateShortestPath(newNode, nextNode);
 
 		for(int i=0; i<mPathList.size(); i++)
 		{
@@ -98,8 +98,9 @@ public class Tour {
 				{
 					mPathList.add(i+1, secondPath);
 				}else{
-					mPathList.add(0, secondPath);
+					mPathList.add(secondPath);
 				}
+				break;
 
 			}
 		}

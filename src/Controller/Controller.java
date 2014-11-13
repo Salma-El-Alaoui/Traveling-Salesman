@@ -199,6 +199,7 @@ public class Controller {
 		Node selectedNode = mNetwork.getSelectedNode();
 		Command addCommand = new AddCommand(previousNode, selectedNode);
 		if (addCommand.execute()) {
+			mNetwork.networkChanged();
 			mCommandStack.push(addCommand);
 		}
 		setState(State.TOUR_CALCULATED);
@@ -214,6 +215,7 @@ public class Controller {
 	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
 		if (rmCommand.execute()) {
+			mNetwork.networkChanged();
 			mCommandStack.push(rmCommand);
 		}
 		setState(State.TOUR_CALCULATED);
