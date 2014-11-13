@@ -37,7 +37,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
 	private final static String ACTION_CALCULATE_TOUR = "ACTION_CALCULATE_TOUR";
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
-
+	private final static String ACTION_EXIT = "ACTION_EXIT";
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 
 	/**
@@ -126,6 +126,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExport.addActionListener(this);
 		mMenuFile.add(mExport);
+		
+		mExit = new JMenuItem("Quitter");
+		mExit.setActionCommand(ACTION_EXIT);
+		mExit.addActionListener(this);
+		mMenuFile.add(mExit);
 
 		mMenuBar.add(mMenuFile);
 
@@ -195,6 +200,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	protected JMenuItem mCalculateTour;
 
 	protected JMenuItem mExport;
+	
+	protected JMenuItem mExit;
 
 	/**
 	 * 
@@ -258,17 +265,19 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		{
 		case(ACTION_LOAD_MAP) :
 			mController.loadNetworkXML();
-		break;
+			break;
 		case(ACTION_LOAD_DELIVERIES):
 			mController.loadDeliveriesXML();
-		break;
+			break;
 		case(ACTION_CALCULATE_TOUR):
 			mController.calculateTour();
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
 			mController.addDeliveryClicked();	
-		break;
+			break;
+		case(ACTION_EXIT):
+			System.exit(0);
 		}
 	}
 
@@ -424,6 +433,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
 			break;
+			
 		}
 	}
 
