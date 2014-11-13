@@ -50,6 +50,20 @@ public class TimeSlot implements XmlParse {
 		return mStartHour;
 	}
 
+	public String getFormattedStartHour() {
+		String hours = ((Integer) (mStartHour / 3600)).toString();
+		String minutes = ((Integer) ((mStartHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mStartHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
+
+	public String getFormattedEndHour() {
+		String hours = ((Integer) (mEndHour / 3600)).toString();
+		String minutes = ((Integer) ((mEndHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mEndHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
+
 	public int getEndHour() {
 		return mEndHour;
 	}

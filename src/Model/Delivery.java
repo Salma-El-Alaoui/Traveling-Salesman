@@ -70,7 +70,9 @@ public class Delivery implements XmlParse {
 		return mNode;
 	}
 
-
+	public int getClient() {
+		return mClient;
+	}
 
 
 
@@ -80,6 +82,13 @@ public class Delivery implements XmlParse {
 	public int getArrivalHour() {
 		return mArrivalHour;
 	}
+	public String getFormattedArrivalHour(){
+		String hours = ((Integer) (mArrivalHour / 3600)).toString();
+		String minutes = ((Integer) ((mArrivalHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mArrivalHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
+	
 
 	/**
 	 * @return Delivery Hour
@@ -87,12 +96,25 @@ public class Delivery implements XmlParse {
 	public int getDeliveryHour() {
 		return mDeliveryHour;
 	}
+	public String getFormattedDeliveryHour(){
+		String hours = ((Integer) (mDeliveryHour / 3600)).toString();
+		String minutes = ((Integer) ((mDeliveryHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mDeliveryHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
 
 	/**
 	 * @return Departure Hour
 	 */
 	public int getDepartureHour() {
 		return mDepartureHour;
+	}
+
+	public String getFormattedDepartureHour(){
+		String hours = ((Integer) (mDepartureHour / 3600)).toString();
+		String minutes = ((Integer) ((mDepartureHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mDepartureHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
 	}
 
 	/**

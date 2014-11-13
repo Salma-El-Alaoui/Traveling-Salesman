@@ -49,7 +49,13 @@ public class Segment {
     }
 	
 
+public String getStreetName() {
+	return mStreetName;
+}
 
+public float getLength() {
+	return mLength;
+}
     
  
   

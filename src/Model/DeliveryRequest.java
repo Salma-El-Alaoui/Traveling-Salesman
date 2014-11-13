@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import tsp.*;
@@ -264,6 +266,67 @@ public class DeliveryRequest {
 
 	public Tour getTour(){
 		return mTour;
+	}
+	
+	public void createRoadMap(FileWriter fw){
+		try {
+			String breakLine = System.getProperty("line.separator");
+			String header = "--------------------- Votre Feuille de route --------------------";
+			String pathSeparator = breakLine+breakLine+"--------------------- Itinéraire --------------------";
+			String deliverySeparator = breakLine+breakLine+"--------------------- Livraison --------------------";
+			String pathHeaderTemplate = breakLine+"Itinéraire de %s à l'adresse de la livraison numéro %s : ";
+			String deliveryHeaderTemplate = breakLine+ "Détails de la livraison numéro %s";
+			String pathDescriptionTemplate = breakLine+"Suivre rue %s sur %s m de l'adresse %s à l'adresse %s  ";
+			String deliveryDescriptionTemplate = breakLine+"Adresse: %s"+breakLine+"Heure d'arrivée prévue: %s"+ breakLine+"Heure de livraison prévue: %s"+breakLine+"Heure de départ prévue: %s"+breakLine+"Coordonnées du client: %s";
+			
+			fw.write(header);
+			
+			int nbPaths = mTour.getPathList().size();
+			//Path from Warehouse to Node 1
+			for (int i = 0; i<nbPaths-1; i++){
+				Path pathToNextDelivery = mTour.getPathList().get(i);
+				List<Segment> pathSegments = pathToNextDelivery.getSegmentList();
+				String pathHeader;
+				if(i ==0){
+					pathHeader = String.format(pathHeaderTemplate,"l'entrepôt", i+1);
+				}else{
+					pathHeader = String.format(pathHeaderTemplate,"la livraison numéro " + i, i+1);
+				}
+				
+				fw.write(pathSeparator);
+				fw.write(pathHeader);
+				for(Segment seg : pathSegments){
+					String path = String.format(pathDescriptionTemplate, seg.getStreetName(), seg.getLength(), seg.getDepartureNode().getId(), seg.getArrivalNode().getId());
+					fw.write(path);
+				}
+				
+				//Delivery description
+				
+				Delivery nthDelivery = mTour.getDeliveryList().get(i);
+				String deliveryHeader = String.format(deliveryHeaderTemplate, i+1);
+				String deliveryDescription = String.format(deliveryDescriptionTemplate, nthDelivery.getNode().getId(),nthDelivery.getFormattedArrivalHour(), nthDelivery.getFormattedDeliveryHour(), nthDelivery.getFormattedDepartureHour(), nthDelivery.getClient());
+				fw.write(deliverySeparator);
+				fw.write(deliveryHeader);
+				fw.write(deliveryDescription);
+			}
+			
+			String lastPathHeader = breakLine+ "Itinéraire de la dernière livraison à l'entrepôt";
+			Path lastPath = mTour.getPathList().get(nbPaths-1);
+			List<Segment> pathSegments = lastPath.getSegmentList();
+			
+			fw.write(pathSeparator);
+			fw.write(lastPathHeader);
+			for(Segment seg : pathSegments){
+				String path = String.format(pathDescriptionTemplate, seg.getStreetName(), seg.getLength(), seg.getDepartureNode().getId(), seg.getArrivalNode().getId());
+				fw.write(path);
+			}
+
+			fw.close();
+		} catch (IOException e) {
+			
+			return;
+		}
+		
 	}
 
 }
