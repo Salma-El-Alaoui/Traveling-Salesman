@@ -11,11 +11,20 @@ import org.w3c.dom.NodeList;
  */
 public class TimeSlot implements XmlParse {
 
+	private static final Color[] COLORS = {
+		new Color(248, 148, 6),
+		new Color(30, 130, 76),
+		new Color(65, 131, 215),
+		new Color(242, 38, 19),
+		new Color(103, 65, 114),
+		new Color(219, 10, 91)
+	};
+	
 	protected Color color;
 
-	public TimeSlot() {
+	public TimeSlot(int i) {
 		mDeliveryList = new ArrayList<Delivery>();
-		setColor();
+		setColor(i);
 	}
 
 	/**
@@ -149,12 +158,14 @@ public class TimeSlot implements XmlParse {
 		return color;
 	}
 
-	private void setColor() {
-		Random random = new Random();
-		int randomInt = random.nextInt(256);
-
-		this.color = new Color(0, 255, randomInt);
-
+	private void setColor(int i) {
+		if(i<0){
+			i = 0;
+		}
+		while(i>COLORS.length){
+			i-=COLORS.length;
+		}
+		this.color = COLORS[i];
 	}
 
 	@Override
