@@ -65,6 +65,16 @@ public class TimeSlot implements XmlParse {
 	public int getEndHour() {
 		return mEndHour;
 	}
+	
+	public void addDelivery(Delivery delivery)
+	{
+		mDeliveryList.add(delivery);
+	}
+	
+	public void removeDelivery(Delivery delivery)
+	{
+		mDeliveryList.remove(delivery);
+	}
 
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses, Map<Integer, Node> map_clientAdress) throws InvalidDeliveryRequestFileException{
