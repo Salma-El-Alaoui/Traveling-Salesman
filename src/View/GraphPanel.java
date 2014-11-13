@@ -70,8 +70,8 @@ public class GraphPanel extends JPanel implements MouseWheelListener, MouseMotio
 	 * 
 	 */
 	public GraphPanel() {
-		this.setPreferredSize(new Dimension(600,600));
-		mScale = 600.0/800;
+		this.setPreferredSize(new Dimension(700,600));
+		mScale = 600.0/900;
 		mTranslationX = 0;
 		mTranslationY = 0;
 		this.addMouseWheelListener(this);

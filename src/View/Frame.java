@@ -31,7 +31,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	private final static int WIDTH = 1000;
 	private final static int HEIGHT = 700;
-	private final static double INFOS_WIDTH = 0.25;
+	private final static double INFOS_WIDTH = 0.2;
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
@@ -51,6 +51,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH,HEIGHT));
 		this.setLayout(new BorderLayout());
+		this.setResizable(false);
 		mPanelGraph.addMouseListener(this);
 
 		mMenuBar = new JMenuBar();
@@ -295,10 +296,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 						int secArr = heureArr;
 
 						nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
-									+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60));
+									+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60))+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 					}else
 					{
-						nodeInfos += "<br>Livraison : Non";
+						nodeInfos += "<br>Livraison : Non</html>";
 					}
 					mNodeInfos.setText(nodeInfos);
 				}
