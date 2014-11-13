@@ -21,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import org.w3c.dom.Document;
+
 import Controller.Controller;
 import Model.Network;
 import Model.Node;
@@ -53,6 +55,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	public Frame(Controller controller) {
 		mController = controller;
 		mPanelGraph = new GraphPanel();
+		mXMLTreePanel = new XMLTreePanel();
 
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -199,7 +202,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
 				HEIGHT));
 
-		this.add(mPanelGraph, BorderLayout.WEST);
+		this.add(mPanelGraph, BorderLayout.CENTER);
+		this.add(mXMLTreePanel, BorderLayout.WEST);
 
 		JPanel panelInfos = new JPanel();
 		panelInfos.setLayout(new GridLayout(2, 1));
@@ -313,6 +317,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected GraphPanel mPanelGraph;
+	
+	protected XMLTreePanel mXMLTreePanel;
 
 	/**
 	 * 
@@ -459,7 +465,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	public void setNetwork(Network n) {
 		mPanelGraph.setNetwork(n);
+		mXMLTreePanel.setNetwork(n);
 	}
+	
+
 
 	/**
 	 * Update the frame depending on the state
