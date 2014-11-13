@@ -483,6 +483,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez charger un réseau via le menu fichier ou la barre d'actions </html>");
 			break;
 		case NETWORK_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -498,6 +499,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
 			break;
 		case DELIVERY_REQUEST_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -513,6 +515,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez générer la tournée via le menu fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_CALCULATED:
 			mLoadPlanButton.setEnabled(true);
@@ -528,6 +531,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez supprimer une livraison en cliquant dessus puis sur Supprimer la livraison<br><br>"
+					+ "Vous pouvez ajouter une livraison en cliquant sur le noeud à ajouter puis sur Ajouter la livraison<br><br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -543,6 +549,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez supprimer la livraison sélectionnée en cliquant sur Supprimer la livraison<br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case WAREHOUSE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -556,6 +564,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case OTHER_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -571,6 +580,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(true);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
+			mLabelInfos.setText("<html>Vous pouvez ajouter une livraison sur le noeud sélectionné en cliquant sur Ajouter la livraison<br>"
+					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case ADDING_DELIVERY:
 			mLoadPlanButton.setEnabled(false);
@@ -586,8 +597,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDeliveryButton.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
+			mLabelInfos.setText("<html>Cliquez sur la livraison après laquelle vous voulez insérer la nouvelle livraison</html>");
 			break;
-
 		}
 	}
 
