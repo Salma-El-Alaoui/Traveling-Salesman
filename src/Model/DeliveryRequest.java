@@ -131,7 +131,11 @@ public class DeliveryRequest {
 	 * @return
 	 */
 	public boolean insertDelivery(Node previousNode, Node selectedNode) {
-		Delivery previousDelivery = previousNode.getDelivery();
+		Delivery previousDelivery=null;
+		if(!previousNode.equals(mWarehouse))
+		{
+			previousDelivery = previousNode.getDelivery();
+		}
 		Delivery newDelivery = new Delivery(selectedNode);
 		return mTour.insertDelivery(previousDelivery, newDelivery);
 	}

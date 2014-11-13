@@ -91,7 +91,11 @@ public class Delivery implements XmlParse {
 	 *            timeSlot
 	 */
 	public void setTimeSlot(TimeSlot timeSlot) {
-		// TODO add delivery to timeSlot node
+		if(mTimeSlot!=null)
+		{
+			mTimeSlot.removeDelivery(this);	
+		}
+		timeSlot.addDelivery(this);
 		mTimeSlot = timeSlot;
 	}
 

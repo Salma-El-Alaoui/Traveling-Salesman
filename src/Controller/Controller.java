@@ -72,7 +72,7 @@ public class Controller {
 	 * 
 	 */
 	public void onNodeSelected(Node node) {
-		if(mState == State.ADDING_DELIVERY && node.hasDelivery()){
+		if(mState == State.ADDING_DELIVERY){
 			addDelivery(node);
 		} 
 		if(mState == State.TOUR_CALCULATED 

@@ -115,12 +115,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		
 		mMenuEdition.addSeparator();
 		
-		mAddDelivery=new JMenuItem("Ajouter une livraison");
+		mAddDelivery=new JMenuItem("Ajouter la livraison");
 		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
-		mRemoveDelivery=new JMenuItem("Supprimer une livraison");
+		mRemoveDelivery=new JMenuItem("Supprimer la livraison");
 		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
@@ -349,7 +349,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case NETWORK_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -362,7 +362,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case DELIVERY_REQUEST_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -375,7 +375,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case TOUR_CALCULATED:
 			mLoadPlanButton.setEnabled(true);
@@ -388,7 +388,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case TOUR_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -401,7 +401,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case OTHER_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -414,7 +414,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExport.setEnabled(true);
 			mAddDelivery.setEnabled(true);
 			mRemoveDelivery.setEnabled(false);
-			mAddDelivery.setText("Ajouter une livraison");
+			mAddDelivery.setText("Ajouter la livraison");
 			break;
 		case ADDING_DELIVERY:
 			mLoadPlanButton.setEnabled(false);
