@@ -278,7 +278,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		icon = new ImageIcon("img/remove-user-icon.png");
 		mRemoveDeliveryButton = new JButton(icon);
 		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
-		mRemoveDeliveryButton.setToolTipText("Ajouter une livraison");
+		mRemoveDeliveryButton.setToolTipText("Supprimer une livraison");
 		mRemoveDeliveryButton.addActionListener(this);
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);

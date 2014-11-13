@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
@@ -18,7 +19,8 @@ public interface XmlParse {
 	 * @throws DeliveryRequestParseException
 	 *             when a blocking eroor occurs
 	 */
-	public String buildFromXML(Element element, Network network, String tmpWarningMessage, Map<Integer, Node> map_clientAdress) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile;
+	public String buildFromXML(Element element, Network network, String tmpWarningMessage,
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile;
 	
 	/**
 	 * @param Element

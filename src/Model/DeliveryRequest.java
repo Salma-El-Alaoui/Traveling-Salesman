@@ -73,7 +73,7 @@ public class DeliveryRequest {
 		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
 		this.mTour = new Tour(mWarehouse);
-		
+
 		int warehouseIndex = mapIdToIndex.get(mWarehouse.getId());
 		int previousIndex = warehouseIndex;
 		int nextIndex;
@@ -84,12 +84,12 @@ public class DeliveryRequest {
 			if(previousNode.getDelivery() != null){
 				this.mTour.addDelivery(previousNode.getDelivery());				
 			}
-			
+
 			this.mTour.addPath(mapIndexPath.get(previousIndex).get(nextIndex));
 			previousIndex = nextIndex;
 
 		}while(previousIndex != warehouseIndex);
-				
+
 		this.mTour.updateHour();
 
 		network.networkChanged();
@@ -178,12 +178,12 @@ public class DeliveryRequest {
 		Element warehouseElement = (Element) nodeListWarehouse.item(0);
 
 		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement.getAttribute("adresse")));
-		
+
 		if (mWarehouse == null){
 			throw new InvalidDeliveryRequestFileException("Le noeud de l'Entrepot dans les demandes de Livraison n'existe pas dans le Réseau");
+		} else {
+			this.mWarehouse.setIsWarehouse(true);
 		}
-		
-		this.mWarehouse.setIsWarehouse(true);
 	}
 
 	private void buildTimeSlotsFromXML(Element deliveryRequestElement,
@@ -195,6 +195,7 @@ public class DeliveryRequest {
 		Element timeSlotElement;
 		String listClientsWithSeveralAdresses = "";
 		Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
+		List<Integer> list_allAdress = new ArrayList<Integer>();
 
 
 		for (int i = 0; i < numberOfSlots; i++) {
@@ -202,7 +203,7 @@ public class DeliveryRequest {
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
 			try {
-				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress);
+				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress, list_allAdress);
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
 			}
@@ -210,11 +211,11 @@ public class DeliveryRequest {
 			mTimeSlotList.add(timeSlot);
 
 		}
-		
+
 		if (!listClientsWithSeveralAdresses.equals("")){
 			throw new WarningDeliveryRequestFile("Les clients suivants ont plusieurs adresses : "+listClientsWithSeveralAdresses);
 		}
-		
+
 	}
 
 	@Override

@@ -12,6 +12,9 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -20,8 +23,8 @@ import org.xml.sax.SAXException;
 public class Utils {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Utils() {
 	}
 
@@ -48,7 +51,7 @@ public class Utils {
 			}else{
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}
-			
+
 		}
 
 		// create a Validator instance, which can be used to validate an
@@ -69,8 +72,16 @@ public class Utils {
 		} catch (SAXException e) {
 			// instance document is invalid!
 			if(pathToXsdFile.contains("plan")){
+				String s = xmlDocument.getDocumentElement().getNodeName();
+				if(s.equals("JourneeType")){
+					throw new InvalidNetworkFileException("Vous essayez de charger des demandes de livraison et non un plan du réseau !");
+				}
 				throw new InvalidNetworkFileException(e.getMessage());
 			}else{
+				String s = xmlDocument.getDocumentElement().getNodeName();
+				if(s.equals("Reseau")){
+					throw new InvalidNetworkFileException("Vous essayez de charger un plan du réseau et non des demandes de livraisons!");
+				}
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}
 
