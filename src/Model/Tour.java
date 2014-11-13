@@ -166,6 +166,7 @@ public class Tour {
 				}
 			}
 		}
+		delivery.getNode().setDelivery(null);
 		updateHour(); 	 
 		return previousNode;
 	}

@@ -101,33 +101,12 @@ public class Controller {
 	}
 
 	/**
-	 * Add the selected node as a delivery after previousNode
-	 * 
-	 * @param previousNode
-	 *            node after which we insert the delivery
+	 * Update the Controller's state when remove delivery menu item is clicked
 	 */
-	public void addDelivery(Node previousNode) {
-		Node selectedNode = mNetwork.getSelectedNode();
-		Command addCommand = new AddCommand(previousNode, selectedNode);
-		if (addCommand.execute()) {
-			mCommandStack.push(addCommand);
+	public void removeDeliveryClicked() {
+		if (mState == State.TOUR_NODE_SELECTED) {
+			removeDelivery(mNetwork.getSelectedNode());
 		}
-		setState(State.TOUR_CALCULATED);
-		// auto refreshing thanks to Observer pattern
-	}
-
-	/**
-	 * Remove from the tour the delivery associated with the node
-	 * 
-	 * @param node
-	 *            the node associated with the delivery to remove
-	 */
-	public void removeDelivery(Node node) {
-		Command rmCommand = new RemoveCommand(node);
-		if (rmCommand.execute()) {
-			mCommandStack.push(rmCommand);
-		}
-		// auto refreshing thanks to Observer pattern
 	}
 
 	/**
@@ -195,7 +174,7 @@ public class Controller {
 		setState(State.DELIVERY_REQUEST_LOADED);
 	}
 
-	public void calculateTour(){
+	public void calculateTourClicked(){
 		mNetwork.getDeliveryRequest().calculateTour();
 		if(mNetwork.getSelectedNode() != null){
 			if(mNetwork.getSelectedNode().hasDelivery()){
@@ -208,4 +187,35 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Add the selected node as a delivery after previousNode
+	 * 
+	 * @param previousNode
+	 *            node after which we insert the delivery
+	 */
+	private void addDelivery(Node previousNode) {
+		Node selectedNode = mNetwork.getSelectedNode();
+		Command addCommand = new AddCommand(previousNode, selectedNode);
+		if (addCommand.execute()) {
+			mCommandStack.push(addCommand);
+		}
+		setState(State.TOUR_CALCULATED);
+		// auto refreshing thanks to Observer pattern
+	}
+
+	/**
+	 * Remove from the tour the delivery associated with the node
+	 * 
+	 * @param node
+	 *            the node associated with the delivery to remove
+	 */
+	private void removeDelivery(Node node) {
+		Command rmCommand = new RemoveCommand(node);
+		if (rmCommand.execute()) {
+			mCommandStack.push(rmCommand);
+		}
+		setState(State.TOUR_CALCULATED);
+		// auto refreshing thanks to Observer pattern
+	}
+	
 }

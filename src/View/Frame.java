@@ -38,6 +38,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
 
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
+	private final static String ACTION_REMOVE_DELIVERY = "ACTION_REMOVE_DELIVERY";
+	
+	
 
 	/**
 	 * 
@@ -101,6 +104,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mMenuEdition.add(mAddDelivery);
 
 		mRemoveDelivery=new JMenuItem("Supprimer une livraison");
+		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
 
@@ -261,11 +265,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mController.browseDeliveryClicked();
 		break;
 		case(ACTION_CALCULATE_TOUR):
-			mController.calculateTour();
+			mController.calculateTourClicked();
 		case(ACTION_EXPORT_ROADMAP):
 			break;
 		case(ACTION_ADD_DELIVERY):
 			mController.addDeliveryClicked();	
+		case(ACTION_REMOVE_DELIVERY):
+			mController.removeDeliveryClicked();	
 		break;
 		}
 	}
