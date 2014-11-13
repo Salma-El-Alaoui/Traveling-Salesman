@@ -124,26 +124,28 @@ public class Delivery implements XmlParse {
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
 
 		mNode = network.getNode(nodeId);
-		mNode.setDelivery(this);
 
 		if (mNode == null) {
 			throw new InvalidDeliveryRequestFileException(
-					"Le noeud "
-							+ nodeId
-							+ " dans les demandes de Livraisons n'existe pas dans le Réseau");
-		}
-
-		// Check if one client has just one and only one adress
-		if (map_clientAdress.get(mClient) != null) {
-			if (!map_clientAdress.get(mClient).equals(mNode)) {
-				listClientsWithSeveralAdresses += mClient + " ";
-				return listClientsWithSeveralAdresses;
-			}
+					"Le noeud "	+ nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");
+			
+		// Node not in the Network	
 		} else {
-			map_clientAdress.put(mClient, mNode);
-			return "OK";
+			
+			mNode.setDelivery(this);
+
+			// Check if one client has just one and only one adress
+			if (map_clientAdress.get(mClient) != null) {
+				if (!map_clientAdress.get(mClient).equals(mNode)) {
+					listClientsWithSeveralAdresses += mClient + " ";
+					return listClientsWithSeveralAdresses;
+				}
+			} else {
+				map_clientAdress.put(mClient, mNode);
+				return "OK";
+			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override
