@@ -28,19 +28,14 @@ public class Controller {
 	public Controller() {
 		mState = State.NEW;
 		mFrame = new Frame(this);
-		mCommandStack = new Stack<Command>();
+		mInvoker = new Invoker();
 		mNetwork = new Network();
 	}
 
 	/**
 	 * 
 	 */
-	protected Stack<Command> mCommandStack;
-
-	/**
-	 * 
-	 */
-	protected Stack<Command> mUndoStack;
+	private Invoker mInvoker;
 
 	/**
 	 * 
@@ -61,6 +56,13 @@ public class Controller {
 	private void setState(State state) {
 		mState = state;
 		mFrame.changeState(mState);
+	}
+
+	/**
+	 * 
+	 */
+	private void updateUndoRedoFrame(){
+		mFrame.setUndoRedo(mInvoker.getUndoName(), mInvoker.getRedoName());
 	}
 
 	/**
@@ -109,42 +111,16 @@ public class Controller {
 		}
 	}
 
-	/**
-	 * Undo the last command executed
-	 */
-	public void undo() {
-		if (mCommandStack.isEmpty()) {
-			System.out.println("Empty command stack");
-			return;
-		}
-
-		Command command = mCommandStack.pop();
-
-		if (command.undo()) {
-			mUndoStack.push(command);
-		} else {
-			System.out.println("Can't undo command");
-		}
-		// auto refreshing thanks to Observer pattern
+	public void undoClicked() {
+		mInvoker.undo();
+		updateUndoRedoFrame();
+		mNetwork.networkChanged();
 	}
 
-	/**
-	 * Execute the last command undone
-	 */
-	public void redo() {
-		if (mUndoStack.isEmpty()) {
-			System.out.println("Empty undo command stack");
-			return;
-		}
-
-		Command command = mUndoStack.pop();
-
-		if (command.execute()) {
-			mCommandStack.push(command);
-		} else {
-			System.out.println("Can't redo command");
-		}
-		// auto refreshing thanks to Observer pattern
+	public void redoClicked() {
+		mInvoker.redo();
+		updateUndoRedoFrame();
+		mNetwork.networkChanged();
 	}
 
 	public void browseNetworkClicked() {
@@ -154,12 +130,14 @@ public class Controller {
 		try {
 			mNetwork.parseNetworkFile(f1);
 			mFrame.setNetwork(mNetwork);
+			mInvoker.clear();
+			updateUndoRedoFrame();
 			setState(State.NETWORK_LOADED);
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
-		
+
 	}
 
 	public void browseDeliveryClicked() {
@@ -168,16 +146,20 @@ public class Controller {
 		try {
 			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
 			setState(State.DELIVERY_REQUEST_LOADED);
+			mInvoker.clear();
+			updateUndoRedoFrame();
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
 		}
 
-		
+
 	}
 
 	public void calculateTourClicked(){
 		mNetwork.getDeliveryRequest().calculateTour();
+		mInvoker.clear();
+		updateUndoRedoFrame();
 		if(mNetwork.getSelectedNode() != null){
 			if(mNetwork.getSelectedNode().hasDelivery()){
 				setState(State.TOUR_NODE_SELECTED);
@@ -198,11 +180,10 @@ public class Controller {
 	private void addDelivery(Node previousNode) {
 		Node selectedNode = mNetwork.getSelectedNode();
 		Command addCommand = new AddCommand(previousNode, selectedNode);
-		if (addCommand.execute()) {
-			mNetwork.networkChanged();
-			mCommandStack.push(addCommand);
-		}
+		mInvoker.addAndExecute(addCommand);
+		mNetwork.networkChanged();
 		setState(State.TOUR_CALCULATED);
+		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
 	}
 
@@ -214,12 +195,11 @@ public class Controller {
 	 */
 	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
-		if (rmCommand.execute()) {
-			mNetwork.networkChanged();
-			mCommandStack.push(rmCommand);
-		}
+		mInvoker.addAndExecute(rmCommand);
+		mNetwork.networkChanged();
 		setState(State.TOUR_CALCULATED);
+		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
 	}
-	
+
 }
