@@ -14,6 +14,7 @@ import javax.swing.event.TreeSelectionListener;
 
 import org.w3c.dom.Document;
 
+import Controller.Controller;
 import Model.Network;
 import Model.XMLTreeModel;
 import Model.XMLTreeNode;
@@ -23,11 +24,13 @@ public class XMLTreePanel extends JPanel implements Observer {
 	private JTree tree;
 	private XMLTreeModel model;
 	private Network n;
-	private final String TITLE = "Demande de livraison initiale";
+	private final String TEXT_TITLE = "Demande de livraison initiale";
+	private final JTextField  TITLE= new JTextField(TEXT_TITLE);
+	private Controller mController;
 	
-	public XMLTreePanel() {
+	public XMLTreePanel(Controller controller) {
 		
-		
+		mController = controller;
 		setLayout(new BorderLayout());
 		
 		model = new XMLTreeModel();
@@ -44,16 +47,22 @@ public class XMLTreePanel extends JPanel implements Observer {
 
 		add(pane, "West");
 		
-		final JTextField text = new JTextField(TITLE);
-		text.setEditable(false);
-		add(text, "North");
+		
+		TITLE.setEditable(false);
+		add(TITLE, "North");
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				Object lpc = e.getPath().getLastPathComponent();
-				if (lpc instanceof XMLTreeNode) {
-					text.setText( ((XMLTreeNode)lpc).getText() );
+				try{
+					Integer deliveryNodeID = Integer.parseInt(lpc.toString().split("adresse")[1].replaceAll("\\D+",""));
+					mController.onNodeSelected(n.getNode(deliveryNodeID));
 				}
+				catch(ArrayIndexOutOfBoundsException excep ){
+					
+				}
+				
+			
 			}
 		});
 		
