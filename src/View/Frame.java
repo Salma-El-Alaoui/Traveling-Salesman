@@ -92,21 +92,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
 		
-		icon = new ImageIcon("img/undo.png");
-		mUndoButton = new JButton(icon);
-		mUndoButton.setActionCommand(ACTION_UNDO);
-		mUndoButton.setToolTipText("Défaire l'ajout");
-		mUndoButton.addActionListener(this);
-		mUndoButton.setEnabled(false);
-		toolbar.add(mUndoButton);
-		
-		icon = new ImageIcon("img/redo.png");
-		mRedoButton = new JButton(icon);
-		mRedoButton.setActionCommand(ACTION_REDO);
-		mRedoButton.setToolTipText("Refaire l'ajout");
-		mRedoButton.addActionListener(this);
-		mRedoButton.setEnabled(false);
-		toolbar.add(mRedoButton);
+		toolbar.addSeparator(new Dimension (20,10));
 		
 		icon = new ImageIcon("img/add-user-icon.png");
 		mAddDeliveryButton = new JButton(icon);
@@ -123,6 +109,24 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRemoveDeliveryButton.addActionListener(this);
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);
+		
+		icon = new ImageIcon("img/undo.png");
+		mUndoButton = new JButton(icon);
+		mUndoButton.setActionCommand(ACTION_UNDO);
+		mUndoButton.setToolTipText("Défaire l'ajout");
+		mUndoButton.addActionListener(this);
+		mUndoButton.setEnabled(false);
+		toolbar.add(mUndoButton);
+		
+		icon = new ImageIcon("img/redo.png");
+		mRedoButton = new JButton(icon);
+		mRedoButton.setActionCommand(ACTION_REDO);
+		mRedoButton.setToolTipText("Refaire l'ajout");
+		mRedoButton.addActionListener(this);
+		mRedoButton.setEnabled(false);
+		toolbar.add(mRedoButton);
+		
+		
 
 		this.add(toolbar, BorderLayout.NORTH);
 
@@ -516,10 +520,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(true);
+			mAddDeliveryButton.setEnabled(true);
 			mCalculateTour.setEnabled(false);
 			mCalculateTourButton.setEnabled(false);
 			mRemoveDeliveryButton.setEnabled(false);
-			mAddDeliveryButton.setText("Annuler ajout livraison");
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
 			break;
