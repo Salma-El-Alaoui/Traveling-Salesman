@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Stack;
 
 import Model.InvalidDeliveryRequestFileException;
@@ -63,16 +64,18 @@ public class Controller {
 	/**
 	 * 
 	 */
+
+	
 	private void updateUndoRedoFrame(){
 		mFrame.setUndoRedo(mInvoker.getUndoName(), mInvoker.getRedoName());
 
+
 	}
 
-	/**
-	 * 
-	 */
+
+
 	public void onNodeSelected(Node node) {
-		if(mState == State.ADDING_DELIVERY && node.hasDelivery()){
+		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery()||node.isWarehouse())){
 			addDelivery(node);
 		} 
 		if(mState == State.TOUR_CALCULATED 
@@ -84,6 +87,7 @@ public class Controller {
 			} else {
 				setState(Controller.State.OTHER_NODE_SELECTED);			
 			}			
+
 		}
 		mNetwork.setSelectedNode(node);
 		mFrame.setSelectedNode(node);
@@ -128,7 +132,7 @@ public class Controller {
 
 	public void browseNetworkClicked() {
 		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paint();
+		File f1 = networkChooserView.paintOpen();
 		mNetwork = new Network();
 		try {
 			mNetwork.parseNetworkFile(f1);
@@ -147,7 +151,7 @@ public class Controller {
 
 	public void browseDeliveryClicked() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
+		File f2 = deliveryRequestChooserView.paintOpen();
 		try {
 			mNetwork.clearNodeContent();
 			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
@@ -206,6 +210,12 @@ public class Controller {
 		setState(State.TOUR_CALCULATED);
 		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
+	}
+	
+	public void saveRoadmapClicked(){
+		FileChooserView roadMapSaverView = new FileChooserView();
+		FileWriter fw = roadMapSaverView.paintSave();
+		mNetwork.getDeliveryRequest().createRoadMap(fw);
 	}
 
 }

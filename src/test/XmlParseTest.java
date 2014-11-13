@@ -15,7 +15,7 @@ public class XmlParseTest extends TestCase{
 	public void testNetworkNotNull() throws InvalidNetworkFileException,InvalidDeliveryRequestFileException
 	{
 		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paint();
+		File f1 = networkChooserView.paintOpen();
 		Network network = new Network();
 		try {
 			network.parseNetworkFile(f1);
@@ -48,7 +48,7 @@ public class XmlParseTest extends TestCase{
 			e.printStackTrace();
 		}
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
+		File f2 = deliveryRequestChooserView.paintOpen();
 		try {
 			network.parseDeliveryRequestFile(f2);
 		} catch (InvalidNetworkFileException e) {
@@ -79,7 +79,7 @@ public class XmlParseTest extends TestCase{
 			e.printStackTrace();
 		}
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
+		File f2 = deliveryRequestChooserView.paintOpen();
 		try {
 			network.parseDeliveryRequestFile(f2);
 		} catch (InvalidNetworkFileException e) {
