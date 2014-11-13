@@ -65,18 +65,39 @@ public class Delivery implements XmlParse {
 		return mNode;
 	}
 
+
+	public int getClient() {
+		return mClient;
+	}
+
+
+
+
 	/**
 	 * @return Arrival Hour
 	 */
 	public int getArrivalHour() {
 		return mArrivalHour;
 	}
+	public String getFormattedArrivalHour(){
+		String hours = ((Integer) (mArrivalHour / 3600)).toString();
+		String minutes = ((Integer) ((mArrivalHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mArrivalHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
+	
 
 	/**
 	 * @return Delivery Hour
 	 */
 	public int getDeliveryHour() {
 		return mDeliveryHour;
+	}
+	public String getFormattedDeliveryHour(){
+		String hours = ((Integer) (mDeliveryHour / 3600)).toString();
+		String minutes = ((Integer) ((mDeliveryHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mDeliveryHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
 	}
 
 	/**
@@ -86,12 +107,23 @@ public class Delivery implements XmlParse {
 		return mDepartureHour;
 	}
 
+	public String getFormattedDepartureHour(){
+		String hours = ((Integer) (mDepartureHour / 3600)).toString();
+		String minutes = ((Integer) ((mDepartureHour % 3600) / 60)).toString();
+		String seconds = ((Integer) (mDepartureHour % 60)).toString();
+		return hours + ":" + minutes + ":" + seconds;
+	}
+
 	/**
 	 * @param TimeSlot
 	 *            timeSlot
 	 */
 	public void setTimeSlot(TimeSlot timeSlot) {
-		// TODO add delivery to timeSlot node
+		if(mTimeSlot!=null)
+		{
+			mTimeSlot.removeDelivery(this);	
+		}
+		timeSlot.addDelivery(this);
 		mTimeSlot = timeSlot;
 	}
 
