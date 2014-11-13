@@ -47,8 +47,7 @@ public class FileChooserView {
 	}
 
 
-	public File paint() {
-		char mode = 'o';
+	public File paint(char mode) {
 		jFileChooserXML = new JFileChooser();
 		XMLFileFilter filter = new XMLFileFilter();
 		jFileChooserXML.setFileFilter(filter);

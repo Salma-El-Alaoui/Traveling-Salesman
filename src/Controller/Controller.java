@@ -75,7 +75,7 @@ public class Controller {
 	public void browseDeliveryClicked() {
 		try {
 			FileChooserView deliveryRequestChooserView = new FileChooserView();
-			File f2 = deliveryRequestChooserView.paint();
+			File f2 = deliveryRequestChooserView.paint('o');
 			mNetwork.parseDeliveryRequestFile(f2);
 
 		} catch (InvalidNetworkFileException
@@ -90,7 +90,7 @@ public class Controller {
 	 */
 	public void browseNetworkClicked() {
 		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paint();
+		File f1 = networkChooserView.paint('o');
 		try {
 			mNetwork.parseNetworkFile(f1);
 		} catch (InvalidNetworkFileException
@@ -181,7 +181,7 @@ public class Controller {
 
 	public void loadNetworkXML() {
 		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paint();
+		File f1 = networkChooserView.paint('o');
 		mNetwork = new Network();
 		try {
 			mNetwork.parseNetworkFile(f1);
@@ -196,7 +196,7 @@ public class Controller {
 
 	public void loadDeliveriesXML() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
-		File f2 = deliveryRequestChooserView.paint();
+		File f2 = deliveryRequestChooserView.paint('o');
 		try {
 			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
 			setState(State.DELIVERY_REQUEST_LOADED);
@@ -211,6 +211,11 @@ public class Controller {
 	public void calculateTour(){
 		mNetwork.getDeliveryRequest().calculateTour();
 		setState(State.TOUR_CALCULATED);
+	}
+	
+	public void saveRoadmapClicked(){
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paint('s');
 	}
 
 }
