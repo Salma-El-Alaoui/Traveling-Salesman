@@ -544,6 +544,19 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDelivery.setEnabled(true);
 			mAddDelivery.setText("Ajouter la livraison");
 			break;
+		case WAREHOUSE_SELECTED:
+			mLoadPlanButton.setEnabled(true);
+			mLoadMap.setEnabled(true);
+			mLoadDeliveriesButton.setEnabled(true);
+			mloadDeliveries.setEnabled(true);
+			mExportButton.setEnabled(true);
+			mCalculateTour.setEnabled(true);
+			mCalculateTourButton.setEnabled(true);
+			mExport.setEnabled(true);
+			mAddDelivery.setEnabled(false);
+			mRemoveDelivery.setEnabled(false);
+			mAddDelivery.setText("Ajouter la livraison");
+			break;
 		case OTHER_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
 			mLoadMap.setEnabled(true);
