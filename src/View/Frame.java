@@ -155,12 +155,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
-<<<<<<< HEAD
+
 
 		mRemoveDelivery = new JMenuItem("Supprimer une livraison");
-=======
-		mRemoveDelivery=new JMenuItem("Supprimer la livraison");
->>>>>>> 5618ef6a773ce36ac121d0aa2c02ccc4383b9e7a
+
 		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
