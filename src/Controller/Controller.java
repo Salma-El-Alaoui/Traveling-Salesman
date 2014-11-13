@@ -127,6 +127,8 @@ public class Controller {
 	}
 
 	public void browseNetworkClicked() {
+		int flagWarning = 0;
+		
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		mNetwork = new Network();
@@ -134,6 +136,7 @@ public class Controller {
 		if (f1!=null){
 			try {
 				mNetwork.parseNetworkFile(f1);
+				flagWarning++;
 				mFrame.setNetwork(mNetwork);
 				mInvoker.clear();
 				updateUndoRedoFrame();
@@ -142,6 +145,12 @@ public class Controller {
 					| InvalidDeliveryRequestFileException ex) {
 				new ErrorDialogView().paint(ex);
 			} catch (WarningDeliveryRequestFile wa){
+				if(flagWarning==0){
+					mFrame.setNetwork(mNetwork);
+					mInvoker.clear();
+					updateUndoRedoFrame();
+					setState(State.NETWORK_LOADED);
+				}
 				new WarningDialogView().paint(wa);
 			}
 		}
@@ -149,12 +158,15 @@ public class Controller {
 	}
 
 	public void browseDeliveryClicked() {
+		int flagWarning = 0;
+		
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
 		// User cancel loading
 		if (f2!=null){
 			try {
 				mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+				flagWarning++;
 				setState(State.DELIVERY_REQUEST_LOADED);
 				mInvoker.clear();
 				updateUndoRedoFrame();
@@ -162,6 +174,11 @@ public class Controller {
 					| InvalidDeliveryRequestFileException ex) {
 				new ErrorDialogView().paint(ex);
 			} catch (WarningDeliveryRequestFile wa){
+				if(flagWarning==0){
+					setState(State.DELIVERY_REQUEST_LOADED);
+					mInvoker.clear();
+					updateUndoRedoFrame();
+				}
 				new WarningDialogView().paint(wa);
 			}
 		}

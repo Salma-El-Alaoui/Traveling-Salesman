@@ -138,6 +138,7 @@ public class Network extends Observable {
 	 * @return
 	 * @throws InvalidDeliveryRequestFileException
 	 * @throws InvalidNetworkFileException
+	 * @throws WarningDeliveryRequestFile
 	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
