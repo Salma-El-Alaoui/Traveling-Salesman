@@ -1,9 +1,9 @@
 package View;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +24,7 @@ public class TourView implements View {
 	 * 
 	 */
 	public TourView(Tour tour) {
-		mMapTraces = new HashMap<Couple, Integer>();
+		mMapTraces = new HashMap<String, Integer>();
 		mTour = tour;
 	}
 
@@ -36,11 +36,12 @@ public class TourView implements View {
 	/**
 	 * Map counting traced paths between two given nodes
 	 */
-	protected Map<Couple, Integer> mMapTraces;
+	protected Map<String, Integer> mMapTraces;
 
 	@Override
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
 
+		mMapTraces = new HashMap<String, Integer>();
 		Graphics2D g2D = (Graphics2D) g;
 		List<Path> listPath = mTour.getPathList();
 		Delivery d = new Delivery();
@@ -54,26 +55,32 @@ public class TourView implements View {
 				d = mTour.getDeliveryList().get(i);
 			}
 			p = listPath.get(i);
-
 			List<Segment> listSegment = p.getSegmentList();
 			for(Segment s : listSegment)
 			{
+				diff = 0;
 				Node depNode = s.getDepartureNode();
 				Node arrNode = s.getArrivalNode();
-				Couple c = new Couple(depNode, arrNode);
-				if(mMapTraces.containsKey(c))
+				String str ="";
+				if(mMapTraces.containsKey(arrNode.getId()+";"+depNode.getId()))
 				{
-					mMapTraces.put(c, mMapTraces.get(c)+1);
-					diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
-				}else
+					str = arrNode.getId()+";"+depNode.getId();
+					mMapTraces.put(str, mMapTraces.get(str)+1);
+					diff = (int)Math.pow(-1, mMapTraces.get(str))*mMapTraces.get(str) + 1;
+				}else if(mMapTraces.containsKey(depNode.getId()+";"+arrNode.getId()))
 				{
-					mMapTraces.put(c, 1);
+					str = depNode.getId()+";"+arrNode.getId();
+					mMapTraces.put(str, mMapTraces.get(str)+1);
+				}else{
+					str = depNode.getId()+";"+arrNode.getId();
+					mMapTraces.put(depNode.getId()+";"+arrNode.getId(), 1);
 				}
 
-				g2D.setStroke(new BasicStroke(3));
+				Stroke dashed = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[]{8*mMapTraces.get(str)}, 0);
+				g2D.setStroke(dashed);
 				g2D.setColor(d.getTimeSlot().getColor());
-				g2D.drawLine((int)(scale*depNode.getX())+translationX+diff, (int)(scale*depNode.getY())+translationY+diff, 
-						(int)(scale*arrNode.getX())+translationX+diff, (int)(scale*arrNode.getY())+translationY+diff);
+				g2D.drawLine((int)(scale*depNode.getX())+translationX, (int)(scale*depNode.getY())+translationY, 
+						(int)(scale*arrNode.getX())+translationX, (int)(scale*arrNode.getY())+translationY);
 			}
 		}
 	}
@@ -82,32 +89,6 @@ public class TourView implements View {
 	public boolean onClick(MouseEvent E) {
 		return false;
 		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Class used to count number of paths already traced between two nodes
-	 */
-	public class Couple
-	{
-		/**
-		 * 
-		 */
-		Node departureNode;
-
-		/**
-		 * 
-		 */
-		Node arrivalNode;
-
-		/**
-		 * 
-		 */
-		public Couple(Node n1, Node n2)
-		{
-			departureNode = n1;
-			arrivalNode = n2;
-		}
 
 	}
 

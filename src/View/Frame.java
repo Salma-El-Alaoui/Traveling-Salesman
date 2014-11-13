@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -28,20 +30,20 @@ import Model.Node;
  */
 public class Frame extends JFrame implements ActionListener, MouseListener {
 
-	private final static int WIDTH = 800;
-	private final static int HEIGHT = 600;
+	private final static int WIDTH = 1000;
+	private final static int HEIGHT = 700;
 	private final static double INFOS_WIDTH = 0.2;
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
 	private final static String ACTION_CALCULATE_TOUR = "ACTION_CALCULATE_TOUR";
 	private final static String ACTION_EXPORT_ROADMAP = "ACTION_EXPORT_ROADMAP";
-
+	private final static String ACTION_EXIT = "ACTION_EXIT";
 	private final static String ACTION_ADD_DELIVERY = "ACTION_ADD_DELIVERY";
 	private final static String ACTION_REMOVE_DELIVERY = "ACTION_REMOVE_DELIVERY";
 	private final static String ACTION_UNDO = "ACTION_UNDO";
 	private final static String ACTION_REDO = "ACTION_REDO";
-	
+
 	private final static String STRING_UNDO = "Annuler";
 	private final static String STRING_REDO = "Refaire";
 
@@ -56,6 +58,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setLayout(new BorderLayout());
+		this.setResizable(false);
 		mPanelGraph.addMouseListener(this);
 
 		mMenuBar = new JMenuBar();
@@ -111,9 +114,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRedo.addActionListener(this);
 		mRedo.setEnabled(false);
 		mMenuEdition.add(mRedo);
-		
+
 		mMenuEdition.addSeparator();
-		
+
 		mAddDelivery=new JMenuItem("Ajouter la livraison");
 		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDelivery.addActionListener(this);
@@ -144,6 +147,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExport.addActionListener(this);
 		mMenuFile.add(mExport);
+
+		mExit = new JMenuItem("Quitter");
+		mExit.setActionCommand(ACTION_EXIT);
+		mExit.addActionListener(this);
+		mMenuFile.add(mExit);
 
 		mMenuBar.add(mMenuFile);
 
@@ -181,10 +189,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	protected JButton mLoadDeliveriesButton;
 
+
 	/**
 	 * 
 	 */
 	protected JButton mCalculateTourButton;
+
 
 	/**
 	 * 
@@ -205,8 +215,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	protected JMenuItem mRemoveDelivery;
 
+
 	protected JMenuItem mUndo;
-	
+
 	protected JMenuItem mRedo;
 
 	protected JMenuItem mloadDeliveries;
@@ -214,6 +225,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	protected JMenuItem mCalculateTour;
 
 	protected JMenuItem mExport;
+
+	protected JMenuItem mExit;
 
 	/**
 	 * 
@@ -270,27 +283,40 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	public void clickBrowseNetwork() {
 		// TODO implement here
 	}
-	
+
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (mPanelGraph.getListNodeView() != null) {
 			for (NodeView nv : mPanelGraph.getListNodeView()) {
 				if (nv.onClick(arg0)) {
-					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "
-							+ nv.getNode().getId() + "<br>Livraison : ";
-					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "
-							+ nv.getNode().getDelivery().getArrivalHour()
-							+ " à "
-							+ nv.getNode().getDelivery().getDepartureHour()
-							: "Non";
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId();
+					if(nv.getNode().isWarehouse())
+					{
+						nodeInfos +="<br>Entrepôt";
+					}else if(nv.getNode().hasDelivery())
+					{
+						NumberFormat nf = new DecimalFormat("##00");
+						int heureDep = nv.getNode().getDelivery().getDepartureHour();
+						int minDep = heureDep;
+						int secDep = heureDep;
+						int heureArr = nv.getNode().getDelivery().getArrivalHour();
+						int minArr = heureArr;
+						int secArr = heureArr;
+
+						nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
+								+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60))+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+					}else
+					{
+						nodeInfos += "<br>Livraison : Non</html>";
+					}
 					mNodeInfos.setText(nodeInfos);
 					mController.onNodeSelected(nv.getNode());
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		switch(arg0.getActionCommand())
@@ -299,15 +325,19 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mController.browseNetworkClicked();
 			break;
 		case(ACTION_LOAD_DELIVERIES):
-			mController.browseDeliveryClicked();
+			mController.browseDeliveryClicked();		
 			break;
 		case(ACTION_CALCULATE_TOUR):
 			mController.calculateTourClicked();
 			break;
 		case(ACTION_EXPORT_ROADMAP):
+			mController.saveRoadmapClicked();
 			break;
 		case(ACTION_ADD_DELIVERY):
-			mController.addDeliveryClicked();
+			mController.addDeliveryClicked();	
+			break;
+		case(ACTION_EXIT):
+			System.exit(0);
 			break;
 		case(ACTION_REMOVE_DELIVERY):
 			mController.removeDeliveryClicked();
@@ -321,14 +351,30 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-
 	public void setSelectedNode(Node node){
-		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId()+"<br>Livraison : ";
-		nodeInfos += (node.hasDelivery()) ? "Oui <br>Intervalle horaire : "+node.getDelivery().getArrivalHour()+" à "+node.getDelivery().getDepartureHour() 
-				: "Non"; 
+		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId();
+		if(node.isWarehouse())
+		{
+			nodeInfos +="<br>Entrepôt";
+		}else if(node.hasDelivery())
+		{
+			NumberFormat nf = new DecimalFormat("##00");
+			int heureDep = node.getDelivery().getDepartureHour();
+			int minDep = heureDep;
+			int secDep = heureDep;
+			int heureArr = node.getDelivery().getArrivalHour();
+			int minArr = heureArr;
+			int secArr = heureArr;
+
+			nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
+					+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60))+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		}else
+		{
+			nodeInfos += "<br>Livraison : Non</html>";
+		}
 		mNodeInfos.setText(nodeInfos);
 	}
-	
+
 
 
 	@Override
@@ -453,6 +499,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
 			break;
+
 		}
 	}
 
@@ -464,7 +511,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mUndo.setText(STRING_UNDO);
 			mUndo.setEnabled(false);
 		}
-		
+
 		if(redoMessage != null){
 			mRedo.setText(STRING_REDO + " " +redoMessage);
 			mRedo.setEnabled(true);
