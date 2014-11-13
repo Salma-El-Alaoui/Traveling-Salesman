@@ -90,6 +90,7 @@ public class Controller {
 
 		}
 		mNetwork.setSelectedNode(node);
+		mNetwork.networkChanged();
 		mFrame.setSelectedNode(node);
 	}
 
