@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -21,16 +23,15 @@ import javax.swing.JToolBar;
 
 import Controller.Controller;
 import Model.Network;
-import Model.Node;
 
 /**
  * 
  */
 public class Frame extends JFrame implements ActionListener, MouseListener {
 
-	private final static int WIDTH = 800;
-	private final static int HEIGHT = 600;
-	private final static double INFOS_WIDTH = 0.2;
+	private final static int WIDTH = 1000;
+	private final static int HEIGHT = 700;
+	private final static double INFOS_WIDTH = 0.25;
 
 	private final static String ACTION_LOAD_MAP = "ACTION_LOAD_MAP";
 	private final static String ACTION_LOAD_DELIVERIES = "ACTION_LOAD_DELIVERIES";
@@ -71,14 +72,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
 		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mLoadDeliveriesButton);
-		
+
 		icon = new ImageIcon("img/chart_line_edit.png");
 		mCalculateTourButton = new JButton(icon);
 		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTourButton.setToolTipText("Calculer la tournée");
 		mCalculateTourButton.addActionListener(this);
 		toolbar.add(mCalculateTourButton);
-		
+
 
 		icon = new ImageIcon("img/export.png");
 		mExportButton = new JButton(icon);
@@ -114,7 +115,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
-		
+
 		mCalculateTour = new JMenuItem("Calculer la tournée");
 		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTour.addActionListener(this);
@@ -160,14 +161,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected JButton mLoadDeliveriesButton;
-	
+
 
 	/**
 	 * 
 	 */
 	protected JButton mCalculateTourButton;
-	
-	
+
+
 
 	/**
 	 * 
@@ -189,7 +190,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	protected JMenuItem mRemoveDelivery;
 
 	protected JMenuItem mloadDeliveries;
-	
+
 	protected JMenuItem mCalculateTour;
 
 	protected JMenuItem mExport;
@@ -279,9 +280,26 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			{
 				if(nv.onClick(arg0))
 				{
-					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId()+"<br>Livraison : ";
-					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "+nv.getNode().getDelivery().getArrivalHour()+" à "+nv.getNode().getDelivery().getDepartureHour() 
-							: "Non"; 
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId();
+					if(nv.getNode().isWarehouse())
+					{
+						nodeInfos +="<br>Entrepôt";
+					}else if(nv.getNode().hasDelivery())
+					{
+						NumberFormat nf = new DecimalFormat("##00");
+						int heureDep = nv.getNode().getDelivery().getDepartureHour();
+						int minDep = heureDep;
+						int secDep = heureDep;
+						int heureArr = nv.getNode().getDelivery().getArrivalHour();
+						int minArr = heureArr;
+						int secArr = heureArr;
+
+						nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
+									+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60));
+					}else
+					{
+						nodeInfos += "<br>Livraison : Non";
+					}
 					mNodeInfos.setText(nodeInfos);
 				}
 			}

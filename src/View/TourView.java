@@ -24,7 +24,7 @@ public class TourView implements View {
 	 * 
 	 */
 	public TourView(Tour tour) {
-		mMapTraces = new HashMap<Couple, Integer>();
+		mMapTraces = new HashMap<Segment, Integer>();
 		mTour = tour;
 	}
 
@@ -36,11 +36,12 @@ public class TourView implements View {
 	/**
 	 * Map counting traced paths between two given nodes
 	 */
-	protected Map<Couple, Integer> mMapTraces;
+	protected Map<Segment, Integer> mMapTraces;
 
 	@Override
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
 
+		mMapTraces = new HashMap<Segment, Integer>();
 		Graphics2D g2D = (Graphics2D) g;
 		List<Path> listPath = mTour.getPathList();
 		Delivery d = new Delivery();
@@ -58,16 +59,16 @@ public class TourView implements View {
 			List<Segment> listSegment = p.getSegmentList();
 			for(Segment s : listSegment)
 			{
+				//TODO changer mettre Map<Integer, Map<Integer,Integer>>
 				Node depNode = s.getDepartureNode();
 				Node arrNode = s.getArrivalNode();
-				Couple c = new Couple(depNode, arrNode);
-				if(mMapTraces.containsKey(c))
+				if(mMapTraces.containsKey(s))
 				{
-					mMapTraces.put(c, mMapTraces.get(c)+1);
-					diff = (int)Math.pow(-1, mMapTraces.get(c))*mMapTraces.get(c);
+					mMapTraces.put(s, mMapTraces.get(s)+1);
+					diff = (int)Math.pow(-1, mMapTraces.get(s))*2*mMapTraces.get(s);
 				}else
 				{
-					mMapTraces.put(c, 1);
+					mMapTraces.put(s, 1);
 				}
 
 				g2D.setStroke(new BasicStroke(3));
@@ -82,32 +83,6 @@ public class TourView implements View {
 	public boolean onClick(MouseEvent E) {
 		return false;
 		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Class used to count number of paths already traced between two nodes
-	 */
-	public class Couple
-	{
-		/**
-		 * 
-		 */
-		Node departureNode;
-
-		/**
-		 * 
-		 */
-		Node arrivalNode;
-
-		/**
-		 * 
-		 */
-		public Couple(Node n1, Node n2)
-		{
-			departureNode = n1;
-			arrivalNode = n2;
-		}
 
 	}
 
