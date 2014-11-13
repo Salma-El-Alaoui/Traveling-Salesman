@@ -2,38 +2,38 @@ package Model;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-
-import tsp.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import tsp.SolutionState;
+import tsp.TSP;
+
 /**
- * 
+ * Class that represents a delivery request
  */
 public class DeliveryRequest {
 
 	/**
-	 * 
+	 * Constructor
+	 * @param network Network associated with the delivery request
 	 */
-
 	public DeliveryRequest(Network network) {
 		this.network = network;
 		mTimeSlotList = new ArrayList<TimeSlot>();
 	}
 
 	/**
-	 * 
+	 * Network associated with the delivery request
 	 */
 	protected Network network;
 
-	public DeliveryRequest() {
-		mTimeSlotList = new ArrayList<TimeSlot>();
-	}
-
 	/**
-	 * 
+	 * Warehouse of the delivery request
 	 */
 	protected Node mWarehouse;
 
@@ -44,10 +44,13 @@ public class DeliveryRequest {
 	protected List<TimeSlot> mTimeSlotList;
 
 	/**
-	 * 
+	 * Tour calculated or to be calculated
 	 */
 	protected Tour mTour;
 
+	/**
+	 * Max time allowed to calculate the tour
+	 */
 	static final int MAX_COMPUTE_TIME = 10000;
 
 	/**
@@ -162,14 +165,8 @@ public class DeliveryRequest {
 		} catch (WarningDeliveryRequestFile wa){
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
-
 		return "OK";
 	}
-
-	/*
-	 * private int checkValidity(Element element) { // TODO: Check for validity
-	 * return 0; }
-	 */
 
 	private void setWarehouseFromXML(Element deliveryRequestElement,
 			Network network) throws InvalidDeliveryRequestFileException{
@@ -219,7 +216,6 @@ public class DeliveryRequest {
 
 	@Override
 	public String toString() {
-
 		return "Delivery Request : Warehouse (" + mWarehouse + "), TimeSlots"
 				+ mTimeSlotList.toString();
 	}
@@ -287,6 +283,10 @@ public class DeliveryRequest {
 		return mapPath;
 	}
 
+	/**
+	 * Returns the tour associated with the delivery request
+	 * @return the tour associated with the delivery request
+	 */
 	public Tour getTour(){
 		return mTour;
 	}
@@ -348,8 +348,6 @@ public class DeliveryRequest {
 		} catch (IOException e) {
 			
 			return;
-		}
-		
+		}	
 	}
-
 }

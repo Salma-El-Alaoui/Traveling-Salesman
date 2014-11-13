@@ -1,53 +1,66 @@
 package Model;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * 
+ * Class that represents a network
  */
 public class Network extends Observable {
 
+	/**
+	 * Map of all the nodes in the network with their id as key
+	 */
 	protected Map<Integer, Node> mNodesList;
 
 	/**
-	 * 
+	 * List of all the segments in the network
 	 */
-
 	protected List<Segment> mSegmentList;
 
 	/**
-
-	 * 
+	 * Node currently selected
 	 */
 	protected Node mSelectedNode;
 
+	/**
+	 * Delivery request loaded
+	 */
 	protected DeliveryRequest mDeliveryRequest;
 
+	/**
+	 * Constructor
+	 */
 	public Network() {
 		mNodesList = new HashMap<Integer, Node>();
 		mSegmentList = new ArrayList<Segment>();
 	}
 
 	/**
-	 * 
+	 * Returns a map with all the nodes of the network with their id as key
+	 * @return a map with all the nodes of the network with their id as key
 	 */
 	public Map<Integer, Node> getNodesList() {
 		return mNodesList;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns the list of all the segments of the network
+	 * @return the list of all the segments of the network
 	 */
 	public List<Segment> getSegmentList() {
 		return mSegmentList;
@@ -90,10 +103,18 @@ public class Network extends Observable {
 		return mDeliveryRequest.removeDelivery(node);
 	}
 
+	/**
+	 * Returns the node currently selected
+	 * @return the node currently selected
+	 */
 	public Node getSelectedNode() {
 		return mSelectedNode;
 	}
 
+	/**
+	 * Sets the node currently selected
+	 * @param node the node currently selected
+	 */
 	public void setSelectedNode(Node node) {
 		if (mSelectedNode != null) {
 			mSelectedNode.setSelectedNode(false);
@@ -102,10 +123,21 @@ public class Network extends Observable {
 		mSelectedNode.setSelectedNode(true);
 	}
 
+	/**
+	 * Returns the node corresponding to the id
+	 * @param id Id of the node
+	 * @return Node associated with the id
+	 */
 	public Node getNode(int id) {
 		return mNodesList.get(id);
 	}
 
+	/**
+	 * Update the incoming and outcoming segments of the node identified by id
+	 * @param id Id associated with the node to update
+	 * @param inSegment New incoming segment
+	 * @param outSegment New outcoming segment
+	 */
 	public void updateNode(int id, Segment inSegment, Segment outSegment) {
 		Node updatedNode = mNodesList.get(id);
 		if (inSegment != null) {
@@ -117,16 +149,14 @@ public class Network extends Observable {
 		mNodesList.put(id, updatedNode); // Updates the node having this ID
 	}
 
+	/**
+	 * Returns the delivery request associated with the network
+	 * @return the delivery request associated with the network
+	 */
 	public DeliveryRequest getDeliveryRequest() {
 		return mDeliveryRequest;
 	}
 
-	/**
-	 * @param File
-	 * @return
-	 * @throws InvalidDeliveryRequestFileException
-	 * @throws InvalidNetworkFileException
-	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
@@ -179,12 +209,6 @@ public class Network extends Observable {
 							// changed.
 	}
 
-	/**
-	 * @param File
-	 * @return
-	 * @throws InvalidNetworkFileException
-	 * @throws InvalidDeliveryRequestFileException
-	 */
 	public String parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
@@ -273,6 +297,10 @@ public class Network extends Observable {
 			return 0;
 	}
 
+	/**
+	 * Returns a string representing the network
+	 *  @return a string representing the network
+	 */
 	public String toString() {
 		String res = "-------------------------Network Object------------------------------- \n";
 		res += "------------Nodes List --------------- \n";
@@ -288,7 +316,4 @@ public class Network extends Observable {
 		}
 		return res;
 	}
-	
-	
-
 }

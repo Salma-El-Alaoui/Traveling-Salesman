@@ -1,14 +1,15 @@
 package Controller;
 
-import java.util.*;
-
 import Model.Node;
 
 /**
- * 
+ * Command that removes a delivery from the tour
  */
 public class RemoveCommand implements Command {
 
+	/**
+	 * Command's name
+	 */
 	private static final String REMOVE_NAME = "Suppression Livraison";
 	
 	/**

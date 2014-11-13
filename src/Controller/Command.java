@@ -1,9 +1,8 @@
 package Controller;
 
-import java.util.*;
 
 /**
- * 
+ * Interface Command
  */
 public interface Command {
 
@@ -19,5 +18,9 @@ public interface Command {
      */
     public boolean undo();
 
+    /**
+     * Return the name of the command
+     * @return name of the command
+     */
     public String getName();
 }

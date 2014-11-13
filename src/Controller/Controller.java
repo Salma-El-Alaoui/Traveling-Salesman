@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Stack;
 
 import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
@@ -15,7 +14,7 @@ import View.Frame;
 import View.WarningDialogView;
 
 /**
- * 
+ * Controller
  */
 public class Controller {
 
@@ -23,10 +22,13 @@ public class Controller {
 		NEW, NETWORK_LOADED, DELIVERY_REQUEST_LOADED, TOUR_CALCULATED, TOUR_NODE_SELECTED, WAREHOUSE_SELECTED, OTHER_NODE_SELECTED, ADDING_DELIVERY
 	}
 
+	/**
+	 * Current state of Controller
+	 */
 	private State mState;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public Controller() {
 		mState = State.NEW;
@@ -36,22 +38,22 @@ public class Controller {
 	}
 
 	/**
-	 * 
+	 * Commands' invoker
 	 */
 	private Invoker mInvoker;
 
 	/**
-	 * 
+	 * Current network
 	 */
 	protected Network mNetwork;
 
 	/**
-	 * 
+	 * Current frame
 	 */
 	protected Frame mFrame;
 
 	/**
-	 * Change the controller's state and update the frame
+	 * Changes the controller's state and update the frame
 	 * 
 	 * @param state
 	 *            new state
@@ -62,10 +64,8 @@ public class Controller {
 	}
 
 	/**
-	 * 
+	 * Updates the undo redo buttons of the frame
 	 */
-
-	
 	private void updateUndoRedoFrame(){
 		mFrame.setUndoRedo(mInvoker.getUndoName(), mInvoker.getRedoName());
 
@@ -73,7 +73,10 @@ public class Controller {
 	}
 
 
-
+	/**
+	 * Handles the way to behave when a node is selected depending on the current state
+	 * @param node Node selected
+	 */
 	public void onNodeSelected(Node node) {
 		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery()||node.isWarehouse())){
 			addDelivery(node);
@@ -122,18 +125,27 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Undo the last command executed when the undo button is clicked
+	 */
 	public void undoClicked() {
 		mInvoker.undo();
 		updateUndoRedoFrame();
 		mNetwork.networkChanged();
 	}
 
+	/**
+	 * Redo the last command undone when the redo button is clicked
+	 */
 	public void redoClicked() {
 		mInvoker.redo();
 		updateUndoRedoFrame();
 		mNetwork.networkChanged();
 	}
 
+	/**
+	 * Opens a window to select the network and loads it
+	 */
 	public void browseNetworkClicked() {
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paintOpen();
@@ -153,6 +165,9 @@ public class Controller {
 
 	}
 
+	/**
+	 * Opens a window to select the delivery request and loads it
+	 */
 	public void browseDeliveryClicked() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paintOpen();
@@ -170,6 +185,9 @@ public class Controller {
 		}	
 	}
 
+	/**
+	 * Calculates the tour when the associated button is clicked
+	 */
 	public void calculateTourClicked(){
 		mNetwork.getDeliveryRequest().calculateTour();
 		mInvoker.clear();
@@ -215,7 +233,10 @@ public class Controller {
 		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
 	}
-	
+
+	/**
+	 * Generate the roadmap when the associated button is clicked
+	 */
 	public void saveRoadmapClicked(){
 		FileChooserView roadMapSaverView = new FileChooserView();
 		FileWriter fw = roadMapSaverView.paintSave();
