@@ -16,19 +16,13 @@ import Model.Segment;
 import Model.Tour;
 
 /**
- * 
+ * Class TourView
  */
 public class TourView implements View {
 
-	/**
-	 * 
-	 */
-	public TourView(Tour tour) {
-		mTour = tour;
-	}
 
 	/**
-	 * 
+	*	Tour corresponding to the View
 	 */
 	protected Tour mTour;
 
@@ -36,6 +30,17 @@ public class TourView implements View {
 	 * Map counting traced paths between two given nodes
 	 */
 	protected Map<Segment, Integer> mMapTraces;
+
+	/**
+	 * Constructor of TourView
+	 * @param tour Tour for the View
+	 */
+
+	public TourView(Tour tour) {
+		mMapTraces = new HashMap<Segment, Integer>();
+		mTour = tour;
+	}
+
 
 	@Override
 	public void paint(Graphics g, double scale, int translationX,
@@ -50,10 +55,11 @@ public class TourView implements View {
 		for (int i = 0; i < listPath.size(); i++) {
 			if (i < listPath.size() - 1) {
 				Delivery d = mTour.getDeliveryList().get(i);
-                g2D.setColor(d.getTimeSlot().getColor());
+				g2D.setColor(d.getTimeSlot().getColor());
 			}
 			p = listPath.get(i);
 			List<Segment> listSegment = p.getSegmentList();
+
 			for (Segment s : listSegment) {
 				diff = 0;
 				Node depNode = s.getDepartureNode();
@@ -70,9 +76,9 @@ public class TourView implements View {
 
 				double dX = arrNode.getX() - depNode.getX();
 				double dY = arrNode.getY() - depNode.getY();
-				
+
 				double norm = Math.sqrt(dX*dX + dY*dY);
-				
+
 				g2D.setStroke(new BasicStroke((float) (scale)));
 				g2D.translate(dY/norm * scale * diff, - dX/norm * scale * diff);
 				g2D.drawLine((int) (scale * depNode.getX()) + translationX,
