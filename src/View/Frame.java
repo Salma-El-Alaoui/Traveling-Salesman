@@ -48,20 +48,20 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
-	public Frame(Controller controller) {		
+	public Frame(Controller controller) {
 		mController = controller;
 		mPanelGraph = new GraphPanel();
 
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(new Dimension(WIDTH,HEIGHT));
+		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setLayout(new BorderLayout());
 		mPanelGraph.addMouseListener(this);
 
 		mMenuBar = new JMenuBar();
 
-		mLabelInfos=new JLabel();
-		mNodeInfos=new JLabel();
+		mLabelInfos = new JLabel();
+		mNodeInfos = new JLabel();
 
 		JToolBar toolbar = new JToolBar();
 		ImageIcon icon = new ImageIcon("img/load_plan.png");
@@ -77,29 +77,28 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
 		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mLoadDeliveriesButton);
-		
+
 		icon = new ImageIcon("img/chart_line_edit.png");
 		mCalculateTourButton = new JButton(icon);
 		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTourButton.setToolTipText("Calculer la tournée");
 		mCalculateTourButton.addActionListener(this);
 		toolbar.add(mCalculateTourButton);
-		
 
 		icon = new ImageIcon("img/export.png");
 		mExportButton = new JButton(icon);
 		mExportButton.setActionCommand(ACTION_EXPORT_ROADMAP);
-		mExportButton.setToolTipText("Exporter feuilles de route");
+		mExportButton.setToolTipText("Exporter feuille de route");
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
 
 		this.add(toolbar, BorderLayout.NORTH);
 
-
 		mLabelInfos.setText("Infos générales");
 		mNodeInfos.setText("<html>Noeud sélectionné : <br>Aucun");
 
 		mMenuEdition = new JMenu("Edition");
+
 
 		mUndo=new JMenuItem("Annuler");
 		mUndo.setActionCommand(ACTION_UNDO);
@@ -135,7 +134,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
-		
+
 		mCalculateTour = new JMenuItem("Calculer la tournée");
 		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTour.addActionListener(this);
@@ -150,13 +149,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuBar.add(mMenuEdition);
 
-		mLabelInfos.setPreferredSize(new Dimension((int)(INFOS_WIDTH*WIDTH),HEIGHT));
+		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
+				HEIGHT));
 
 		this.add(mPanelGraph, BorderLayout.WEST);
 
-
-		JPanel panelInfos = new JPanel();  
-		panelInfos.setLayout(new GridLayout(2,1));
+		JPanel panelInfos = new JPanel();
+		panelInfos.setLayout(new GridLayout(2, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
 		this.add(panelInfos, BorderLayout.EAST);
@@ -181,12 +180,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected JButton mLoadDeliveriesButton;
-	
+
 	/**
 	 * 
 	 */
 	protected JButton mCalculateTourButton;
-	
+
 	/**
 	 * 
 	 */
@@ -211,7 +210,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	protected JMenuItem mRedo;
 
 	protected JMenuItem mloadDeliveries;
-	
+
 	protected JMenuItem mCalculateTour;
 
 	protected JMenuItem mExport;
@@ -236,7 +235,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	protected JLabel mLabelInfos;
 
-
 	/**
 	 * 
 	 */
@@ -252,6 +250,45 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	private Controller mController;
 
+
+	/**
+	 */
+	public void clicBrowseDeliveries() {
+		// TODO implement here
+	}
+
+	/**
+	 * @param String
+	 *            error
+	 */
+	public void displayError(String error) {
+		// TODO implement here
+	}
+
+	/**
+	 */
+	public void clickBrowseNetwork() {
+		// TODO implement here
+	}
+	
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		if (mPanelGraph.getListNodeView() != null) {
+			for (NodeView nv : mPanelGraph.getListNodeView()) {
+				if (nv.onClick(arg0)) {
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "
+							+ nv.getNode().getId() + "<br>Livraison : ";
+					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "
+							+ nv.getNode().getDelivery().getArrivalHour()
+							+ " à "
+							+ nv.getNode().getDelivery().getDepartureHour()
+							: "Non";
+					mNodeInfos.setText(nodeInfos);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -291,21 +328,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mNodeInfos.setText(nodeInfos);
 	}
 	
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		if(mPanelGraph.getListNodeView() != null)
-		{
-			for(NodeView nv : mPanelGraph.getListNodeView())
-			{
-				if(nv.onClick(arg0))
-				{
-					mController.onNodeSelected(nv.getNode());
-					break;
-				}
-			}
-		}
-		repaint();
-	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -326,18 +349,18 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
-	public void setNetwork(Network n){
+	public void setNetwork(Network n) {
 		mPanelGraph.setNetwork(n);
 	}
 
-
 	/**
 	 * Update the frame depending on the state
-	 * @param state current state
+	 * 
+	 * @param state
+	 *            current state
 	 */
-	public void changeState(Controller.State state)
-	{
-		switch (state){
+	public void changeState(Controller.State state) {
+		switch (state) {
 		case NEW:
 			mLoadPlanButton.setEnabled(true);
 			mLoadMap.setEnabled(true);

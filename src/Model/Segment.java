@@ -36,18 +36,34 @@ public class Segment {
 
 
 	/**
-	 * 
-	 */
-	public Node getDepartureNode() {
-		return mDepartureNode;
-	}
+<<<<<<< HEAD
+     * 
+     */
+    public Node getDepartureNode() {
+        return mDepartureNode;
+    }
+    
+    /**
+     * @return
+     */
+    public Node getArrivalNode() {
+        return mArrivalNode;
+    }
+	
 
-	/**
-	 * @return
-	 */
-	public Node getArrivalNode() {
-		return mArrivalNode;
-	}
+public String getStreetName() {
+	return mStreetName;
+}
+
+public float getLength() {
+	return mLength;
+}
+    
+ 
+  
+
+
+
 
 
 
