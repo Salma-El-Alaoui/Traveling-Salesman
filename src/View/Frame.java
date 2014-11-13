@@ -340,6 +340,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 							+ nv.getNode().getDelivery().getDepartureHour()
 							: "Non";
 					mNodeInfos.setText(nodeInfos);
+					mController.onNodeSelected(nv.getNode());
 				}
 			}
 		}
