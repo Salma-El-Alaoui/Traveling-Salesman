@@ -80,4 +80,15 @@ public class Dijkstra {
     		}
     	}
 	}
+	
+	/**
+	 * Calculate the shortest path from startNode to endNode
+	 * @param originNode
+	 * @param endNode 
+	 * @return The shortest path, null if no path can be found
+	 */
+	public static Path calculateShortestPath(Node originNode, Node endNode) {
+		Dijkstra d = new Dijkstra(originNode);
+		return d.calculateShortestPathTo(endNode);
+	}
 }

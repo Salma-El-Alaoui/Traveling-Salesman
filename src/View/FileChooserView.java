@@ -1,7 +1,8 @@
 package View;
 
-
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -11,13 +12,12 @@ import javax.swing.filechooser.FileFilter;
  */
 public class FileChooserView {
 	private JFileChooser jFileChooserXML;
+	private JFileChooser jSaveFileChooser;
 
 	private class XMLFileFilter extends FileFilter {
 		private final String suffix = "xml";
 
 		private final String description = "XML files(*.xml)";
-
-
 
 		private boolean isXML(String suffix) {
 			return suffix.equals(this.suffix);
@@ -46,21 +46,40 @@ public class FileChooserView {
 	public FileChooserView() {
 	}
 
-
-	public File paint() {
-		char mode = 'o';
+	public File paintOpen() {
 		jFileChooserXML = new JFileChooser();
+
+		int returnVal;
+
 		XMLFileFilter filter = new XMLFileFilter();
 		jFileChooserXML.setFileFilter(filter);
-		jFileChooserXML.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		int returnVal;
-		if (mode == 'o')
-			returnVal = jFileChooserXML.showOpenDialog(null);
-		else
-			returnVal = jFileChooserXML.showSaveDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION)
+		returnVal = jFileChooserXML.showOpenDialog(null);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+
 			return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
+
+		}
+
 		return null;
 	}
 
+	public FileWriter paintSave() {
+		jSaveFileChooser = new JFileChooser();
+		int returnVal;
+		jSaveFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		returnVal = jSaveFileChooser.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try {
+				FileWriter fw = new FileWriter(
+						jSaveFileChooser.getSelectedFile() + ".txt");
+				return fw;
+			} catch (IOException e) {
+
+				return null;
+			}
+		}
+		return null;
+
+	}
 }

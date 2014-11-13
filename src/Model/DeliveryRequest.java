@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import tsp.*;
@@ -70,7 +72,7 @@ public class DeliveryRequest {
 		int[] nodesIndex = tsp.getNext();
 		int[] nodesId = decodeMapNode(mapIdToIndex, nodesIndex);
 
-		this.mTour = new Tour();
+		this.mTour = new Tour(mWarehouse);
 		
 		int warehouseIndex = mapIdToIndex.get(mWarehouse.getId());
 		int previousIndex = warehouseIndex;
@@ -127,12 +129,15 @@ public class DeliveryRequest {
 	 * after the delivery associated with previousNode
 	 * 
 	 * @param NodepreviousNode
-	 * @param Node
-	 *            selectedNode
+	 * @param Node selectedNode
 	 * @return
 	 */
 	public boolean insertDelivery(Node previousNode, Node selectedNode) {
-		Delivery previousDelivery = previousNode.getDelivery();
+		Delivery previousDelivery=null;
+		if(!previousNode.isWarehouse())
+		{
+			previousDelivery = previousNode.getDelivery();
+		}
 		Delivery newDelivery = new Delivery(selectedNode);
 		return mTour.insertDelivery(previousDelivery, newDelivery);
 	}
@@ -140,19 +145,23 @@ public class DeliveryRequest {
 	/**
 	 * Remove from the tour the delivery associated with the node
 	 * 
-	 * @param Node
-	 *            node associated with the delivery to remove
+	 * @param Node node associated with the delivery to remove
 	 * @return the node before the removed delivery
 	 */
 	public Node removeDelivery(Node node) {
 		return mTour.removeDelivery(node.getDelivery());
 	}
 
-	public String buildFromXML(Element deliveryRequestElement, Network network) {
+	public String buildFromXML(Element deliveryRequestElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 
-		setWarehouseFromXML(deliveryRequestElement, network);
-
-		buildTimeSlotsFromXML(deliveryRequestElement, network);
+		try {
+			setWarehouseFromXML(deliveryRequestElement, network);
+			buildTimeSlotsFromXML(deliveryRequestElement, network);
+		} catch (InvalidDeliveryRequestFileException iDRFE){
+			throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+		} catch (WarningDeliveryRequestFile wa){
+			throw new WarningDeliveryRequestFile(wa.getMessage());
+		}
 
 		return "OK";
 	}
@@ -163,33 +172,49 @@ public class DeliveryRequest {
 	 */
 
 	private void setWarehouseFromXML(Element deliveryRequestElement,
-			Network network) {
+			Network network) throws InvalidDeliveryRequestFileException{
 		NodeList nodeListWarehouse = deliveryRequestElement
 				.getElementsByTagName("Entrepot");
 		Element warehouseElement = (Element) nodeListWarehouse.item(0);
 
-		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement
-				.getAttribute("adresse")));
+		this.mWarehouse = network.getNode(Integer.parseInt(warehouseElement.getAttribute("adresse")));
+		
+		if (mWarehouse == null){
+			throw new InvalidDeliveryRequestFileException("Le noeud de l'Entrepot dans les demandes de Livraison n'existe pas dans le Réseau");
+		}
+		
 		this.mWarehouse.setIsWarehouse(true);
 	}
 
 	private void buildTimeSlotsFromXML(Element deliveryRequestElement,
-			Network network) {
+			Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
 		NodeList listTimeSlots = deliveryRequestElement
 				.getElementsByTagName("Plage");
 		Integer numberOfSlots = listTimeSlots.getLength();
 
 		Element timeSlotElement;
+		String listClientsWithSeveralAdresses = "";
+		Map<Integer, Node> m_clientAdress = new HashMap<Integer, Node>();
+
 
 		for (int i = 0; i < numberOfSlots; i++) {
 			TimeSlot timeSlot = new TimeSlot();
 			timeSlotElement = (Element) listTimeSlots.item(i);
 
-			timeSlot.buildFromXML(timeSlotElement, network);
+			try {
+				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress);
+			} catch (InvalidDeliveryRequestFileException iDRFE){
+				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+			}
 
 			mTimeSlotList.add(timeSlot);
 
 		}
+		
+		if (!listClientsWithSeveralAdresses.equals("")){
+			throw new WarningDeliveryRequestFile("Les clients suivants ont plusieurs adresses : "+listClientsWithSeveralAdresses);
+		}
+		
 	}
 
 	@Override
@@ -264,6 +289,67 @@ public class DeliveryRequest {
 
 	public Tour getTour(){
 		return mTour;
+	}
+	
+	public void createRoadMap(FileWriter fw){
+		try {
+			String breakLine = System.getProperty("line.separator");
+			String header = "--------------------- Votre Feuille de route --------------------";
+			String pathSeparator = breakLine+breakLine+"--------------------- Itinéraire --------------------";
+			String deliverySeparator = breakLine+breakLine+"--------------------- Livraison --------------------";
+			String pathHeaderTemplate = breakLine+"Itinéraire de %s à l'adresse de la livraison numéro %s : ";
+			String deliveryHeaderTemplate = breakLine+ "Détails de la livraison numéro %s";
+			String pathDescriptionTemplate = breakLine+"Suivre rue %s sur %s m de l'adresse %s à l'adresse %s  ";
+			String deliveryDescriptionTemplate = breakLine+"Adresse: %s"+breakLine+"Heure d'arrivée prévue: %s"+ breakLine+"Heure de livraison prévue: %s"+breakLine+"Heure de départ prévue: %s"+breakLine+"Coordonnées du client: %s";
+			
+			fw.write(header);
+			
+			int nbPaths = mTour.getPathList().size();
+			//Path from Warehouse to Node 1
+			for (int i = 0; i<nbPaths-1; i++){
+				Path pathToNextDelivery = mTour.getPathList().get(i);
+				List<Segment> pathSegments = pathToNextDelivery.getSegmentList();
+				String pathHeader;
+				if(i ==0){
+					pathHeader = String.format(pathHeaderTemplate,"l'entrepôt", i+1);
+				}else{
+					pathHeader = String.format(pathHeaderTemplate,"la livraison numéro " + i, i+1);
+				}
+				
+				fw.write(pathSeparator);
+				fw.write(pathHeader);
+				for(Segment seg : pathSegments){
+					String path = String.format(pathDescriptionTemplate, seg.getStreetName(), seg.getLength(), seg.getDepartureNode().getId(), seg.getArrivalNode().getId());
+					fw.write(path);
+				}
+				
+				//Delivery description
+				
+				Delivery nthDelivery = mTour.getDeliveryList().get(i);
+				String deliveryHeader = String.format(deliveryHeaderTemplate, i+1);
+				String deliveryDescription = String.format(deliveryDescriptionTemplate, nthDelivery.getNode().getId(),nthDelivery.getFormattedArrivalHour(), nthDelivery.getFormattedDeliveryHour(), nthDelivery.getFormattedDepartureHour(), nthDelivery.getClient());
+				fw.write(deliverySeparator);
+				fw.write(deliveryHeader);
+				fw.write(deliveryDescription);
+			}
+			
+			String lastPathHeader = breakLine+ "Itinéraire de la dernière livraison à l'entrepôt";
+			Path lastPath = mTour.getPathList().get(nbPaths-1);
+			List<Segment> pathSegments = lastPath.getSegmentList();
+			
+			fw.write(pathSeparator);
+			fw.write(lastPathHeader);
+			for(Segment seg : pathSegments){
+				String path = String.format(pathDescriptionTemplate, seg.getStreetName(), seg.getLength(), seg.getDepartureNode().getId(), seg.getArrivalNode().getId());
+				fw.write(path);
+			}
+
+			fw.close();
+		} catch (IOException e) {
+			
+			return;
+		}
+		
 	}
 
 }

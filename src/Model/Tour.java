@@ -10,7 +10,8 @@ public class Tour {
 	/**
 	 * 
 	 */
-	public Tour() {
+	public Tour(Node wareHouse) {
+		mWarehouse = wareHouse;
 		mPathList = new ArrayList<Path>();
 		mDeliveryList = new ArrayList<Delivery>();
 	}
@@ -51,42 +52,53 @@ public class Tour {
 
 	/**
 	 * Insert newDelivery after previousDelivery into the tour and recalculate locally the path
-	 * @param previousDelivery
+	 * @param previousDelivery is null if we want to insert the delivery after the warehouse
 	 * @param newDelivery
 	 */
 	public boolean insertDelivery(Delivery previousDelivery, Delivery newDelivery) {
-		newDelivery.setTimeSlot(previousDelivery.getTimeSlot());
-
-		Node previousNode=previousDelivery.getNode();
+		
+		Node previousNode=null;
 		Node newNode=newDelivery.getNode();
 		Node nextNode=null;
-
-		for(int i=0; i<mDeliveryList.size(); i++)
+		
+		if(previousDelivery!=null) //Not after warehouse
 		{
-			if(mDeliveryList.get(i).getNode().getId()==previousNode.getId())
+			newDelivery.setTimeSlot(previousDelivery.getTimeSlot());
+			previousNode=previousDelivery.getNode();
+
+			for(int i=0; i<mDeliveryList.size(); i++)
 			{
-				if(i!=mDeliveryList.size()-1)
+				if(mDeliveryList.get(i).getNode().getId()==previousNode.getId())
 				{
-					nextNode=mDeliveryList.get(i+1).getNode();
-					mDeliveryList.add(i+1, newDelivery);
-					break;
-				}else{
-					nextNode=mWarehouse;
-					mDeliveryList.add(newDelivery);
-					break;
+					if(i!=mDeliveryList.size()-1)
+					{
+						nextNode=mDeliveryList.get(i+1).getNode();
+						mDeliveryList.add(i+1, newDelivery);
+						break;
+					}else{
+						nextNode=mWarehouse;
+						mDeliveryList.add(newDelivery);
+						break;
+					}
 				}
 			}
+			if(nextNode==null)
+			{
+				System.out.println("Can't find node after the one we want to insert");
+				return false;
+			}
 		}
-
-		if(nextNode==null)
+		else //after warehouse
 		{
-			System.out.println("Can't find node after the one we want to insert");
-			return false;
+			previousNode=mWarehouse;
+			Delivery nextDelivery=mDeliveryList.get(0);
+			nextNode=nextDelivery.getNode();
+			newDelivery.setTimeSlot(nextDelivery.getTimeSlot());
+			mDeliveryList.add(0,newDelivery);
 		}
 
-		Network network=previousNode.getNetwork();
-		Path firstPath=network.calculateShortestPath(previousNode, newNode);
-		Path secondPath=network.calculateShortestPath(newNode, nextNode);
+		Path firstPath=Dijkstra.calculateShortestPath(previousNode, newNode);
+		Path secondPath=Dijkstra.calculateShortestPath(newNode, nextNode);
 
 		for(int i=0; i<mPathList.size(); i++)
 		{
@@ -98,9 +110,9 @@ public class Tour {
 				{
 					mPathList.add(i+1, secondPath);
 				}else{
-					mPathList.add(0, secondPath);
+					mPathList.add(secondPath);
 				}
-
+				break;
 			}
 		}
 
@@ -125,7 +137,8 @@ public class Tour {
 
 		for(int i=0; i<mDeliveryList.size(); i++)
 		{
-			if(mDeliveryList.get(i).getNode().getId()==node.getId())
+			Delivery currentDelivery=mDeliveryList.get(i);
+			if(currentDelivery.getNode().getId()==node.getId())
 			{
 				if(i!=mDeliveryList.size()-1 && i!=0)
 				{
@@ -138,6 +151,7 @@ public class Tour {
 					previousNode=mDeliveryList.get(i-1).getNode();
 					nextNode=mWarehouse;
 				}
+				currentDelivery.getTimeSlot().removeDelivery(currentDelivery);
 				mDeliveryList.remove(i);
 				break;
 			}
@@ -166,6 +180,7 @@ public class Tour {
 				}
 			}
 		}
+		delivery.getNode().setDelivery(null);
 		updateHour(); 	 
 		return previousNode;
 	}

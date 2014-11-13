@@ -7,34 +7,36 @@ import org.w3c.dom.Element;
  */
 public class Segment {
 
+	static int ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE = 0;
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Segment() {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
-    protected Node mDepartureNode;
+	protected Node mDepartureNode;
 
 
 	private String mStreetName;
 
 
 	/**
-     * 
-     */
+	 * 
+	 */
 
-    protected Node mArrivalNode;
+	protected Node mArrivalNode;
 
 	private float mSpeed;
-	
+
 	private float mLength;
 
 
 	/**
+<<<<<<< HEAD
      * 
      */
     public Node getDepartureNode() {
@@ -49,12 +51,27 @@ public class Segment {
     }
 	
 
+public String getStreetName() {
+	return mStreetName;
+}
 
+public float getLength() {
+	return mLength;
+}
     
  
   
 
-	
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * @return
 	 */
@@ -67,9 +84,15 @@ public class Segment {
 	 * @param Node
 	 * @param Element
 	 */
-	public void buildFromXML(Node departureNode, Element segmentElement,
+	public int buildFromXML(Node departureNode, Element segmentElement,
 			Network network) {
-		
+
+		int noeudDestinationInt = Integer.parseInt(segmentElement.getAttribute("idNoeudDestination"));
+
+		if (noeudDestinationInt==departureNode.getId()){
+			ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE++;
+		}
+
 		mDepartureNode = departureNode;
 
 		mStreetName = segmentElement.getAttribute("nomRue");
@@ -80,15 +103,17 @@ public class Segment {
 
 		mArrivalNode = network.getNode(Integer.parseInt(segmentElement
 				.getAttribute("idNoeudDestination")));
-		
+
 
 		network.updateNode(mDepartureNode.getId(), null , this); // This segment is the out segment of its FromNode
 		network.updateNode(mArrivalNode.getId(), this, null); // This segment is the in segments of its ToNode.
+		
+		return ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE;
 
 	}
 	@Override
 	public String toString() {
-		
+
 		return "Segment : street " + mStreetName + ", length " + mLength + ", speed " + mSpeed ;
 		//return  "Segment : "+ " From ("+ mFromNode.toString() + " ), To (" + mToNode.toString() +  ") ,street " + mStreetName + ", length " + mLength + ", speed " + mSpeed ;
 	}

@@ -19,4 +19,5 @@ public interface Command {
      */
     public boolean undo();
 
+    public String getName();
 }

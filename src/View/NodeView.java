@@ -17,7 +17,27 @@ public class NodeView implements View {
 	 * 
 	 */
 	public final static int DIAMETER = 14;
-
+	
+	/**
+	 * 
+	 */
+	private final static Color WAREHOUSE_COLOR = Color.BLUE;
+	
+	/**
+	 * 
+	 */
+	private final static Color NODE_COLOR = Color.GRAY;
+	
+	/**
+	 * 
+	 */
+	private final static Color DELIVERY_COLOR = Color.YELLOW;
+	
+	/**
+	 * 
+	 */
+	private final static Color DELIVERY_ERROR_COLOR = Color.RED;
+	
 	/**
 	 * 
 	 */
@@ -91,13 +111,17 @@ public class NodeView implements View {
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mNode.hasDelivery())
 		{
-			g2D.setColor(Color.yellow);
+			if(mNode.getDelivery().isInTimeslot()){
+				g2D.setColor(DELIVERY_COLOR);				
+			} else {
+				g2D.setColor(DELIVERY_ERROR_COLOR);
+			}
 		}else if(mNode.isWarehouse()) //TODO faire la méthode
 		{
-			g2D.setColor(Color.blue);
+			g2D.setColor(WAREHOUSE_COLOR);
 		}else
 		{
-			g2D.setColor(new Color(122,122,122));
+			g2D.setColor(NODE_COLOR);
 		}
 		g2D.fillOval((int)(scale*(mNode.getX()-DIAMETER/2))+translationX, (int)(scale*(mNode.getY()-DIAMETER/2)+translationY), 
 				(int)(scale*DIAMETER), (int)(scale*DIAMETER));
