@@ -2,6 +2,7 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -373,10 +374,14 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		this.add(mPanelGraph, BorderLayout.WEST);
 
+		JLabel legend = new JLabel(new ImageIcon("img/legende.png"));
+		
 		JPanel panelInfos = new JPanel();
-		panelInfos.setLayout(new GridLayout(2, 1));
+		panelInfos.setLayout(new GridLayout(3, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
+		panelInfos.add(legend);
+		
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
