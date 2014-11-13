@@ -9,19 +9,19 @@ import java.awt.event.MouseEvent;
 
 import Model.Segment;
 
-
 /**
- * 
+ * Class SegmentView
  */
 public class SegmentView implements View {
 	
     /**
-     * 
+     * Segment corresponding to the SegmentView
      */
     protected Segment mSegment;
 
     /**
-     * 
+     * Constructor of SegmentView
+     * @param seg Segment for the View
      */
     public SegmentView(Segment seg) {
     	mSegment = seg;
@@ -51,7 +51,8 @@ public class SegmentView implements View {
 
 	@Override
 	public boolean onClick(MouseEvent E) {
-		return false;		
+		return false;
+
 	}
 
 }

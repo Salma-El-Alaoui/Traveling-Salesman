@@ -9,34 +9,39 @@ import java.awt.event.MouseEvent;
 import Model.Node;
 
 /**
- * 
+ * Class NodeView
  */
 public class NodeView implements View {
 
 	/**
-	 * 
+	 * Diameter of the circle
 	 */
 	public final static int DIAMETER = 14;
 
 	/**
-	 * Color of the warehouse Node
+	 * Color of the warehouse
 	 */
-	private final static Color WAREHOUSE_COLOR = new Color(85, 83, 184);
+	private final static Color WAREHOUSE_COLOR = Color.BLUE;
 
 	/**
-	 * Color of a classic Node
+	 * Color of simple node
 	 */
-	private final static Color NODE_COLOR = Color.DARK_GRAY;
+	private final static Color NODE_COLOR = Color.GRAY;
 
 	/**
-	 * Color of a delivery Node
+	 * Color of delivered node
 	 */
-	private final static Color DELIVERY_COLOR = new Color(68, 148, 15);
+	private final static Color DELIVERY_COLOR = Color.YELLOW;
 
 	/**
-	 * Color of a delivery Node with an error
+	 * Color of node with delivery error
 	 */
-	private final static Color DELIVERY_ERROR_COLOR = new Color(148, 24, 15);
+	private final static Color DELIVERY_ERROR_COLOR = Color.RED;
+
+	/**
+	 * If the node is selected or not
+	 */
+	protected boolean mIsSelected = false;
 
 	/**
 	 * Create the Associated view to the node
@@ -52,19 +57,21 @@ public class NodeView implements View {
 	protected double mScale;
 
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationX;
 
 	/**
-	 * 
+	 * Variable used for the translation of the graph
 	 */
 	protected int mTranslationY;
 
 	/**
-	 * Associated Node
+	 * Node corresponding to the NodeView
 	 */
 	protected Node mNode;
+
+
 
 	/**
 	 * Return the Associated Node
@@ -73,7 +80,6 @@ public class NodeView implements View {
 	public Node getNode() {
 		return mNode;
 	}
-
 	@Override
 	public void paint(Graphics g, double scale, int translationX,
 			int translationY) {
@@ -83,7 +89,7 @@ public class NodeView implements View {
 		mTranslationY = translationY;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		
+
 		g2D.setColor(getNodeColor());
 		g2D.fillOval((int) (scale * (mNode.getX() - DIAMETER / 2))
 				+ translationX,
@@ -105,7 +111,7 @@ public class NodeView implements View {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the color according to the node state
 	 * @return Color of the node

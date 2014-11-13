@@ -9,12 +9,24 @@ import Model.Network;
 import Model.Segment;
 
 /**
- * 
+ * Class NetworkView
  */
 public class NetworkView implements View {
 
     /**
-     * 
+     * Network corresponding to the NetworkView
+     */
+    protected Network mNetwork;
+
+    /**
+     * Liste of Segment included in the Network
+     */
+    public List<SegmentView> listSegmentView;
+	
+    /**
+     * Constructor of NetworkView
+     * @param network Network for the View
+     * @param listSegment List of Segment in Network
      */
     public NetworkView(Network network, List<Segment> listSegment) {
     	mNetwork = network;
@@ -26,15 +38,7 @@ public class NetworkView implements View {
     	
     }
 
-    /**
-     * 
-     */
-    protected Network mNetwork;
 
-    /**
-     * 
-     */
-    public List<SegmentView> listSegmentView;
 
 	@Override
 	public void paint(Graphics g, double scale, int translationX, int translationY) {
