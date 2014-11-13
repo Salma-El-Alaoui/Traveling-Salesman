@@ -132,7 +132,7 @@ public class DeliveryRequest {
 	 */
 	public boolean insertDelivery(Node previousNode, Node selectedNode) {
 		Delivery previousDelivery=null;
-		if(!previousNode.equals(mWarehouse))
+		if(!previousNode.isWarehouse())
 		{
 			previousDelivery = previousNode.getDelivery();
 		}
