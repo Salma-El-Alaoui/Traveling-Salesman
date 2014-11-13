@@ -23,8 +23,8 @@ public class Controller {
 	private State mState;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public Controller() {
 		mState = State.NEW;
 		mFrame = new Frame(this);
@@ -33,21 +33,23 @@ public class Controller {
 	}
 
 	/**
-     * 
-     */
-
+	 * 
+	 */
 	protected Stack<Command> mCommandStack;
 
+	/**
+	 * 
+	 */
 	protected Stack<Command> mUndoStack;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Network mNetwork;
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	protected Frame mFrame;
 
 	/**
@@ -62,42 +64,24 @@ public class Controller {
 	}
 
 	/**
-	 * @return
+	 * 
 	 */
-	public Node getSelectedNode() {
-		// TODO implement here
-		return null;
-	}
-
-	/**
-	 * @return
-	 */
-	public void browseDeliveryClicked() {
-		try {
-			FileChooserView deliveryRequestChooserView = new FileChooserView();
-			File f2 = deliveryRequestChooserView.paint();
-			mNetwork.parseDeliveryRequestFile(f2);
-
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
+	public void onNodeSelected(Node node) {
+		mNetwork.setSelectedNode(node);
+		mFrame.setSelectedNode(node);
+		if(mState == State.ADDING_DELIVERY && node.hasDelivery()){
+			addDelivery(node);
+		} 
+		if(mState == State.TOUR_CALCULATED 
+				|| mState == State.OTHER_NODE_SELECTED 
+				|| mState == State.TOUR_NODE_SELECTED
+				|| mState == State.ADDING_DELIVERY) {
+			if(node.hasDelivery()){
+				setState(Controller.State.TOUR_NODE_SELECTED);			
+			} else {
+				setState(Controller.State.OTHER_NODE_SELECTED);			
+			}			
 		}
-
-	}
-
-	/**
-	 * @return
-	 */
-	public void browseNetworkClicked() {
-		FileChooserView networkChooserView = new FileChooserView();
-		File f1 = networkChooserView.paint();
-		try {
-			mNetwork.parseNetworkFile(f1);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		}
-
 	}
 
 	/**
@@ -106,8 +90,13 @@ public class Controller {
 	public void addDeliveryClicked() {
 		if (mState.equals(State.OTHER_NODE_SELECTED)) {
 			setState(State.ADDING_DELIVERY);
-		} else if (mState.equals(State.ADDING_DELIVERY)) {
-			setState(State.OTHER_NODE_SELECTED);
+		} else if(mState == State.ADDING_DELIVERY){
+			if(mNetwork.getSelectedNode().hasDelivery()){
+				setState(Controller.State.TOUR_NODE_SELECTED);			
+			} else {
+				setState(Controller.State.OTHER_NODE_SELECTED);			
+			}			
+
 		}
 	}
 
@@ -123,7 +112,7 @@ public class Controller {
 		if (addCommand.execute()) {
 			mCommandStack.push(addCommand);
 		}
-		setState(State.DELIVERY_REQUEST_LOADED);
+		setState(State.TOUR_CALCULATED);
 		// auto refreshing thanks to Observer pattern
 	}
 
@@ -179,7 +168,7 @@ public class Controller {
 		// auto refreshing thanks to Observer pattern
 	}
 
-	public void loadNetworkXML() {
+	public void browseNetworkClicked() {
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paint();
 		mNetwork = new Network();
@@ -193,7 +182,7 @@ public class Controller {
 		setState(State.NETWORK_LOADED);
 	}
 
-	public void loadDeliveriesXML() {
+	public void browseDeliveryClicked() {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
 		try {
@@ -205,10 +194,18 @@ public class Controller {
 
 		setState(State.DELIVERY_REQUEST_LOADED);
 	}
-	
+
 	public void calculateTour(){
 		mNetwork.getDeliveryRequest().calculateTour();
-		setState(State.TOUR_CALCULATED);
+		if(mNetwork.getSelectedNode() != null){
+			if(mNetwork.getSelectedNode().hasDelivery()){
+				setState(State.TOUR_NODE_SELECTED);
+			} else {
+				setState(State.OTHER_NODE_SELECTED);
+			}
+		} else {
+			setState(State.TOUR_CALCULATED);			
+		}
 	}
 
 }

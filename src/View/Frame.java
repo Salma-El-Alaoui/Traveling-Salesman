@@ -255,10 +255,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		switch(arg0.getActionCommand())
 		{
 		case(ACTION_LOAD_MAP) :
-			mController.loadNetworkXML();
+			mController.browseNetworkClicked();
 		break;
 		case(ACTION_LOAD_DELIVERIES):
-			mController.loadDeliveriesXML();
+			mController.browseDeliveryClicked();
 		break;
 		case(ACTION_CALCULATE_TOUR):
 			mController.calculateTour();
@@ -271,6 +271,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	}
 
 
+	public void setSelectedNode(Node node){
+		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId()+"<br>Livraison : ";
+		nodeInfos += (node.hasDelivery()) ? "Oui <br>Intervalle horaire : "+node.getDelivery().getArrivalHour()+" à "+node.getDelivery().getDepartureHour() 
+				: "Non"; 
+		mNodeInfos.setText(nodeInfos);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if(mPanelGraph.getListNodeView() != null)
@@ -279,16 +286,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			{
 				if(nv.onClick(arg0))
 				{
-					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId()+"<br>Livraison : ";
-					nodeInfos += (nv.getNode().hasDelivery()) ? "Oui <br>Intervalle horaire : "+nv.getNode().getDelivery().getArrivalHour()+" à "+nv.getNode().getDelivery().getDepartureHour() 
-							: "Non"; 
-					mNodeInfos.setText(nodeInfos);
+					mController.onNodeSelected(nv.getNode());
+					break;
 				}
 			}
 		}
-
 		repaint();
-
 	}
 
 	@Override
