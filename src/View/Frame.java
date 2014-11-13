@@ -94,6 +94,42 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton.setToolTipText("Exporter feuille de route");
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
+		
+		toolbar.addSeparator(new Dimension (20,10));
+		
+		icon = new ImageIcon("img/add-user-icon.png");
+		mAddDeliveryButton = new JButton(icon);
+		mAddDeliveryButton.setActionCommand(ACTION_ADD_DELIVERY);
+		mAddDeliveryButton.setToolTipText("Ajouter une livraison");
+		mAddDeliveryButton.addActionListener(this);
+		mAddDeliveryButton.setEnabled(false);
+		toolbar.add(mAddDeliveryButton);
+		
+		icon = new ImageIcon("img/remove-user-icon.png");
+		mRemoveDeliveryButton = new JButton(icon);
+		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
+		mRemoveDeliveryButton.setToolTipText("Ajouter une livraison");
+		mRemoveDeliveryButton.addActionListener(this);
+		mRemoveDeliveryButton.setEnabled(false);
+		toolbar.add(mRemoveDeliveryButton);
+		
+		icon = new ImageIcon("img/undo.png");
+		mUndoButton = new JButton(icon);
+		mUndoButton.setActionCommand(ACTION_UNDO);
+		mUndoButton.setToolTipText("Défaire l'ajout");
+		mUndoButton.addActionListener(this);
+		mUndoButton.setEnabled(false);
+		toolbar.add(mUndoButton);
+		
+		icon = new ImageIcon("img/redo.png");
+		mRedoButton = new JButton(icon);
+		mRedoButton.setActionCommand(ACTION_REDO);
+		mRedoButton.setToolTipText("Refaire l'ajout");
+		mRedoButton.addActionListener(this);
+		mRedoButton.setEnabled(false);
+		toolbar.add(mRedoButton);
+		
+		
 
 		this.add(toolbar, BorderLayout.NORTH);
 
@@ -122,7 +158,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
 
-		mRemoveDelivery=new JMenuItem("Supprimer la livraison");
+
+
+		mRemoveDelivery = new JMenuItem("Supprimer une livraison");
+
 		mRemoveDelivery.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDelivery.addActionListener(this);
 		mMenuEdition.add(mRemoveDelivery);
@@ -194,6 +233,28 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * 
 	 */
 	protected JButton mCalculateTourButton;
+	
+	
+	/**
+	 * 
+	 */
+	protected JButton mUndoButton;
+	
+	/**
+	 * 
+	 */
+	protected JButton mRedoButton;
+	
+	/**
+	 * 
+	 */
+	protected JButton mAddDeliveryButton;
+	
+	/**
+	 * 
+	 */
+	protected JButton mRemoveDeliveryButton;
+	
 
 
 	/**
@@ -417,6 +478,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -430,6 +493,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(false);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -443,6 +508,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -456,6 +523,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -469,6 +538,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTour.setEnabled(true);
 			mCalculateTourButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(true);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -482,6 +553,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mCalculateTourButton.setEnabled(true);
 			mExportButton.setEnabled(true);
 			mExport.setEnabled(true);
+			mAddDeliveryButton.setEnabled(true);
+			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(true);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
@@ -494,8 +567,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mExportButton.setEnabled(false);
 			mExport.setEnabled(false);
 			mAddDelivery.setEnabled(true);
+			mAddDeliveryButton.setEnabled(true);
 			mCalculateTour.setEnabled(false);
 			mCalculateTourButton.setEnabled(false);
+			mRemoveDeliveryButton.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
 			break;
@@ -507,17 +582,21 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		if(undoMessage != null){
 			mUndo.setText(STRING_UNDO + " " +undoMessage);
 			mUndo.setEnabled(true);
+			mUndoButton.setEnabled(true);
 		}else{
 			mUndo.setText(STRING_UNDO);
 			mUndo.setEnabled(false);
+			mUndoButton.setEnabled(false);
 		}
 
 		if(redoMessage != null){
 			mRedo.setText(STRING_REDO + " " +redoMessage);
 			mRedo.setEnabled(true);
+			mRedoButton.setEnabled(true);
 		}else{
 			mRedo.setText(STRING_REDO);
 			mRedo.setEnabled(false);
+			mRedoButton.setEnabled(false);
 		}
 	}
 }
