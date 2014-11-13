@@ -7,9 +7,11 @@ import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
 import Model.Node;
+import Model.WarningDeliveryRequestFile;
 import View.ErrorDialogView;
 import View.FileChooserView;
 import View.Frame;
+import View.WarningDialogView;
 
 /**
  * 
@@ -81,6 +83,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		}  catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 
 	}
@@ -96,6 +100,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 
 	}
@@ -190,6 +196,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 		
 	}
@@ -203,6 +211,8 @@ public class Controller {
 		} catch (InvalidNetworkFileException
 				| InvalidDeliveryRequestFileException ex) {
 			new ErrorDialogView().paint(ex);
+		} catch (WarningDeliveryRequestFile wa){
+			new WarningDialogView().paint(wa);
 		}
 
 		

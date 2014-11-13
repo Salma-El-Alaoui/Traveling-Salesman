@@ -141,7 +141,8 @@ public class Network extends Observable {
 	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
-			InvalidDeliveryRequestFileException {
+			InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile{
 		String msg;
 		try {
 
@@ -158,16 +159,17 @@ public class Network extends Observable {
 			
 			this.mDeliveryRequest = new DeliveryRequest(this);
 
-			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
-					this);
+			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
 			networkChanged();
 
 		} catch (SAXException | IOException | IllegalArgumentException
-				| ParserConfigurationException ex) { // Syntactic errors in XML
+				| ParserConfigurationException | InvalidDeliveryRequestFileException ex) { // Syntactic errors in XML
 
 														// file.
 			throw new InvalidDeliveryRequestFileException(ex.getMessage());
 
+		} catch (WarningDeliveryRequestFile wa){
+			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 		return msg;
 
@@ -186,7 +188,8 @@ public class Network extends Observable {
 	 */
 	public String parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
-			InvalidDeliveryRequestFileException {
+			InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile {
 		String msg = "OK";
 		try {
 
@@ -211,6 +214,8 @@ public class Network extends Observable {
 														// file.
 			throw new InvalidNetworkFileException(ex.getMessage());
 
+		} catch (WarningDeliveryRequestFile warning) {
+			throw new WarningDeliveryRequestFile(warning.getMessage());
 		}
 
 		return msg;
@@ -233,7 +238,7 @@ public class Network extends Observable {
 		return "OK";
 	}
 
-	private String buildSegmentsFromXML(Element networkElement) {
+	private int buildSegmentsFromXML(Element networkElement) throws WarningDeliveryRequestFile {
 
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
@@ -262,7 +267,10 @@ public class Network extends Observable {
 			}
 
 		}
-		return "OK";
+		// Au moins une erreur où le node de départ et le même que le node d'arrivée
+		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE>0){
+			throw new WarningDeliveryRequestFile("Error xml DeliveryRequest - Noeud de départ similaire au Noeud d'arrivée");
+		} else return 0;
 	}
 
 	public String toString() {

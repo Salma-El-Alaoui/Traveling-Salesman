@@ -187,4 +187,13 @@ public class Node implements XmlParse {
 		mDelivery = delivery;
 	}
 
+	@Override
+	public String buildFromXML(Element element, Network network,
+			String tmpWarningMessage, Map<Integer, Node> map_clientAdress)
+			throws InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
