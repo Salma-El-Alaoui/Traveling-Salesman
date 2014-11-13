@@ -30,10 +30,7 @@ public class Network extends Observable {
 	 */
 	protected Node mSelectedNode;
 
-
-
 	protected DeliveryRequest mDeliveryRequest;
-
 
 	public Network() {
 		mNodesList = new HashMap<Integer, Node>();
@@ -55,22 +52,20 @@ public class Network extends Observable {
 		return mSegmentList;
 	}
 
-
-
 	/**
 	 * Calculate the shortest path from startNode to endNode
+	 * 
 	 * @param originNode
-	 * @param endNode 
+	 * @param endNode
 	 * @return The shortest path, null if no path can be found
-	 * @deprecated Prefer to use Dijkstra class to improve performance (in case of multiples calls with the same start)
+	 * @deprecated Prefer to use Dijkstra class to improve performance (in case
+	 *             of multiples calls with the same start)
 	 */
 	@Deprecated
 	public Path calculateShortestPath(Node originNode, Node endNode) {
 		Dijkstra d = new Dijkstra(originNode);
 		return d.calculateShortestPathTo(endNode);
 	}
-
-
 
 	/**
 	 * Add a delivery associated with selected node after the one associated
@@ -94,25 +89,17 @@ public class Network extends Observable {
 		return mDeliveryRequest.removeDelivery(node);
 	}
 
-
-
-
 	public Node getSelectedNode() {
 		return mSelectedNode;
 	}
 
-	public void setSelectedNode(Node node){
-		if(mSelectedNode != null)
-		{
+	public void setSelectedNode(Node node) {
+		if (mSelectedNode != null) {
 			mSelectedNode.setSelectedNode(false);
 		}
-		mSelectedNode=node;
+		mSelectedNode = node;
+		mSelectedNode.setSelectedNode(true);
 	}
-
-
-
-
-
 
 	public Node getNode(int id) {
 		return mNodesList.get(id);
@@ -141,8 +128,7 @@ public class Network extends Observable {
 	 */
 	public String parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
-			InvalidDeliveryRequestFileException,
-			WarningDeliveryRequestFile{
+			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 		String msg;
 		try {
 
@@ -156,28 +142,40 @@ public class Network extends Observable {
 			Utils.FileValidator(document, "livraison.xsd");
 
 			Element deliveryRequestElement = document.getDocumentElement();
-			
+
 			this.mDeliveryRequest = new DeliveryRequest(this);
 
-			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
+			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,
+					this);
 			networkChanged();
 
 		} catch (SAXException | IOException | IllegalArgumentException
-				| ParserConfigurationException | InvalidDeliveryRequestFileException ex) { // Syntactic errors in XML
+				| ParserConfigurationException
+				| InvalidDeliveryRequestFileException ex) { // Syntactic errors
+															// in XML
 
-														// file.
+			// file.
 			throw new InvalidDeliveryRequestFileException(ex.getMessage());
 
-		} catch (WarningDeliveryRequestFile wa){
+		} catch (WarningDeliveryRequestFile wa) {
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 		return msg;
-
+	}
+	
+	public void clearNodeContent(){
+		for(Node n : mNodesList.values()){
+			n.setDelivery(null);
+			n.setIsWarehouse(false);
+		}
 	}
 
-	public void networkChanged(){
-		 setChanged(); //Marks this Observable object as having been changed; 
-		 notifyObservers(); // If this object has changed then notify all of its observers and then call the clearChanged method to indicate that this object has no longer changed.
+	public void networkChanged() {
+		setChanged(); // Marks this Observable object as having been changed;
+		notifyObservers(); // If this object has changed then notify all of its
+							// observers and then call the clearChanged method
+							// to indicate that this object has no longer
+							// changed.
 	}
 
 	/**
@@ -188,8 +186,7 @@ public class Network extends Observable {
 	 */
 	public String parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
-			InvalidDeliveryRequestFileException,
-			WarningDeliveryRequestFile {
+			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 		String msg = "OK";
 		try {
 
@@ -211,7 +208,7 @@ public class Network extends Observable {
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
 
-														// file.
+			// file.
 			throw new InvalidNetworkFileException(ex.getMessage());
 
 		} catch (WarningDeliveryRequestFile warning) {
@@ -238,7 +235,8 @@ public class Network extends Observable {
 		return "OK";
 	}
 
-	private int buildSegmentsFromXML(Element networkElement) throws WarningDeliveryRequestFile {
+	private int buildSegmentsFromXML(Element networkElement)
+			throws WarningDeliveryRequestFile {
 
 		NodeList listNodes = networkElement.getElementsByTagName("Noeud");
 		Integer nodesNumber = listNodes.getLength();
@@ -247,10 +245,8 @@ public class Network extends Observable {
 		for (int i = 0; i < nodesNumber; i++) {
 			nodeElement = (Element) listNodes.item(i);
 
-
 			Node departureNode = this.getNode(Integer.parseInt(nodeElement
 					.getAttribute("id")));
-
 
 			NodeList listSegments = nodeElement
 					.getElementsByTagName("LeTronconSortant");
@@ -267,10 +263,13 @@ public class Network extends Observable {
 			}
 
 		}
-		// Au moins une erreur où le node de départ et le même que le node d'arrivée
-		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE>0){
-			throw new WarningDeliveryRequestFile("Error xml DeliveryRequest - Noeud de départ similaire au Noeud d'arrivée");
-		} else return 0;
+		// Au moins une erreur où le node de départ et le même que le node
+		// d'arrivée
+		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE > 0) {
+			throw new WarningDeliveryRequestFile(
+					"Error xml DeliveryRequest - Noeud de départ similaire au Noeud d'arrivée");
+		} else
+			return 0;
 	}
 
 	public String toString() {

@@ -51,9 +51,7 @@ public class SegmentView implements View {
 
 	@Override
 	public boolean onClick(MouseEvent E) {
-		return false;
-		// TODO Auto-generated method stub
-		
+		return false;		
 	}
 
 }

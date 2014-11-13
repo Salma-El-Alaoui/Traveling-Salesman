@@ -149,6 +149,7 @@ public class Controller {
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paint();
 		try {
+			mNetwork.clearNodeContent();
 			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
 			setState(State.DELIVERY_REQUEST_LOADED);
 			mInvoker.clear();
@@ -158,9 +159,7 @@ public class Controller {
 			new ErrorDialogView().paint(ex);
 		} catch (WarningDeliveryRequestFile wa){
 			new WarningDialogView().paint(wa);
-		}
-
-
+		}	
 	}
 
 	public void calculateTourClicked(){
