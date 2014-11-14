@@ -213,7 +213,6 @@ public class DeliveryRequest {
 		}
 		//Sorting
 		Collections.sort(mTimeSlotList);
-		System.out.println(mTimeSlotList);
 		if (!listClientsWithSeveralAdresses.equals("")){
 			throw new WarningDeliveryRequestFile("Les clients suivants ont plusieurs adresses : "+listClientsWithSeveralAdresses);
 		}

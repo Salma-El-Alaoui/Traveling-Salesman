@@ -82,13 +82,10 @@ public class XMLTreePanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("Here");
 		if (arg0 instanceof Network){
 			Network n = (Network) arg0;
 			if(n.getNodesList().size() != 0 && (arg1 != null)){
-				System.out.println("There");
 				Document doc  = (Document) arg1;
-				System.out.println(doc);
 				setDocument(doc);
 			}
 		}
