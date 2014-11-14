@@ -2,12 +2,16 @@ package Model;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-
-import tsp.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import tsp.SolutionState;
+import tsp.TSP;
 
 /**
  * 
@@ -206,6 +210,9 @@ public class DeliveryRequest {
 				listClientsWithSeveralAdresses += timeSlot.buildFromXML(timeSlotElement, network, "", m_clientAdress, list_allAdress);
 			} catch (InvalidDeliveryRequestFileException iDRFE){
 				throw new InvalidDeliveryRequestFileException(iDRFE.getMessage());
+			} catch (WarningDeliveryRequestFile wDRFE)
+			{
+				throw new WarningDeliveryRequestFile(wDRFE.getMessage());
 			}
 
 			mTimeSlotList.add(timeSlot);

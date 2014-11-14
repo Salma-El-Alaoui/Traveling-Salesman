@@ -375,4 +375,36 @@ public class XmlParseTest extends TestCase{
 		}
 		assertSame(error, true);
 	}
+	
+	public void testNoDeliveryInTimeSlot()
+	{
+		Network network = new Network();
+		boolean warning = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
 }

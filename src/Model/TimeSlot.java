@@ -91,7 +91,7 @@ public class TimeSlot implements XmlParse {
 
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException{
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile{
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
@@ -112,6 +112,11 @@ public class TimeSlot implements XmlParse {
 		NodeList listDeliveries = timeSlotElement
 				.getElementsByTagName("Livraison");
 		Integer deliveriesNumber = listDeliveries.getLength();
+		
+		if(deliveriesNumber == 0)
+		{
+			throw new WarningDeliveryRequestFile("Une des plages horaires ne comporte pas de livraisons");
+		}
 
 		for (int i = 0; i < deliveriesNumber; i++) {
 			Delivery delivery = new Delivery(this);

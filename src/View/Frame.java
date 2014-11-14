@@ -465,6 +465,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		switch(arg0.getActionCommand())
 		{
 		case(ACTION_LOAD_MAP) :
+			mPanelGraph.setOptimodDrawn(false);
 			mController.browseNetworkClicked();
 			break;
 		case(ACTION_LOAD_DELIVERIES):
@@ -574,7 +575,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez charger un réseau via le menu fichier ou la barre d'actions </html>");
+			mLabelInfos.setText("");
+			mNodeInfos.setText("");
 			break;
 		case NETWORK_LOADED:
 			mLoadPlanButton.setEnabled(true);

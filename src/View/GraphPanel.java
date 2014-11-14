@@ -2,17 +2,21 @@ package View;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Model.Network;
@@ -46,12 +50,14 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	protected int mTranslationY;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
 	protected int mTempX;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
 	protected int mTempY;
 
@@ -64,7 +70,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	 * Coordinate in X of the click
 	 */
 	protected int mMouseClickX;
-	
+
 	/**
 	 * List of NodeView displayed in the graph
 	 */
@@ -81,15 +87,32 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	protected TourView mTourView;
 
 	/**
+	 * Set if the Optimod screen is displayed
+	 */
+	protected boolean mOptimodDrawn;
+	
+	/**
+	 * Image for welcome screen
+	 */
+	protected Image mOptimodImage;
+
+	/**
 	 * Constructor of GraphPanel
 	 */
 	public GraphPanel() {
-		this.setPreferredSize(new Dimension(700,600));
-		mScale = 600.0/900;
+		this.setPreferredSize(new Dimension(700, 600));
+		mScale = 600.0 / 900;
 		mTranslationX = 0;
 		mTranslationY = 0;
 		mTempX = 0;
 		mTempY = 0;
+		mOptimodDrawn = true;
+		try {
+			mOptimodImage = ImageIO.read(new File("img/optimod.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.addMouseWheelListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -98,15 +121,19 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (mNetworkView != null) {
-			mNetworkView.paint(g, mScale, mTranslationX, mTranslationY);
-		}
-		if (mTourView != null) {
-			mTourView.paint(g, mScale, mTranslationX, mTranslationY);
-		}
-		if (mListNodeView != null) {
-			for (NodeView nv : mListNodeView) {
-				nv.paint(g, mScale, mTranslationX, mTranslationY);
+		if (mOptimodDrawn) {
+			g.drawImage(mOptimodImage,(this.getWidth()-mOptimodImage.getWidth(null))/2,(this.getHeight()-mOptimodImage.getHeight(null))/2, null);
+		} else {
+			if (mNetworkView != null) {
+				mNetworkView.paint(g, mScale, mTranslationX, mTranslationY);
+			}
+			if (mTourView != null) {
+				mTourView.paint(g, mScale, mTranslationX, mTranslationY);
+			}
+			if (mListNodeView != null) {
+				for (NodeView nv : mListNodeView) {
+					nv.paint(g, mScale, mTranslationX, mTranslationY);
+				}
 			}
 		}
 	}
@@ -119,10 +146,10 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		return mListNodeView;
 	}
 
-
 	/**
 	 * Set the Network of GraphPanel
-	 * @param n 
+	 * 
+	 * @param n
 	 */
 	public void setNetwork(Network n) {
 		if (n != null) {
@@ -142,7 +169,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		}
 		repaint();
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg0 instanceof Network) {
@@ -211,6 +238,10 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+	}
+
+	public void setOptimodDrawn(boolean drawn) {
+		mOptimodDrawn = drawn;
 	}
 
 }
