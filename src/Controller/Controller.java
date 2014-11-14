@@ -236,7 +236,10 @@ public class Controller {
 	 */
 	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
-		mInvoker.addAndExecute(rmCommand);
+		if(!mInvoker.addAndExecute(rmCommand)){
+			Exception e = new Exception("Impossible de supprimer le dernier noeud");
+			new WarningDialogView().paint(e);
+		}
 		mNetwork.networkChanged();
 		setState(State.TOUR_CALCULATED);
 		updateUndoRedoFrame();

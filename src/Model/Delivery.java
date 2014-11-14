@@ -129,7 +129,9 @@ public class Delivery implements XmlParse {
 		{
 			mTimeSlot.removeDelivery(this);	
 		}
-		timeSlot.addDelivery(this);
+		if(timeSlot != null){
+			timeSlot.addDelivery(this);			
+		}
 		mTimeSlot = timeSlot;
 	}
 
