@@ -175,7 +175,7 @@
 
 \thesistitle{Développement Orienté Objet} % Your thesis title - this is used in the title and abstract
 %-------------------------------------------------   
-\authors{Quentin \textsc{Dupont}\\Benjamin \textsc{Legrand}\\Donovan \textsc{Fournier}\\Ségolène \textsc{Minjard}\\Zied \textsc{Thabet}} % Your name - this is used in the title page and abstract
+\authors{Quentin \textsc{Dupont}\\Salma\textsc{ El Alaoui Talibi}\\Donovan \textsc{Fournier}\\Benjamin \textsc{Legrand}\\Ségolène \textsc{Minjard}\\Zied \textsc{Thabet}} % Your name - this is used in the title page and abstract
 %-------------------------------------------------   
 \subject{} % Your subject area - this is not currently used anywhere in the template, cite it with \subjectname if you want it
 %-------------------------------------------------   

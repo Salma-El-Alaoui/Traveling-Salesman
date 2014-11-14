@@ -21,6 +21,7 @@
 \end{figure}
 
 \subsection{Package model}
+
 \subsubsection{Diagramme de classes rétro-générés}
 \begin{figure}[H]
 	\centering
@@ -36,6 +37,7 @@
 	\caption[Dépendances du package model]{Dépendances du package model}
 \end{figure}
 \subsubsection{Évolutions lors de l'implémentation}
+
 Nous nous sommes globalement tenus à la conception initiale qui consistait à parser les fichiers XML de façon granulaire et descendante. Les changements intervenus sont dus à la gestion des Erreurs rédhibitoires et des “Warning”. 
 L’idée de départ qui consistait à remonter des erreurs à chaque niveau de parse a été remplacé majoritairement par une validation du fichier XML grâce à un modèle xsd défini.
 Le modèle xsd pour le réseau fournit les vérifications suivantes :
@@ -52,7 +54,7 @@ Le modèle xsd pour les livraisons fournit les vérifications suivantes :
 Certaines vérifications se font néanmoins dans le code et sont gérés par le principe de levée d’Exception (Erreurs et Warning). Principalement pour les erreurs rédhibitoires : la gestion des noeuds “impasses” et “ilots”, les livraisons sur des noeuds inexistants dans le réseau chargé, les heures incohérentes pour les plages de livraison. Et pour les “warning” : client avec plusieurs adresses, plages horaires vides...
 Cette gestion en Erreurs et Warning n’ayant pas été pensé en amont, cela nous a posé quelques problèmes dus à des oublis ou maladresses lors de l'implementation..
 
-En ce qui concerne le calcule d'une tournée, suite à l’implémentation des classes et des diagrammes de séquences relatifs aux calculs de la tournée, nous avons identifié plusieurs points d’évolution. Ces modifications ont été effectuées pour plusieurs raisons.
+En ce qui concerne le calcul d'une tournée, suite à l’implémentation des classes et des diagrammes de séquences relatifs aux calculs de la tournée, nous avons identifié plusieurs points d’évolution. Ces modifications ont été effectuées pour plusieurs raisons.
 Dans un premier temps, nous avons éludé le calcul des plus courts chemins (Dijkstra) en supposant que l’algorithme serait effectué uniquement en une méthode de la classe Network sans accès aux classes extérieures. En réalité, cette opération ne necessite que le noeud de départ, les autres informations étant extraites de ses attributs. Nous avons donc déplacer ce calcul et créer une classe dédiée. De plus, cette classe permet de stocker des résultats temporaires et d’accélerer les calculs.
 
 \subsection{Package view}
@@ -103,19 +105,19 @@ Nous avons décidé de créer une classe dédiée à la gestion des opérations 
 \section{Captures d'écran de l'application}
 \begin{figure}[H]
 	\centering
-		\includegraphics{Figures/welcome}[width=\textwidth,height=\textheight,keepaspectratio]
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/welcome}
 		\rule{35em}{0.5pt}
 	\caption[Fenêtre d'accueil de l'application]{Fenêtre d'accueil de l'application}
 \end{figure}
 \begin{figure}[H]
 	\centering
-		\includegraphics{Figures/plan}[width=\textwidth,height=\textheight,keepaspectratio]
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/plan}
 		\rule{35em}{0.5pt}
 	\caption[Visualisation du plan d'une zone géographique]{Visualisation du plan d'une zone géographique}
 \end{figure}
 \begin{figure}[H]
 	\centering
-		\includegraphics{Figures/path}[width=\textwidth,height=\textheight,keepaspectratio]
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/path}
 		\rule{35em}{0.5pt}
 	\caption[Superposition d'itinéraires]{Superposition d'itinéraires}
 \end{figure}
