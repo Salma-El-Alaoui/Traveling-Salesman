@@ -1,0 +1,51 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="floattype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9])*(,([0-9])+)?" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Reseau">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Noeud" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LeTronconSortant" maxOccurs="unbounded"
+								minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string" name="nomRue"
+												use="required" />
+											<xs:attribute type="floattype" name="vitesse"
+												use="required" />
+											<xs:attribute type="floattype" name="longueur"
+												use="required" />
+											<xs:attribute type="xs:int" name="idNoeudDestination"
+												use="required" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:int" name="id" use="required" />
+						<xs:attribute type="xs:positiveInteger" name="x"
+							use="required" />
+						<xs:attribute type="xs:positiveInteger" name="y"
+							use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:keyref name="refNode" refer="NodeID">
+			<xs:selector xpath="Noeud/LeTronconSortant" />
+			<xs:field xpath="@idNoeudDestination" />
+		</xs:keyref>
+		<xs:key name="NodeID">
+			<xs:selector xpath="Noeud" />
+			<xs:field xpath="@id" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

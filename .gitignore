@@ -1,3 +1,4 @@
+
 # Created by https://www.gitignore.io
 
 ### Java ###
@@ -7,7 +8,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar # Libs
 *.war
 *.ear
 
@@ -46,3 +47,39 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+=======
+/bin/
+
+### LaTeX ###
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdy
+*.tdo
