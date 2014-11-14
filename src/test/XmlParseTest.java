@@ -315,7 +315,7 @@ public class XmlParseTest extends TestCase{
 		assertSame(error, false);
 	}
 	
-/*	public void testDeliveryInWarehouse()
+	public void testDeliveryInWarehouse()
 	{
 		Network network = new Network();
 		boolean error = false;
@@ -339,13 +339,15 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidDeliveryRequestFileException e) {
-			error = true;
 			e.printStackTrace();
 		}  catch (WarningDeliveryRequestFile e){
 			e.printStackTrace();
+		} catch (Exception e)
+		{
+			error = true;
 		}
 		assertSame(error, true);
-	}*/
+	}
 	
 	public void testDepartureSupArrivalTimeSlot()
 	{
