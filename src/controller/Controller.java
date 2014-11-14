@@ -56,7 +56,7 @@ public class Controller {
 	private Frame mFrame;
 
 	/**
-	 * Changes the controller's state and update the frame
+	 * Changes the Controller's state and update the frame
 	 * 
 	 * @param state
 	 *            new state

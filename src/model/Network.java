@@ -184,13 +184,13 @@ public class Network extends Observable {
 	public void parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-
+		Document document = null;
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
 			// Reading XML file content and storing result in DOM document.
-			Document document = constructeur.parse(deliveriesFile); // Might
+			document = constructeur.parse(deliveriesFile); // Might
 			// throw
 			// exceptions
 
@@ -214,6 +214,7 @@ public class Network extends Observable {
 
 		} catch (WarningDeliveryRequestFile wa) {
 			networkChanged();
+			networkChanged(document);
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
 
