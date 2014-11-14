@@ -39,7 +39,7 @@ public class XmlParseTest extends TestCase{
 	{
 		Network network = new Network();
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class XmlParseTest extends TestCase{
 	{
 		Network network = new Network();
 		try {
-			network.parseNetworkFile(new File("plan20x20.xml"));
+			network.parseNetworkFile(new File("xml/plan20x20.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,7 +101,7 @@ public class XmlParseTest extends TestCase{
 	{
 		Network network = new Network();
 		try {
-			network.parseNetworkFile(new File("plan20x20.xml"));
+			network.parseNetworkFile(new File("xml/plan20x20.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,7 +112,7 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		File f2 = new File("livraison_Warning_UnClientAPlusieursAdresses.xml");
+		File f2 = new File("xml/livraison_Warning_UnClientAPlusieursAdresses.xml");
 		boolean warning = false;
 		try {
 			network.parseDeliveryRequestFile(f2);
@@ -133,7 +133,7 @@ public class XmlParseTest extends TestCase{
 	{
 		Network network = new Network();
 		try {
-			network.parseNetworkFile(new File("plan20x20.xml"));
+			network.parseNetworkFile(new File("xml/plan20x20.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,7 +144,7 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		File f2 = new File("livraison_Error_UneAdressePourPlusieursClients.xml");
+		File f2 = new File("xml/livraison_Error_UneAdressePourPlusieursClients.xml");
 		boolean error = false;
 		try {
 			network.parseDeliveryRequestFile(f2);
@@ -165,7 +165,7 @@ public class XmlParseTest extends TestCase{
 	{
 		Network network = new Network();
 		try {
-			network.parseNetworkFile(new File("plan20x20.xml"));
+			network.parseNetworkFile(new File("xml/plan20x20.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,7 +176,7 @@ public class XmlParseTest extends TestCase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		File f2 = new File("livraison_Warning_2foisLeMemeClient.xml");
+		File f2 = new File("xml/livraison_Warning_2foisLeMemeClient.xml");
 		boolean warning = false;
 		try {
 			network.parseDeliveryRequestFile(f2);
@@ -219,7 +219,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean error = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -251,7 +251,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean error = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -283,7 +283,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean error = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			error = true;
@@ -320,7 +320,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean error = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -354,7 +354,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean error = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -386,7 +386,7 @@ public class XmlParseTest extends TestCase{
 		Network network = new Network();
 		boolean warning = false;
 		try {
-			network.parseNetworkFile(new File("plan10x10.xml"));
+			network.parseNetworkFile(new File("xml/plan10x10.xml"));
 		} catch (InvalidNetworkFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
