@@ -201,7 +201,7 @@ public class Controller {
 		try{
 			mNetwork.getDeliveryRequest().calculateTour();			
 		} catch(Exception e){
-			Exception ex = new Exception("Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrect.");
+			Exception ex = new Exception("Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrects.");
 			new WarningDialogView().paint(ex);
 			return;
 		}
