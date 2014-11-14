@@ -20,7 +20,7 @@ public class Invoker {
 	/**
 	 * All commands that can be undone
 	 */
-	protected Stack<Command> mUndoStack;
+	private Stack<Command> mUndoStack;
 
 	/**
 	 * Adds a new command to the stack and executes it

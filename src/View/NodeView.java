@@ -41,7 +41,7 @@ public class NodeView implements View {
 	/**
 	 * If the node is selected or not
 	 */
-	protected boolean mIsSelected = false;
+	private boolean mIsSelected = false;
 
 	/**
 	 * Create the Associated view to the node
@@ -56,22 +56,22 @@ public class NodeView implements View {
 	/**
 	 * Scale factor
 	 */
-	protected double mScale;
+	private double mScale;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationX;
+	private int mTranslationX;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationY;
+	private int mTranslationY;
 
 	/**
 	 * Node corresponding to the NodeView
 	 */
-	protected Node mNode;
+	private Node mNode;
 
 	/**
 	 * Return the Associated Node

@@ -15,12 +15,12 @@ public class AddCommand implements Command {
 	/**
 	 * Node corresponding to the delivery in the tour before the one to add
 	 */
-	protected Node mPreviousNode;
+	private Node mPreviousNode;
 
 	/**
 	 * Node on which we want to add a delivery
 	 */
-	protected Node mSelectedNode;
+	private Node mSelectedNode;
 
 	/**
 	 * Constructor of AddCommand

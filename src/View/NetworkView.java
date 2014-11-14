@@ -16,7 +16,7 @@ public class NetworkView implements View {
 	/**
 	 * Network corresponding to the NetworkView
 	 */
-	protected Network mNetwork;
+	private Network mNetwork;
 
 	/**
 	 * Liste of Segment included in the Network

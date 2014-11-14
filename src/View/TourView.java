@@ -22,12 +22,12 @@ public class TourView implements View {
 	/**
 	 * Tour corresponding to the View
 	 */
-	protected Tour mTour;
+	private Tour mTour;
 
 	/**
 	 * Map counting traced paths between two given nodes
 	 */
-	protected Map<Segment, Integer> mMapTraces;
+	private Map<Segment, Integer> mMapTraces;
 
 	/**
 	 * Constructor of TourView

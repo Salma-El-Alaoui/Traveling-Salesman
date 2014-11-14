@@ -22,22 +22,22 @@ public class Tour {
 	/**
 	 * Warehouse of the tour
 	 */
-	protected Node mWarehouse;
+	private Node mWarehouse;
 
 	/**
 	 * List of the deliveries to be delivered during the tour
 	 */
-	protected List<Delivery> mDeliveryList;
+	private List<Delivery> mDeliveryList;
 
 	/**
 	 * List of the paths contained in the tour
 	 */
-	protected List<Path> mPathList;
+	private List<Path> mPathList;
 
 	/**
 	 * Departure hour from the warehouse
 	 */
-	protected int mStartHour;
+	private int mStartHour;
 
 	/**
 	 * Adds a delivery to the ordered delivery list

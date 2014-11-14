@@ -33,54 +33,54 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	/**
 	 * Scale used for the zoom
 	 */
-	protected double mScale;
+	private double mScale;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationX;
+	private int mTranslationX;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationY;
+	private int mTranslationY;
 
 	/**
 	 * Used to prevent the graph from returning to his basic position when
 	 * dragged
 	 */
-	protected int mTempX;
+	private int mTempX;
 
 	/**
 	 * Used to prevent the graph from returning to his basic position when
 	 * dragged
 	 */
-	protected int mTempY;
+	private int mTempY;
 
 	/**
 	 * Coordinate in Y of the click
 	 */
-	protected int mMouseClickY;
+	private int mMouseClickY;
 
 	/**
 	 * Coordinate in X of the click
 	 */
-	protected int mMouseClickX;
+	private int mMouseClickX;
 
 	/**
 	 * List of NodeView displayed in the graph
 	 */
-	protected List<NodeView> mListNodeView;
+	private List<NodeView> mListNodeView;
 
 	/**
 	 * NetworkView displayed in the graph
 	 */
-	protected NetworkView mNetworkView;
+	private NetworkView mNetworkView;
 
 	/**
 	 * TourView displayed in the graph
 	 */
-	protected TourView mTourView;
+	private TourView mTourView;
 
 	/**
 	 * Constructor of GraphPanel

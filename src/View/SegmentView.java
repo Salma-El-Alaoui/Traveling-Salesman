@@ -17,7 +17,7 @@ public class SegmentView implements View {
 	/**
 	 * Segment corresponding to the SegmentView
 	 */
-	protected Segment mSegment;
+	private Segment mSegment;
 
 	/**
 	 * Constructor of SegmentView

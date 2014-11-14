@@ -11,27 +11,27 @@ public class ShortestPathGraph implements Graph {
 	 * Stores the successors of the nodes of our graph the key is the id of the
 	 * node the value is an array containing the Ids of the successor nodes.
 	 */
-	protected Map<Integer, int[]> mSucc;
+	private Map<Integer, int[]> mSucc;
 
 	/**
 	 * Costs matrix for choco
 	 */
-	protected int[][] mCostMatrix;
+	private int[][] mCostMatrix;
 
 	/**
 	 * Maximum cost
 	 */
-	protected int mMax;
+	private int mMax;
 
 	/**
 	 * Minimum cost
 	 */
-	protected int mMin;
+	private int mMin;
 
 	/**
 	 * Number of vertices
 	 */
-	protected int mNb;
+	private int mNb;
 
 	/**
 	 * Initializes the graph

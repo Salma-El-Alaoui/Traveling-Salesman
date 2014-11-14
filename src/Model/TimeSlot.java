@@ -26,7 +26,7 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 	/**
 	 * Color of this time slot
 	 */
-	protected Color color;
+	private Color color;
 
 	/**
 	 * Constructor
@@ -42,17 +42,17 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 	/**
 	 * Beginning of the time slot
 	 */
-	protected int mStartHour;
+	private int mStartHour;
 
 	/**
 	 * End of the time slot
 	 */
-	protected int mEndHour;
+	private int mEndHour;
 
 	/**
 	 * List of the deliveries to be delivered in this time slot
 	 */
-	protected List<Delivery> mDeliveryList;
+	private List<Delivery> mDeliveryList;
 
 	/**
 	 * Returns all the deliveries to be delivered in this time slot

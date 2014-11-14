@@ -33,23 +33,23 @@ public class DeliveryRequest {
 	/**
 	 * Network associated with the delivery request
 	 */
-	protected Network network;
+	private Network network;
 
 	/**
 	 * Warehouse of the delivery request
 	 */
-	protected Node mWarehouse;
+	private Node mWarehouse;
 
 	/**
 	 * List containing all the time slots in a delivery request the list is
 	 * sorted in ascending order.
 	 */
-	protected List<TimeSlot> mTimeSlotList;
+	private List<TimeSlot> mTimeSlotList;
 
 	/**
 	 * Tour calculated or to be calculated
 	 */
-	protected Tour mTour;
+	private Tour mTour;
 
 	/**
 	 * Max time allowed to calculate the tour

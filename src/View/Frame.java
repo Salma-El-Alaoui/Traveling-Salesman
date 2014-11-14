@@ -96,107 +96,107 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * Button corresponding to the Export Roadmap command
 	 */
-	protected JButton mExportButton;
+	private JButton mExportButton;
 
 	/**
 	 * Button corresponding to the Load Plan command
 	 */
-	protected JButton mLoadPlanButton;
+	private JButton mLoadPlanButton;
 
 	/**
 	 * Button corresponding to the Load Deliveries command
 	 */
-	protected JButton mLoadDeliveriesButton;
+	private JButton mLoadDeliveriesButton;
 
 	/**
 	 * Button corresponding to the Calculate Tour command
 	 */
-	protected JButton mCalculateTourButton;
+	private JButton mCalculateTourButton;
 
 	/**
 	 * Menu "File" of the Frame
 	 */
-	protected JMenu mMenuFile;
+	private JMenu mMenuFile;
 
 	/**
 	 * Menu "Edition" of the Frame
 	 */
-	protected JMenu mMenuEdition;
+	private JMenu mMenuEdition;
 
 	/**
 	 * Menu "Actions" of the Frame
 	 */
-	protected JMenu mMenuAction;
+	private JMenu mMenuAction;
 
 	/**
 	 * Item "Load Map" into "File" menu
 	 */
-	protected JMenuItem mLoadMap;
+	private JMenuItem mLoadMap;
 
 	/**
 	 * Item "Add Delivery" into "Edition" menu
 	 */
-	protected JMenuItem mAddDelivery;
+	private JMenuItem mAddDelivery;
 
 	/**
 	 * Item "Remove Delivery" into "Edition" menu
 	 */
-	protected JMenuItem mRemoveDelivery;
+	private JMenuItem mRemoveDelivery;
 
 	/**
 	 * Item "Undo" into "Edition" menu
 	 */
-	protected JMenuItem mUndo;
+	private JMenuItem mUndo;
 
 	/**
 	 * Item "Redo" into "Edition" menu
 	 */
-	protected JMenuItem mRedo;
+	private JMenuItem mRedo;
 
 	/**
 	 * Item "Load Deliveries" into "File" menu
 	 */
-	protected JMenuItem mloadDeliveries;
+	private JMenuItem mloadDeliveries;
 
 	/**
 	 * Item "Calculate Tour" into "File" menu
 	 */
-	protected JMenuItem mCalculateTour;
+	private JMenuItem mCalculateTour;
 
 	/**
 	 * Item "Export" into "File" menu
 	 */
-	protected JMenuItem mExport;
+	private JMenuItem mExport;
 
 	/**
 	 * Item "Exit" into "File" menu
 	 */
-	protected JMenuItem mExit;
+	private JMenuItem mExit;
 
 	/**
 	 * Menubar of the Frame
 	 */
-	protected JMenuBar mMenuBar;
+	private JMenuBar mMenuBar;
 
 	/**
 	 * Toolbar of the Frame
 	 */
-	protected JToolBar toolbar;
+	private JToolBar toolbar;
 
 	/**
 	 * Label containing Node informations
 	 */
-	protected JLabel mNodeInfos;
+	private JLabel mNodeInfos;
 
 	/**
 	 * Label containing general informations
 	 */
-	protected JLabel mLabelInfos;
+	private JLabel mLabelInfos;
 
 	/**
 	 * Panel containing the graph
 	 */
-	protected GraphPanel mPanelGraph;
+	private GraphPanel mPanelGraph;
 
 	/**
 	 * List containing all NodeViews
@@ -211,32 +211,32 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * Button to Undo
 	 */
-	protected JButton mUndoButton;
+	private JButton mUndoButton;
 
 	/**
 	 * Button to Redo
 	 */
-	protected JButton mRedoButton;
+	private JButton mRedoButton;
 
 	/**
 	 * Button to Add Delivery
 	 */
-	protected JButton mAddDeliveryButton;
+	private JButton mAddDeliveryButton;
 
 	/**
 	 * Button to Remove Delivery
 	 */
-	protected JButton mRemoveDeliveryButton;
+	private JButton mRemoveDeliveryButton;
 
 	/**
 	 * Panel displaying the tree
 	 */
-	protected XMLTreePanel mXMLTreePanel;
+	private XMLTreePanel mXMLTreePanel;
 
 	/**
 	 * Contains the legend image
 	 */
-	protected JLabel mLegend;
+	private JLabel mLegend;
 
 	/**
 	 * @param controller

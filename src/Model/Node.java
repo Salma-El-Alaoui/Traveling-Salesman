@@ -20,37 +20,37 @@ public class Node implements XmlParse {
 	/**
 	 * True if the node is a warehouse
 	 */
-	protected boolean mIsWarehouse;
+	private boolean mIsWarehouse;
 
 	/**
 	 * Address of the node
 	 */
-	protected String mAddress;
+	private String mAddress;
 
 	/**
 	 * Coordinate X
 	 */
-	protected int mX;
+	private int mX;
 
 	/**
 	 * Coordinate Y
 	 */
-	protected int mY;
+	private int mY;
 
 	/**
 	 * Id of the node
 	 */
-	protected int mId;
+	private int mId;
 
 	/**
 	 * Delivery associated with the node
 	 */
-	protected Delivery mDelivery;
+	private Delivery mDelivery;
 
 	/**
 	 * Network containing the node
 	 */
-	protected Network mNetwork;
+	private Network mNetwork;
 
 	/**
 	 * List of segment coming in the node
@@ -60,7 +60,7 @@ public class Node implements XmlParse {
 	/**
 	 * True if the node is selected
 	 */
-	protected boolean mIsSelected;
+	private boolean mIsSelected;
 
 	/**
 	 * List of segments coming out of the node

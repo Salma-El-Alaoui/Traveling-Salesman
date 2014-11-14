@@ -18,7 +18,7 @@ public class Segment {
 	/**
 	 * Node where the segment begins
 	 */
-	protected Node mDepartureNode;
+	private Node mDepartureNode;
 
 	/**
 	 * Name of the street containing the segment
@@ -28,7 +28,7 @@ public class Segment {
 	/**
 	 * Node where the segment ends
 	 */
-	protected Node mArrivalNode;
+	private Node mArrivalNode;
 
 	/**
 	 * Driving speed on this segment

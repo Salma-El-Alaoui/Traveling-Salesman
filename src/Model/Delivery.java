@@ -31,37 +31,37 @@ public class Delivery implements XmlParse {
 	/**
 	 * Delivery hour
 	 */
-	protected int mDeliveryHour;
+	private int mDeliveryHour;
 
 	/**
 	 * Node associated with the delivery
 	 */
-	protected Node mNode;
+	private Node mNode;
 
 	/**
 	 * Id of the delivery
 	 */
-	protected int mId;
+	private int mId;
 
 	/**
 	 * Hour when the delivery man reaches the node
 	 */
-	protected int mArrivalHour;
+	private int mArrivalHour;
 
 	/**
 	 * Hour when the delivery man leaved the node
 	 */
-	protected int mDepartureHour;
+	private int mDepartureHour;
 
 	/**
 	 * Time slot in which the delivery should happen
 	 */
-	protected TimeSlot mTimeSlot;
+	private TimeSlot mTimeSlot;
 
 	/**
 	 * Client to be delivered
 	 */
-	protected int mClient;
+	private int mClient;
 
 	/**
 	 * Constructor

@@ -25,22 +25,22 @@ public class Network extends Observable {
 	/**
 	 * Map of all the nodes in the network with their id as key
 	 */
-	protected Map<Integer, Node> mNodesList;
+	private Map<Integer, Node> mNodesList;
 
 	/**
 	 * List of all the segments in the network
 	 */
-	protected List<Segment> mSegmentList;
+	private List<Segment> mSegmentList;
 
 	/**
 	 * Node currently selected
 	 */
-	protected Node mSelectedNode;
+	private Node mSelectedNode;
 
 	/**
 	 * Delivery request loaded
 	 */
-	protected DeliveryRequest mDeliveryRequest;
+	private DeliveryRequest mDeliveryRequest;
 
 	/**
 	 * Construct an empty Network

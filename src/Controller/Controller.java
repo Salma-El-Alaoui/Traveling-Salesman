@@ -47,12 +47,12 @@ public class Controller {
 	/**
 	 * Current network
 	 */
-	protected Network mNetwork;
+	private Network mNetwork;
 
 	/**
 	 * Current frame
 	 */
-	protected Frame mFrame;
+	private Frame mFrame;
 
 	/**
 	 * Changes the controller's state and update the frame
