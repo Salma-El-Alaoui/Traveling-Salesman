@@ -148,8 +148,8 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network,
 			String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress)
-			throws InvalidDeliveryRequestFileException,
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress,
+			int mWareHouseInt) throws InvalidDeliveryRequestFileException,
 			WarningDeliveryRequestFile {
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
@@ -184,7 +184,7 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 			try {
 				String tmp = delivery.buildFromXML(deliveryElement, network,
 						listClientsWithSeveralAdresses, map_clientAdress,
-						list_allAdress);
+						list_allAdress, mWareHouseInt);
 				if (tmp != "OK") {
 					listClientsWithSeveralAdresses = tmp;
 				}

@@ -234,7 +234,7 @@ public class DeliveryRequest {
 			try {
 				listClientsWithSeveralAdresses += timeSlot.buildFromXML(
 						timeSlotElement, network, "", m_clientAdress,
-						list_allAdress);
+						list_allAdress, this.mWarehouse.getId());
 			} catch (InvalidDeliveryRequestFileException iDRFE) {
 				throw new InvalidDeliveryRequestFileException(
 						iDRFE.getMessage());

@@ -218,8 +218,8 @@ public class Delivery implements XmlParse {
 	@Override
 	public String buildFromXML(Element deliveryElement, Network network,
 			String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress)
-			throws InvalidDeliveryRequestFileException {
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress,
+			int mWarehouseInt) throws InvalidDeliveryRequestFileException {
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
@@ -245,6 +245,12 @@ public class Delivery implements XmlParse {
 				list_allAdress.add(nodeIdInteger);
 
 			// Check 1 Client had 1 Adress
+			if (nodeId == mWarehouseInt) {
+				throw new InvalidDeliveryRequestFileException(
+						"L'entrepot ne peut pas etre livre dans la journée. Voir adresse "
+								+ nodeId);
+			}
+
 			if (map_clientAdress.get(mClient) != null) {
 				if (!map_clientAdress.get(mClient).equals(mNode)) {
 					listClientsWithSeveralAdresses += mClient + " ";

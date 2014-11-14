@@ -15,6 +15,8 @@ public interface XmlParse {
 	 * @param Network
 	 * @param String
 	 *            empty at the beginning
+	 * @param int : node of the Warehouse, for checking we don't serve the
+	 *        Warehouse during a Timeslot
 	 * @return Report message : OK if building succeeded, a warning message if a
 	 *         non-blocking exception occurs.
 	 * @throws DeliveryRequestParseException
@@ -22,7 +24,7 @@ public interface XmlParse {
 	 */
 	public String buildFromXML(Element element, Network network,
 			String tmpWarningMessage, Map<Integer, Node> map_clientAdress,
-			List<Integer> list_allAdress)
+			List<Integer> list_allAdress, int mWareHouseInt)
 			throws InvalidDeliveryRequestFileException,
 			WarningDeliveryRequestFile;
 
