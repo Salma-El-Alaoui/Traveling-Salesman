@@ -198,7 +198,13 @@ public class Controller {
 	}
 
 	public void calculateTourClicked(){
-		mNetwork.getDeliveryRequest().calculateTour();
+		try{
+			mNetwork.getDeliveryRequest().calculateTour();			
+		} catch(Exception e){
+			Exception ex = new Exception("Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrect.");
+			new WarningDialogView().paint(ex);
+			return;
+		}
 		mInvoker.clear();
 		updateUndoRedoFrame();
 		if(mNetwork.getSelectedNode() != null){
