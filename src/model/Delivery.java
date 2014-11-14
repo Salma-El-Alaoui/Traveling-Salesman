@@ -231,7 +231,7 @@ public class Delivery implements XmlParse {
 			throw new InvalidDeliveryRequestFileException(
 					"Le noeud "
 							+ nodeId
-							+ " dans les demandes de Livraisons n'existe pas dans le Réseau");
+							+ " dans les demandes de Livraisons n'existe pas dans le Reseau");
 
 			// Node not in the Network
 		} else {

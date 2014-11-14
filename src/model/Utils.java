@@ -78,14 +78,14 @@ public class Utils {
 				String s = xmlDocument.getDocumentElement().getNodeName();
 				if (s.equals("JourneeType")) {
 					throw new InvalidNetworkFileException(
-							"Vous essayez de charger des demandes de livraison et non un plan du r�seau !");
+							"Vous essayez de charger des demandes de livraison et non un plan du reseau !");
 				}
 				throw new InvalidNetworkFileException(e.getMessage());
 			} else {
 				String s = xmlDocument.getDocumentElement().getNodeName();
 				if (s.equals("Reseau")) {
 					throw new InvalidNetworkFileException(
-							"Vous essayez de charger un plan du r�seau et non des demandes de livraisons!");
+							"Vous essayez de charger un plan du reseau et non des demandes de livraisons!");
 				}
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}

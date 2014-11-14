@@ -355,8 +355,8 @@ public class Network extends Observable {
 		// d'arrivee
 		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE > 0) {
 			throw new WarningDeliveryRequestFile(
-					"Erreur dans le fichier des livraisons - Noeud de départ "
-							+ flagNodeRes + " similaire au Noeud d'arrivée");
+					"Erreur dans le fichier des livraisons - Noeud de depart "
+							+ flagNodeRes + " similaire au Noeud d'arrivee");
 		} else
 			return 0;
 	}
