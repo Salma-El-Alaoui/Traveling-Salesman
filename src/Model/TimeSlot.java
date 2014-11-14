@@ -1,6 +1,8 @@
 package Model;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 import org.w3c.dom.Element;
@@ -58,16 +60,18 @@ public class TimeSlot implements XmlParse {
 	}
 
 	public String getFormattedStartHour() {
-		String hours = ((Integer) (mStartHour / 3600)).toString();
-		String minutes = ((Integer) ((mStartHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mStartHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mStartHour / 3600);
+		String minutes = nf.format((mStartHour % 3600) / 60);
+		String seconds = nf.format(mStartHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
 	public String getFormattedEndHour() {
-		String hours = ((Integer) (mEndHour / 3600)).toString();
-		String minutes = ((Integer) ((mEndHour % 3600) / 60)).toString();
-		String seconds = ((Integer) (mEndHour % 60)).toString();
+		NumberFormat nf = new DecimalFormat("##00");
+		String hours = nf.format(mEndHour / 3600);
+		String minutes = nf.format((mEndHour % 3600) / 60);
+		String seconds = nf.format(mEndHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
@@ -86,7 +90,8 @@ public class TimeSlot implements XmlParse {
 	}
 
 	@Override
-	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses, Map<Integer, Node> map_clientAdress) throws InvalidDeliveryRequestFileException{
+	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses,
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException{
 
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
@@ -112,9 +117,9 @@ public class TimeSlot implements XmlParse {
 			Delivery delivery = new Delivery(this);
 			Element deliveryElement = (Element) listDeliveries.item(i);
 
-			// Check one client has only one adress
+			// Check 1-1 between Client and Adress
 			try {
-				String tmp = delivery.buildFromXML(deliveryElement, network, listClientsWithSeveralAdresses, map_clientAdress );
+				String tmp = delivery.buildFromXML(deliveryElement, network, listClientsWithSeveralAdresses, map_clientAdress, list_allAdress );
 				if (tmp != "OK"){
 					listClientsWithSeveralAdresses = tmp;
 				}

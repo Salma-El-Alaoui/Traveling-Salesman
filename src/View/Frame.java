@@ -2,6 +2,7 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+
+import org.w3c.dom.Document;
 
 import Controller.Controller;
 import Model.Network;
@@ -42,7 +45,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Ratio of width for informations display
 	 */
 	private final static double INFOS_WIDTH = 0.2;
-
+	
+	/**
+	 * Web content for Tab
+	 */
+	private final static String TAB = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	
 	/**
 	 * Possible action for the buttons
 	 */
@@ -223,6 +231,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	public Frame(Controller controller) {
 		mController = controller;
 		mPanelGraph = new GraphPanel();
+		mXMLTreePanel = new XMLTreePanel(controller);
 
 		setTitle("Traveling Salesman");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -278,7 +287,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		icon = new ImageIcon("img/remove-user-icon.png");
 		mRemoveDeliveryButton = new JButton(icon);
 		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
-		mRemoveDeliveryButton.setToolTipText("Ajouter une livraison");
+		mRemoveDeliveryButton.setToolTipText("Supprimer une livraison");
 		mRemoveDeliveryButton.addActionListener(this);
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);
@@ -371,12 +380,17 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
 				HEIGHT));
 
-		this.add(mPanelGraph, BorderLayout.WEST);
+		this.add(mPanelGraph, BorderLayout.CENTER);
+		this.add(mXMLTreePanel, BorderLayout.WEST);
 
+		JLabel legend = new JLabel(new ImageIcon("img/legende.png"));
+		
 		JPanel panelInfos = new JPanel();
-		panelInfos.setLayout(new GridLayout(2, 1));
+		panelInfos.setLayout(new GridLayout(3, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
+		panelInfos.add(legend);
+		
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
@@ -384,6 +398,35 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setVisible(true);
 
 	}
+
+
+	
+	protected XMLTreePanel mXMLTreePanel;
+
+
+
+
+	/**
+	 */
+	public void clicBrowseDeliveries() {
+		// TODO implement here
+	}
+
+	/**
+	 * @param String
+	 *            error
+	 */
+	public void displayError(String error) {
+		// TODO implement here
+	}
+
+	/**
+	 */
+	public void clickBrowseNetwork() {
+		// TODO implement here
+	}
+
+
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -456,25 +499,28 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * @param node Node selected in the frame
 	 */
 	public void setSelectedNode(Node node){
-		String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+node.getId();
+		String nodeInfos = "<html>Noeud sélectionné : <br>"
+				+ TAB + "Adresse : "+node.getId() + "<br>";
 		if(node.isWarehouse())
 		{
-			nodeInfos +="<br>Entrepôt";
-		}else if(node.hasDelivery())
-		{
-			NumberFormat nf = new DecimalFormat("##00");
-			int heureDep = node.getDelivery().getDepartureHour();
-			int minDep = heureDep;
-			int secDep = heureDep;
-			int heureArr = node.getDelivery().getArrivalHour();
-			int minArr = heureArr;
-			int secArr = heureArr;
-
-			nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
-					+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60))+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		}else
-		{
-			nodeInfos += "<br>Livraison : Non</html>";
+			nodeInfos += TAB + "Entrepôt <br>";
+		}else if(node.hasDelivery()){
+			String depHour = node.getDelivery().getFormattedDepartureHour();
+			String arrHour = node.getDelivery().getFormattedArrivalHour();
+			String delHour = node.getDelivery().getFormattedDeliveryHour();
+			
+			String startTSHour = node.getDelivery().getTimeSlot().getFormattedStartHour();
+			String endTSHour = node.getDelivery().getTimeSlot().getFormattedEndHour();
+			
+			nodeInfos += TAB + "Livraison : Oui <br>"
+					+ TAB + "Intervalle horaire :<br>"
+					+ TAB + TAB + "De "+startTSHour+" à "+endTSHour + "<br>"
+					+ TAB + "Horaire : <br>"
+					+ TAB + TAB + "Heure d'arrivée : "+ arrHour +"<br>"
+					+ TAB + TAB + "Heure de livraison : "+ delHour +"<br>"
+					+ TAB + TAB + "Heure de départ : "+ depHour +"<br></html>";
+		}else {
+			nodeInfos += TAB + "Livraison : Non</html>";
 		}
 		mNodeInfos.setText(nodeInfos);
 	}
@@ -501,7 +547,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 */
 	public void setNetwork(Network n) {
 		mPanelGraph.setNetwork(n);
+		mXMLTreePanel.setNetwork(n);
 	}
+	
+
 
 	/**
 	 * Update the frame depending on the state

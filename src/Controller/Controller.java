@@ -3,6 +3,8 @@ package Controller;
 import java.io.File;
 import java.io.FileWriter;
 
+import org.w3c.dom.Document;
+
 import Model.InvalidDeliveryRequestFileException;
 import Model.InvalidNetworkFileException;
 import Model.Network;
@@ -78,7 +80,7 @@ public class Controller {
 	 * @param node Node selected
 	 */
 	public void onNodeSelected(Node node) {
-		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery()||node.isWarehouse())){
+		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery() || node.isWarehouse())){
 			addDelivery(node);
 		} 
 		if(mState == State.TOUR_CALCULATED 
@@ -147,20 +149,33 @@ public class Controller {
 	 * Opens a window to select the network and loads it
 	 */
 	public void browseNetworkClicked() {
+		int flagWarning = 0;
+		
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paintOpen();
 		mNetwork = new Network();
-		try {
-			mNetwork.parseNetworkFile(f1);
-			mFrame.setNetwork(mNetwork);
-			mInvoker.clear();
-			updateUndoRedoFrame();
-			setState(State.NETWORK_LOADED);
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		} catch (WarningDeliveryRequestFile wa){
-			new WarningDialogView().paint(wa);
+		
+		// User has canceled loading network
+		if (f1!=null){
+			try {
+				mNetwork.parseNetworkFile(f1);
+				flagWarning++;
+				mFrame.setNetwork(mNetwork);
+				mInvoker.clear();
+				updateUndoRedoFrame();
+				setState(State.NETWORK_LOADED);
+			} catch (InvalidNetworkFileException
+					| InvalidDeliveryRequestFileException ex) {
+				new ErrorDialogView().paint(ex);
+			} catch (WarningDeliveryRequestFile wa){
+				if(flagWarning==0){
+					mFrame.setNetwork(mNetwork);
+					mInvoker.clear();
+					updateUndoRedoFrame();
+					setState(State.NETWORK_LOADED);
+				}
+				new WarningDialogView().paint(wa);
+			}
 		}
 
 	}
@@ -169,20 +184,31 @@ public class Controller {
 	 * Opens a window to select the delivery request and loads it
 	 */
 	public void browseDeliveryClicked() {
+		int flagWarning = 0;
+		
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paintOpen();
-		try {
-			mNetwork.clearNodeContent();
-			mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
-			setState(State.DELIVERY_REQUEST_LOADED);
-			mInvoker.clear();
-			updateUndoRedoFrame();
-		} catch (InvalidNetworkFileException
-				| InvalidDeliveryRequestFileException ex) {
-			new ErrorDialogView().paint(ex);
-		} catch (WarningDeliveryRequestFile wa){
-			new WarningDialogView().paint(wa);
-		}	
+		// User cancel loading
+		if (f2!=null){
+			try {
+				mNetwork.clearNodeContent();
+				mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+				flagWarning++;
+				setState(State.DELIVERY_REQUEST_LOADED);
+				mInvoker.clear();
+				updateUndoRedoFrame();
+			} catch (InvalidNetworkFileException
+					| InvalidDeliveryRequestFileException ex) {
+				new ErrorDialogView().paint(ex);
+			} catch (WarningDeliveryRequestFile wa){
+				if(flagWarning==0){
+					setState(State.DELIVERY_REQUEST_LOADED);
+					mInvoker.clear();
+					updateUndoRedoFrame();
+				}
+				new WarningDialogView().paint(wa);
+			}
+		}
 	}
 
 	/**
