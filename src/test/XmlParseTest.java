@@ -93,4 +93,100 @@ public class XmlParseTest extends TestCase{
 		}
 		assertNotSame(network.getDeliveryRequest(), new DeliveryRequest());
 	}
+	
+	public void testOneClientTwoAdresses()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Warning_UnClientAPlusieursAdresses.xml");
+		boolean warning = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
+	
+	public void testOneAddressTwoClients()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Error_UneAdressePourPlusieursClients.xml");
+		boolean error = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){		
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}
+	
+	public void testTwoTimesSameClient()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Warning_2foisLeMemeClient.xml");
+		boolean warning = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){	
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
 }
