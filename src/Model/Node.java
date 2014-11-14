@@ -6,12 +6,12 @@ import org.w3c.dom.Element;
 
 
 /**
- * 
+ * Class that represents a node
  */
 public class Node implements XmlParse {
 
     /**
-     * 
+     * Constructor
      */
     public Node() {
     	mInSegmentList = new ArrayList<Segment>();
@@ -19,127 +19,145 @@ public class Node implements XmlParse {
     }
 
     /**
-     * 
+     * True if the node is a warehouse
      */
     protected boolean mIsWarehouse;
 
     /**
-     * 
+     * Address of the node
      */
     protected String mAddress;
 
     /**
-     * 
+     * Coordinate X
      */
     protected int mX;
 
     /**
-     * 
+     * Coordinate Y
      */
     protected int mY;
 
     /**
-     * 
+     * Id of the node
      */
     protected int mId;
 
     /**
-     * 
+     * Delivery associated with the node
      */
     protected Delivery mDelivery;
 
     /**
-     * 
+     * Network containing the node
      */
     protected Network mNetwork;
 
 	/**
-     * 
+     * List of segment coming in the node
      */
     private List<Segment> mInSegmentList;    
 
+    /**
+     * True if the node is selected
+     */
     protected boolean mIsSelected;
 
+    /**
+     * List of segments coming out of the node
+     */
     private List<Segment> mOutSegmentList;
 
-   
-
-
     /**
-     * @return
+     * Returns true if the node is associated with a delivery
+     * @return true if the node is associated with a delivery
      */
     public boolean hasDelivery() {
         return mDelivery!=null;
     }
     
     /**
-     * @return
+     * Returns true if the node is a warehouse
+     * @return true if the node is a warehouse
      */
     public boolean isWarehouse() {
         return mIsWarehouse;
     }
 
+    /**
+     * Adds an incoming segment to the node
+     * @param segment Segment to add
+     */
     public void addInSegment(Segment segment){
     	mInSegmentList.add(segment);
     }
 
+    /**
+     * Adds an outcoming segment to the node
+     * @param segment Segment to add
+     */
     public void addOutSegment(Segment segment){
     	mOutSegmentList.add(segment);
     }
     /**
-     * @return
+     * Returns true if the node is selected
+     * @return true if the node is selected
      */
     public boolean isSelected() {
         return mIsSelected;
     }
 
     /**
-     * @return
+     * Returns the network containing the node
+     * @return the network containing the node
      */
     public Network getNetwork() {
         return mNetwork;
     }
 
     /**
-     * @param boolean 
-     * @return
+     * Sets the node as selected if isSelected is true, sets it as not selected otherwise
+     * @param isSelected whether the node should be set as selected
      */
     public void setSelectedNode(boolean isSelected) {
     	mIsSelected=isSelected;
     }
     
-
     /**
-     * @return
+     * Returns the delivery associated with the node
+     * @return the delivery associated with the node, null if there isn't one
      */
     public Delivery getDelivery() {
         return mDelivery;
     }
     
     /**
-     * @return
+     * Returns the list of segments coming out of the node
+     * @return the list of segments coming out of the node
      */
     public List<Segment> getOutSegmentList(){
     	return mOutSegmentList;
     }
-    
+
     /**
-     * @return
+     * Returns the list of segments coming in the node
+     * @return the list of segments coming in the node
      */
     public List<Segment> getInSegmentList(){
     	return mInSegmentList;
     }
         
     /**
-     * @return
+     * Returns the unique id of the node
+     * @return id of the node
      */
     public int getId(){
     	return mId;
     }
 
     /**
-     * @param boolean 
-     * @return
+     * Sets the node as warehouse if isWarehouse is true, sets it as not warehouse otherwise
+     * @param boolean whether the node should be set as warehouse
      */
     public void setIsWarehouse(boolean isWarehouse) {
         mIsWarehouse = isWarehouse;
@@ -168,14 +186,26 @@ public class Node implements XmlParse {
 		
 	}
 	
+	/**
+	 * Returns the X coordinate of the node
+	 * @return the X coordinate of the node
+	 */
     public int getX() {
 		return mX;
 	}
 
+    /**
+     * Returns the Y coordinate of the node
+     * @return the Y coordinate of the node
+     */
 	public int getY() {
 		return mY;
 	}
 
+	/**
+	 * Associate the node with the delivery in parameter
+	 * @param delivery Delivery to be associated with the node
+	 */
 	public void setDelivery(Delivery delivery) {
 		mDelivery = delivery;
 	}
@@ -189,5 +219,4 @@ public class Node implements XmlParse {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

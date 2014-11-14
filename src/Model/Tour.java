@@ -3,12 +3,13 @@ package Model;
 import java.util.*;
 
 /**
- * 
+ * Class that represents a tour
  */
 public class Tour {
 
 	/**
-	 * 
+	 * Constructor
+	 * @param wareHouse Warehouse of the tour
 	 */
 	public Tour(Node wareHouse) {
 		mWarehouse = wareHouse;
@@ -16,14 +17,18 @@ public class Tour {
 		mDeliveryList = new ArrayList<Delivery>();
 	}
 
-	protected Node mWarehouse;
 	/**
-	 * 
+	 * Warehouse of the tour
+	 */
+	protected Node mWarehouse;
+	
+	/**
+	 * List of the deliveries to be delivered during the tour
 	 */
 	protected List<Delivery> mDeliveryList;
 
 	/**
-	 * 
+	 * List of the paths contained in the tour
 	 */
 	protected List<Path> mPathList;
 
@@ -202,15 +207,19 @@ public class Tour {
 		}
 	}
 
+	/**
+	 * Returns the list of deliveries delivered during the tour
+	 * @return the list of deliveries delivered during the tour
+	 */
 	public List<Delivery> getDeliveryList() {
 		return mDeliveryList;
 	}
 
-
+	/**
+	 * Returns the list of the paths contained in the tour
+	 * @return the list of the paths contained in the tour 
+	 */
 	public List<Path> getPathList() {
 		return mPathList;
 	}
-    
-
-
 }

@@ -3,16 +3,21 @@ package Model;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ * Class that represents a time slot
  */
 public class TimeSlot implements XmlParse {
 
+	/**
+	 * Possible colors to be set to a Time Slot
+	 */
 	private static final Color[] COLORS = {
 		new Color(248, 148, 6),
 		new Color(30, 130, 76),
@@ -22,43 +27,55 @@ public class TimeSlot implements XmlParse {
 		new Color(219, 10, 91)
 	};
 	
+	/**
+	 * Color of this time slot
+	 */
 	protected Color color;
 
+	/**
+	 * Constructor
+	 * @param i number corresponding to a color
+	 */
 	public TimeSlot(int i) {
 		mDeliveryList = new ArrayList<Delivery>();
 		setColor(i);
 	}
 
 	/**
-	 * 
+	 * Beginning of the time slot
 	 */
 	protected int mStartHour;
 
 	/**
-	 * 
+	 * End of the time slot
 	 */
 	protected int mEndHour;
 
 	/**
-	 * 
+	 * List of the deliveries to be delivered in this time slot
 	 */
-
 	protected List<Delivery> mDeliveryList;
 
 	/**
-	 * @return
+	 * Returns all the deliveries to be delivered in this time slot
+	 * @return all the deliveries to be delivered in this time slot
 	 */
 	public List<Delivery> getAllDeliveries() {
 		return mDeliveryList;
 	}
 
 	/**
-	 * @return
+	 * Returns the beginning hour of the time slot
+	 * @return the beginning hour of the time slot
 	 */
 	public int getStartHour() {
 		return mStartHour;
 	}
 
+	/**
+	 * Returns the start hour as a string
+	 * @return the start hour as a string
+	 */
 	public String getFormattedStartHour() {
 		NumberFormat nf = new DecimalFormat("##00");
 		String hours = nf.format(mStartHour / 3600);
@@ -67,6 +84,10 @@ public class TimeSlot implements XmlParse {
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
+	/**
+	 * Returns the end hour as a string
+	 * @return the end hour as a string
+	 */
 	public String getFormattedEndHour() {
 		NumberFormat nf = new DecimalFormat("##00");
 		String hours = nf.format(mEndHour / 3600);
@@ -75,15 +96,27 @@ public class TimeSlot implements XmlParse {
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
+	/**
+	 * Returns the end hour
+	 * @return the end hour
+	 */
 	public int getEndHour() {
 		return mEndHour;
 	}
 	
+	/**
+	 * Add a delivery to the time slot
+	 * @param delivery Delivery to add
+	 */
 	public void addDelivery(Delivery delivery)
 	{
 		mDeliveryList.add(delivery);
 	}
 	
+	/**
+	 * Remove a delivery from the time slot's delivery list
+	 * @param delivery Delivery to remove
+	 */
 	public void removeDelivery(Delivery delivery)
 	{
 		mDeliveryList.remove(delivery);
@@ -159,10 +192,18 @@ public class TimeSlot implements XmlParse {
 				+ "Deliveries " + mDeliveryList.toString() + "); ";
 	}
 
+	/**
+	 * Returns the color associated with the time slot
+	 * @return the color associated with the time slot
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * Sets a color for this time slot
+	 * @param i Number associated with the color to set
+	 */
 	private void setColor(int i) {
 		if(i<0){
 			i = 0;
@@ -180,5 +221,4 @@ public class TimeSlot implements XmlParse {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

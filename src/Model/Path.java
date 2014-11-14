@@ -1,9 +1,10 @@
 package Model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
+ * Class that represents a path
  */
 public class Path {
 
@@ -47,16 +48,18 @@ public class Path {
     }
 
     /**
-     *
+     * Returns the total time needed to follow the path
      * @return The total time needed to follow the path
      */
     public int getGlobalTime() {
         return (int) mPathTime;
     }
 
+    /**
+     * Returns the list of segments contained in the path
+     * @return the list of segments contained in the path
+     */
 	public List<Segment> getSegmentList() {
 		return mSegmentList;
 	}
-
-
 }

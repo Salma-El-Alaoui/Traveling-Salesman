@@ -3,6 +3,9 @@ package View;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * Error dialog
+ */
 public class ErrorDialogView {
 	
 	public void paint(Exception ex){

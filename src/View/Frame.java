@@ -2,7 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +20,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-
-import org.w3c.dom.Document;
 
 import Controller.Controller;
 import Model.Network;
@@ -87,9 +84,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Possible action for the buttons
 	 */
 	private final static String ACTION_REDO = "ACTION_REDO";
-
-	
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String STRING_UNDO = "Annuler";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String STRING_REDO = "Refaire";
 	
 	/**
@@ -223,6 +224,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Button to Remove Delivery
 	 */
 	protected JButton mRemoveDeliveryButton;
+	
+	/**
+	 * Panel displaying the tree
+	 */
+	protected XMLTreePanel mXMLTreePanel;
 
 	/**
 	 * @param controller Instance of Controller which will handle view/model interactions
@@ -398,35 +404,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.setVisible(true);
 
 	}
-
-
-	
-	protected XMLTreePanel mXMLTreePanel;
-
-
-
-
-	/**
-	 */
-	public void clicBrowseDeliveries() {
-		// TODO implement here
-	}
-
-	/**
-	 * @param String
-	 *            error
-	 */
-	public void displayError(String error) {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public void clickBrowseNetwork() {
-		// TODO implement here
-	}
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

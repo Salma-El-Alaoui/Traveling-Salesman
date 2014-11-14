@@ -3,7 +3,6 @@ package View;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;

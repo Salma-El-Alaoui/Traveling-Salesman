@@ -6,7 +6,7 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 /**
- * 
+ * Interface with methods to create objects from XML files
  */
 public interface XmlParse {
 

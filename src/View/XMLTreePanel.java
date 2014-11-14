@@ -17,7 +17,6 @@ import org.w3c.dom.Document;
 import Controller.Controller;
 import Model.Network;
 import Model.XMLTreeModel;
-import Model.XMLTreeNode;
 
 public class XMLTreePanel extends JPanel implements Observer {
 

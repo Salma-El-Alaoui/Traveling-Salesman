@@ -12,25 +12,23 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * 
+ * Class with useful tools
  */
 public class Utils {
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public Utils() {
 	}
 
 	/**
-	 * @param File
-	 * @return
+	 * Validate the content of a XML file
+	 * @param File file to be validated
+	 * @return "OK" if the file is correct
 	 */
 	public static String FileValidator(Document xmlDocument,
 			String pathToXsdFile) throws InvalidNetworkFileException,

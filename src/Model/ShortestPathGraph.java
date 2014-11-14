@@ -1,12 +1,10 @@
 package Model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import tsp.Graph;
 
-/**
- * 
- */
 public class ShortestPathGraph implements Graph {
 
    
