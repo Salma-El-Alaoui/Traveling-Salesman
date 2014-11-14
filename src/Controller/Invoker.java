@@ -22,15 +22,21 @@ public class Invoker {
 	 */
 	protected Stack<Command> mUndoStack;
 
+
 	/**
 	 * Adds a new command to the stack and executes it
 	 * @param cmd command to execute
 	 */
-	public void addAndExecute(Command cmd){
+	
+
+
+	public boolean addAndExecute(Command cmd){
 		if(cmd.execute()){
 			mUndoStack.add(cmd);
 			mRedoStack.clear();
+			return true;
 		}
+		return false;
 	}
 
 	/**

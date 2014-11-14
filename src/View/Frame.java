@@ -312,7 +312,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		icon = new ImageIcon("img/undo.png");
 		mUndoButton = new JButton(icon);
 		mUndoButton.setActionCommand(ACTION_UNDO);
-		mUndoButton.setToolTipText("Défaire l'ajout");
+		mUndoButton.setToolTipText("Annuler");
 		mUndoButton.addActionListener(this);
 		mUndoButton.setEnabled(false);
 		toolbar.add(mUndoButton);
@@ -320,7 +320,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		icon = new ImageIcon("img/redo.png");
 		mRedoButton = new JButton(icon);
 		mRedoButton.setActionCommand(ACTION_REDO);
-		mRedoButton.setToolTipText("Refaire l'ajout");
+		mRedoButton.setToolTipText("Refaire");
 		mRedoButton.addActionListener(this);
 		mRedoButton.setEnabled(false);
 		toolbar.add(mRedoButton);

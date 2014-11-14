@@ -139,6 +139,10 @@ public class Tour {
 		Node node=delivery.getNode();
 		Node previousNode=null;
 		Node nextNode=null;
+		
+		if(mDeliveryList.size()<=1){
+			return null;
+		}
 
 		for(int i=0; i<mDeliveryList.size(); i++)
 		{

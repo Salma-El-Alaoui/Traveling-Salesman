@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 /**
  * Class that represents a time slot
  */
-public class TimeSlot implements XmlParse {
+public class TimeSlot implements XmlParse,Comparable<TimeSlot> {
 
 	/**
 	 * Possible colors to be set to a Time Slot
@@ -221,4 +221,13 @@ public class TimeSlot implements XmlParse {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	
+
+	@Override
+	public int compareTo(TimeSlot arg0) {
+		return this.mStartHour - arg0.getStartHour();
+	}
+
 }

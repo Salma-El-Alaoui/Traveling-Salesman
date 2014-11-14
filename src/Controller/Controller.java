@@ -216,7 +216,13 @@ public class Controller {
 	 * Calculates the tour when the associated button is clicked
 	 */
 	public void calculateTourClicked(){
-		mNetwork.getDeliveryRequest().calculateTour();
+		try{
+			mNetwork.getDeliveryRequest().calculateTour();			
+		} catch(Exception e){
+			Exception ex = new Exception("Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrects.");
+			new WarningDialogView().paint(ex);
+			return;
+		}
 		mInvoker.clear();
 		updateUndoRedoFrame();
 		if(mNetwork.getSelectedNode() != null){
@@ -254,7 +260,10 @@ public class Controller {
 	 */
 	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
-		mInvoker.addAndExecute(rmCommand);
+		if(!mInvoker.addAndExecute(rmCommand)){
+			Exception e = new Exception("Impossible de supprimer le dernier noeud");
+			new WarningDialogView().paint(e);
+		}
 		mNetwork.networkChanged();
 		setState(State.TOUR_CALCULATED);
 		updateUndoRedoFrame();
