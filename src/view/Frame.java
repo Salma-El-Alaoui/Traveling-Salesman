@@ -256,28 +256,28 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mNodeInfos = new JLabel();
 
 		JToolBar toolbar = new JToolBar();
-		ImageIcon icon = new ImageIcon("img/load_plan.png");
+		ImageIcon icon = new ImageIcon(getClass() .getResource( "/load_plan.png" ));
 		mLoadPlanButton = new JButton(icon);
 		mLoadPlanButton.setActionCommand(ACTION_LOAD_MAP);
 		mLoadPlanButton.setToolTipText("Charger plan");
 		mLoadPlanButton.addActionListener(this);
 		toolbar.add(mLoadPlanButton);
 
-		icon = new ImageIcon("img/load_deliveries.png");
+		icon = new ImageIcon(getClass() .getResource( "/load_deliveries.png" ));
 		mLoadDeliveriesButton = new JButton(icon);
 		mLoadDeliveriesButton.setActionCommand(ACTION_LOAD_DELIVERIES);
 		mLoadDeliveriesButton.setToolTipText("Charger demandes de livraisons");
 		mLoadDeliveriesButton.addActionListener(this);
 		toolbar.add(mLoadDeliveriesButton);
 
-		icon = new ImageIcon("img/chart_line_edit.png");
+		icon = new ImageIcon(getClass() .getResource( "/chart_line_edit.png" ));
 		mCalculateTourButton = new JButton(icon);
 		mCalculateTourButton.setActionCommand(ACTION_CALCULATE_TOUR);
 		mCalculateTourButton.setToolTipText("Calculer la tournée");
 		mCalculateTourButton.addActionListener(this);
 		toolbar.add(mCalculateTourButton);
 
-		icon = new ImageIcon("img/export.png");
+		icon = new ImageIcon(getClass() .getResource( "/export.png" ));
 		mExportButton = new JButton(icon);
 		mExportButton.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExportButton.setToolTipText("Exporter feuille de route");
@@ -286,7 +286,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		toolbar.addSeparator(new Dimension(20, 10));
 
-		icon = new ImageIcon("img/add-user-icon.png");
+		icon = new ImageIcon(getClass() .getResource( "/add-user-icon.png" ));
 		mAddDeliveryButton = new JButton(icon);
 		mAddDeliveryButton.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDeliveryButton.setToolTipText("Ajouter une livraison");
@@ -294,7 +294,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDeliveryButton.setEnabled(false);
 		toolbar.add(mAddDeliveryButton);
 
-		icon = new ImageIcon("img/remove-user-icon.png");
+		icon = new ImageIcon(getClass() .getResource( "/remove-user-icon.png" ));
 		mRemoveDeliveryButton = new JButton(icon);
 		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
 		mRemoveDeliveryButton.setToolTipText("Supprimer une livraison");
@@ -302,7 +302,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);
 
-		icon = new ImageIcon("img/undo.png");
+		icon = new ImageIcon(getClass() .getResource( "/undo.png" ));
 		mUndoButton = new JButton(icon);
 		mUndoButton.setActionCommand(ACTION_UNDO);
 		mUndoButton.setToolTipText("Annuler");
@@ -310,7 +310,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mUndoButton.setEnabled(false);
 		toolbar.add(mUndoButton);
 
-		icon = new ImageIcon("img/redo.png");
+		icon = new ImageIcon(getClass() .getResource( "/redo.png" ));
 		mRedoButton = new JButton(icon);
 		mRedoButton.setActionCommand(ACTION_REDO);
 		mRedoButton.setToolTipText("Refaire");
@@ -391,7 +391,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(mPanelGraph, BorderLayout.CENTER);
 		this.add(mXMLTreePanel, BorderLayout.WEST);
 
-		mLegend = new JLabel(new ImageIcon("img/legende.png"));
+		mLegend = new JLabel(new ImageIcon(getClass() .getResource( "/legende.png" )));
 
 
 		setJMenuBar(mMenuBar);

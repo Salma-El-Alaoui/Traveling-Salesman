@@ -194,7 +194,7 @@ public class Network extends Observable {
 			// throw
 			// exceptions
 
-			Utils.FileValidator(document, "livraison.xsd");
+			Utils.FileValidator(document, "/livraison.xsd", this);
 
 			Element deliveryRequestElement = document.getDocumentElement();
 
@@ -280,7 +280,7 @@ public class Network extends Observable {
 			// throw
 			// exceptions
 
-			Utils.FileValidator(document, "plan.xsd");
+			Utils.FileValidator(document, "/plan.xsd", this);
 
 			Element networkElement = document.getDocumentElement();
 

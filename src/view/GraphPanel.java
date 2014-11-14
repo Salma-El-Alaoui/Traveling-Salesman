@@ -108,9 +108,8 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		mTempY = 0;
 		mOptimodDrawn = true;
 		try {
-			mOptimodImage = ImageIO.read(new File("img/optimod.png"));
+			mOptimodImage = ImageIO.read(getClass() .getResource( "/optimod.png" ));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.addMouseWheelListener(this);

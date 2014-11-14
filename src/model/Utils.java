@@ -35,7 +35,7 @@ public class Utils {
 	 * @return "OK" if the file is correct
 	 */
 	public static String FileValidator(Document xmlDocument,
-			String pathToXsdFile) throws InvalidNetworkFileException,
+			String pathToXsdFile, Network n) throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException {
 
 		// create a SchemaFactory capable of understanding WXS schemas
@@ -43,7 +43,7 @@ public class Utils {
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 		// load a WXS schema, represented by a Schema instance
-		Source schemaFile = new StreamSource(new File(pathToXsdFile));
+		Source schemaFile = new StreamSource(n.getClass().getResource(pathToXsdFile).toString());
 		Schema schema;
 		try {
 			schema = factory.newSchema(schemaFile);
