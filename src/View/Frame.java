@@ -389,6 +389,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mMenuBar.add(mMenuFile);
 
 		mMenuBar.add(mMenuEdition);
+		
+		mMenuBar.add(mMenuAction);
 
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
 				HEIGHT));
