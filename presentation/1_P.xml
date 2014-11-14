@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Reseau>
+	<Noeud id="0" x="150" y="100">
+		<LeTronconSortant nomRue="de la republique" vitesse="1" longueur="200" idNoeudDestination="1"/>
+		<LeTronconSortant nomRue="de la liberte" vitesse="1" longueur="500" idNoeudDestination="4"/>
+	</Noeud>
+	<Noeud id="1" x="150" y="300">
+		<LeTronconSortant nomRue="de la republique" vitesse="1" longueur="200" idNoeudDestination="2"/>
+		<LeTronconSortant nomRue="Charles de Gaulle" vitesse="1" longueur="300" idNoeudDestination="3"/>
+	</Noeud>
+	<Noeud id="2" x="200" y="450">
+		<LeTronconSortant nomRue="de la republique" vitesse="1" longueur="300" idNoeudDestination="6"/>
+	</Noeud>
+	<Noeud id="3" x="350" y="200">
+		<LeTronconSortant nomRue="Charles de Gaulle" vitesse="1" longueur="300" idNoeudDestination="5"/>
+	</Noeud>
+	<Noeud id="4" x="600" y="150">
+		<LeTronconSortant nomRue="de la liberte" vitesse="1" longueur="500" idNoeudDestination="0"/>
+		<LeTronconSortant nomRue="du developpement objet" vitesse="1" longueur="300" idNoeudDestination="5"/>
+	</Noeud>
+	<Noeud id="5" x="500" y="350">
+		<LeTronconSortant nomRue="Charles de Gaulle" vitesse="1" longueur="300" idNoeudDestination="3"/>
+		<LeTronconSortant nomRue="du developpement objet" vitesse="1" longueur="200" idNoeudDestination="6"/>
+		<LeTronconSortant nomRue="Charles de Gaulle" vitesse="1" longueur="400" idNoeudDestination="7"/>
+	</Noeud>
+	<Noeud id="6" x="500" y="450">
+		<LeTronconSortant nomRue="du developpement objet" vitesse="1" longueur="200" idNoeudDestination="5"/>
+		<LeTronconSortant nomRue="de la republique" vitesse="1" longueur="350" idNoeudDestination="8"/>
+	</Noeud>
+	<Noeud id="7" x="750" y="200">
+		<LeTronconSortant nomRue="de la liberte" vitesse="1" longueur="200" idNoeudDestination="4"/>
+		<LeTronconSortant nomRue="de la liberte" vitesse="1" longueur="250" idNoeudDestination="8"/>
+	</Noeud>
+	<Noeud id="8" x="750" y="450">
+		<LeTronconSortant nomRue="de la republique" vitesse="1" longueur="350" idNoeudDestination="6"/>
+		<LeTronconSortant nomRue="de la liberte" vitesse="1" longueur="250" idNoeudDestination="7"/>
+		<LeTronconSortant nomRue="de la bonne note" vitesse="1" longueur="200" idNoeudDestination="9"/>
+	</Noeud>
+	<Noeud id="9" x="700" y="400">
+		<LeTronconSortant nomRue="de la bonne note" vitesse="1" longueur="200" idNoeudDestination="8"/>
+	</Noeud>
+</Reseau>
