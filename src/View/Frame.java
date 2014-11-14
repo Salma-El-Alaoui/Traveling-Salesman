@@ -223,6 +223,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Button to Remove Delivery
 	 */
 	protected JButton mRemoveDeliveryButton;
+	
+	/**
+	 * Contains the legend image
+	 */
+	protected JLabel mLegend;
 
 	/**
 	 * @param controller Instance of Controller which will handle view/model interactions
@@ -383,13 +388,16 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(mPanelGraph, BorderLayout.CENTER);
 		this.add(mXMLTreePanel, BorderLayout.WEST);
 
-		JLabel legend = new JLabel(new ImageIcon("img/legende.png"));
+		mLegend = new JLabel(new ImageIcon("img/legende.png"));
 		
 		JPanel panelInfos = new JPanel();
 		panelInfos.setLayout(new GridLayout(3, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
-		panelInfos.add(legend);
+		panelInfos.add(mLegend);
+		
+		mLegend.setVisible(false);
+		mNodeInfos.setVisible(false);
 		
 		this.add(panelInfos, BorderLayout.EAST);
 
@@ -589,6 +597,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
+			mLegend.setVisible(true);
+			mNodeInfos.setVisible(true);
 			mAddDelivery.setText("Ajouter la livraison");
 			mLabelInfos.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
 			break;
