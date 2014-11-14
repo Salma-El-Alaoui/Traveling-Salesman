@@ -3,75 +3,104 @@ package Model;
 import org.w3c.dom.Element;
 
 /**
- * 
+ * Class that represents a segment
  */
 public class Segment {
 
 	static int ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE = 0;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public Segment() {
 	}
 
 	/**
-	 * 
+	 * Node where the segment begins
 	 */
+	private Node mDepartureNode;
 
-	protected Node mDepartureNode;
-
+	/**
+	 * Name of the street containing the segment
+	 */
 	private String mStreetName;
 
 	/**
-	 * 
+	 * Node where the segment ends
 	 */
+	private Node mArrivalNode;
 
-	protected Node mArrivalNode;
-
+	/**
+	 * Driving speed on this segment
+	 */
 	private float mSpeed;
 
+	/**
+	 * Length of the segment
+	 */
 	private float mLength;
 
 	/**
-	 * <<<<<<< HEAD
+	 * Returns the node at the beginning of the segment
 	 * 
+	 * @return departure node
 	 */
 	public Node getDepartureNode() {
 		return mDepartureNode;
 	}
 
 	/**
-	 * @return
+	 * Returns the node at the end of the segment
+	 * 
+	 * @return arrival node
 	 */
 	public Node getArrivalNode() {
 		return mArrivalNode;
 	}
 
+	/**
+	 * Returns the name of the street containing the segment
+	 * 
+	 * @return the name of the street containing the segment
+	 */
 	public String getStreetName() {
 		return mStreetName;
 	}
 
+	/**
+	 * Returns the length of the segment
+	 * 
+	 * @return the length of the segment
+	 */
 	public float getLength() {
 		return mLength;
 	}
 
 	/**
-	 * @return
+	 * Returns the time needed to reach the end of the segment
+	 * 
+	 * @return the time needed to reach the end of the segment
 	 */
 	public float getTime() {
 		return mLength / mSpeed;
 	}
 
 	/**
+	 * Fills the segment object with data from XML.
+	 * 
 	 * @param Node
+	 *            The departure node
 	 * @param Element
+	 *            XML element to be parsed.
+	 * @param Network
+	 *            the network.
 	 */
 	public int buildFromXML(Node departureNode, Element segmentElement,
 			Network network) {
 
 		int res = -1;
-		int noeudDestinationInt = Integer.parseInt(segmentElement.getAttribute("idNoeudDestination"));
+		int noeudDestinationInt = Integer.parseInt(segmentElement
+				.getAttribute("idNoeudDestination"));
 
 		if (noeudDestinationInt == departureNode.getId()) {
 			ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE++;
@@ -102,15 +131,11 @@ public class Segment {
 																// segments of
 																// its ToNode.
 
-		network.updateNode(mDepartureNode.getId(), null , this); // This segment is the out segment of its FromNode
-		network.updateNode(mArrivalNode.getId(), this, null); // This segment is the in segments of its ToNode.
-		
 		return res;
 	}
 
 	@Override
 	public String toString() {
-
 		return "Segment : street " + mStreetName + ", length " + mLength
 				+ ", speed " + mSpeed;
 		// return "Segment : "+ " From ("+ mFromNode.toString() + " ), To (" +
