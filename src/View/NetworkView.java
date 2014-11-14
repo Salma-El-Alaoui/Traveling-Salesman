@@ -21,7 +21,7 @@ public class NetworkView implements View {
 	/**
 	 * Liste of Segment included in the Network
 	 */
-	public List<SegmentView> listSegmentView;
+	private List<SegmentView> listSegmentView;
 
 	/**
 	 * Constructor of NetworkView

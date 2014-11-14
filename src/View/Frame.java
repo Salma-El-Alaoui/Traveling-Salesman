@@ -199,11 +199,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	private GraphPanel mPanelGraph;
 
 	/**
-	 * List containing all NodeViews
-	 */
-	public List<NodeView> listNodeView;
-
-	/**
 	 * Controller used to handle view/model interations
 	 */
 	private Controller mController;
@@ -398,16 +393,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mLegend = new JLabel(new ImageIcon("img/legende.png"));
 
-		JPanel panelInfos = new JPanel();
-		panelInfos.setLayout(new GridLayout(3, 1));
-		panelInfos.add(mLabelInfos);
-		panelInfos.add(mNodeInfos);
-		panelInfos.add(mLegend);
-
-		mLegend.setVisible(false);
-		mNodeInfos.setVisible(false);
-
-		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
 		changeState(Controller.State.NEW);
@@ -588,8 +573,15 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
-			mLegend.setVisible(true);
-			mNodeInfos.setVisible(true);
+
+			JPanel panelInfos = new JPanel();
+			panelInfos.setLayout(new GridLayout(3, 1));
+			panelInfos.add(mLabelInfos);
+			panelInfos.add(mNodeInfos);
+			panelInfos.add(mLegend);
+
+			this.add(panelInfos, BorderLayout.EAST);
+			
 			mAddDelivery.setText("Ajouter la livraison");
 			mLabelInfos
 					.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
