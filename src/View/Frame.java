@@ -123,6 +123,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Menu "Edition" of the Frame
 	 */
 	protected JMenu mMenuEdition;
+	
+	/**
+	 * Menu "Actions" of the Frame
+	 */
+	protected JMenu mMenuAction;
 
 	/**
 	 * Item "Load Map" into "File" menu
@@ -238,7 +243,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mPanelGraph = new GraphPanel();
 		mXMLTreePanel = new XMLTreePanel(controller);
 
-		setTitle("Traveling Salesman");
+		setTitle("Optimod'Lyon - Gestion des livraisons");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setLayout(new BorderLayout());
@@ -361,10 +366,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
 
-		mCalculateTour = new JMenuItem("Calculer la tournée");
-		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
-		mCalculateTour.addActionListener(this);
-		mMenuFile.add(mCalculateTour);
+		
 
 		mExport = new JMenuItem("Exporter feuille de route");
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
@@ -377,6 +379,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExit.setActionCommand(ACTION_EXIT);
 		mExit.addActionListener(this);
 		mMenuFile.add(mExit);
+		
+		mMenuAction = new JMenu("Action");
+		mCalculateTour = new JMenuItem("Calculer la tournée");
+		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
+		mCalculateTour.addActionListener(this);
+		mMenuAction.add(mCalculateTour);
 
 		mMenuBar.add(mMenuFile);
 
