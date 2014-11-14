@@ -81,8 +81,10 @@ public class Segment {
 	}
 
 	/**
-	 * @param Node
-	 * @param Element
+	 * Fills the segment object with data from XML.
+	 * @param Node The departure node
+	 * @param Element XML element to be parsed.
+	 * @param Network the network.
 	 */
 	public int buildFromXML(Node departureNode, Element segmentElement,
 			Network network) {

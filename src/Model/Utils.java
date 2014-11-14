@@ -26,9 +26,10 @@ public class Utils {
 	}
 
 	/**
-	 * Validate the content of a XML file
+	 * Validate the content of a XML file against an xsd file
 	 * @param File file to be validated
-	 * @return "OK" if the file is correct
+	 * @param pathToXSDFile path to the XSD validation sheet.
+ 	 * @return "OK" if the file is correct
 	 */
 	public static String FileValidator(Document xmlDocument,
 			String pathToXsdFile) throws InvalidNetworkFileException,
@@ -72,13 +73,13 @@ public class Utils {
 			if(pathToXsdFile.contains("plan")){
 				String s = xmlDocument.getDocumentElement().getNodeName();
 				if(s.equals("JourneeType")){
-					throw new InvalidNetworkFileException("Vous essayez de charger des demandes de livraison et non un plan du réseau !");
+					throw new InvalidNetworkFileException("Vous essayez de charger des demandes de livraison et non un plan du rï¿½seau !");
 				}
 				throw new InvalidNetworkFileException(e.getMessage());
 			}else{
 				String s = xmlDocument.getDocumentElement().getNodeName();
 				if(s.equals("Reseau")){
-					throw new InvalidNetworkFileException("Vous essayez de charger un plan du réseau et non des demandes de livraisons!");
+					throw new InvalidNetworkFileException("Vous essayez de charger un plan du rï¿½seau et non des demandes de livraisons!");
 				}
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}

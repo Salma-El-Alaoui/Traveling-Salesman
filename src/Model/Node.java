@@ -163,6 +163,11 @@ public class Node implements XmlParse {
         mIsWarehouse = isWarehouse;
     }
 
+    /**
+     * Fills Node object with data from XML
+     * @param nodeElement XML element to be parsed
+     * @param network The network
+     */
 	@Override
 	public String buildFromXML(Element nodeElement, Network network) {
 		this.mNetwork = network;

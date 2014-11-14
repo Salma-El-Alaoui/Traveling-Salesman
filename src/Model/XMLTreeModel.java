@@ -12,6 +12,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * @author 
+ *This class is exclusively used to represent the XML tree displayed in the XMLTreePanel
+ */
 public class XMLTreeModel implements TreeModel {
 
 	private Document document;

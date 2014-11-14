@@ -122,6 +122,15 @@ public class TimeSlot implements XmlParse,Comparable<TimeSlot> {
 		mDeliveryList.remove(delivery);
 	}
 
+	/**
+	 * Fills the time slot objects with data from XML files.
+	 * @param timeSlotElement The XML delivery Element to be parsed
+	 * @param network The network
+	 * @param listClientsWithSeveralAdresses String representing the list of clients with several addresses. Warning to be raised.
+	 * @param map_clientAdress Used together with list_allAdress to verify the one to one mapping between clients and addresses.
+	 * @param list_allAdress Used together with map_clientAdress to verify the one to one mapping between clients and addresses.
+	 * @return reportString Warnings list if applicable.
+	 */
 	@Override
 	public String buildFromXML(Element timeSlotElement, Network network, String listClientsWithSeveralAdresses,
 			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException{
@@ -224,7 +233,11 @@ public class TimeSlot implements XmlParse,Comparable<TimeSlot> {
 
 
 	
-
+	/**
+	 * compareTo implementation for TimeSlots. Used to sort the TimeSlots Array member in DeliveryRequest.
+	 * @param arg0 TimeSlot to compare to the current object
+	 * @return difference 0 if current object equals argument, positive if current object greater, negative if current object less than argument.
+	 */
 	@Override
 	public int compareTo(TimeSlot arg0) {
 		return this.mStartHour - arg0.getStartHour();

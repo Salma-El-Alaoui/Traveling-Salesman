@@ -157,11 +157,17 @@ public class Network extends Observable {
 		return mDeliveryRequest;
 	}
 
-
+/**
+ * Parses the DeliveryRequest file and fills the network deliveryRequest.
+ * @param deliveriesFile File to be parsed
+ * @throws InvalidNetworkFileException Does not raise this Exception
+ * @throws InvalidDeliveryRequestFileException If DeliveryRequestFile validation fails
+ * @throws WarningDeliveryRequestFile If warnings need to be fired.
+ */
 	public void parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-		String msg;
+
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
@@ -203,6 +209,10 @@ public class Network extends Observable {
 		}
 	}
 
+	/**
+	 * Notifies Observers that network has changed.
+	 * 
+	 */
 	public void networkChanged() {
 		setChanged(); // Marks this Observable object as having been changed;
 		notifyObservers(); // If this object has changed then notify all of its
@@ -211,15 +221,27 @@ public class Network extends Observable {
 							// changed.
 	}
 	
+	/**
+	 * Notifies Observers that network has changed. Sends the document argument to Observers. Method used to send the DeliveryRequest document to the FileTreeView.
+	 * @param doc the document to be sent to Observers.
+	 */
 	public void networkChanged(Document doc){
 		setChanged();
 		notifyObservers(doc);
 	}
-
+	
+	/**
+	 * 
+	 *Parses the Network file and fills the network nodes and segments. 
+	 * @param networkFile file to be parsed.
+	 * @throws InvalidNetworkFileException If Network File validation fails.
+	 * @throws InvalidDeliveryRequestFileException Does not throw this exception.
+	 * @throws WarningDeliveryRequestFile If Warnings need to be fired.
+	 */
 	public void parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-		String msg = "OK";
+	
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()

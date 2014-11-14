@@ -3,7 +3,11 @@ package Model;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
+/**
+ * 
+ * @author 
+ *This class is exclusively used to represent the XML tree displayed in the XMLTreePanel
+ */
 public class XMLTreeNode {
 	Element element;
 	public XMLTreeNode(Element element) {
