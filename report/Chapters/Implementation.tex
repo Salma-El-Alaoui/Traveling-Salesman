@@ -52,9 +52,11 @@
 		\rule{35em}{0.5pt}
 	\caption[Dépendances du package view]{Dépendances du package view}
 \end{figure}
+\subsubsection{Évolutions lors de l'implémentation}
+Nous avons du revenir sur nos choix faits lors de la création des diagrammes de séquence pour l’ajout d’une livraison. Certains changements sont du au fait que nous avons finalement décidé d’implémenter le design pattern State pour une meilleure gestion des boutons à activer dans la fenêtre. Nous avons aussi décidé de rajouter une classe Invoker pour que la gestion des piles de commandes soit séparée du controleur. Nous avons aussi décidé d’ajouter un attribut selectedNode au Network pour éviter d’avoir à parcourir trop souvent la liste des noeuds du 
+réseaux pour trouver celui qui est sélectionné. Un autre point important auquel nous n’avions pas pensé lors de la conception est l’ajout où le suppression de livraisons avec l’entrepôt juste avant ou après. En effet, l’entrepôt n’étant pas dans la liste des livraisons, il s’agit d’un cas particulier. Enfin nous avons modifié la méthode onClick pour qu’elle se contente d’indiquer si le noeud est sélectionné ou non car nous avons pensé qu’il était plus propre de lancer le reste du traitement à partir de la Frame.
 
-
-\subsection{Package Controller}
+\subsection{Package controller}
 \subsubsection{Diagramme de classes rétro-générés}
 \begin{figure}[H]
 	\centering
