@@ -12,16 +12,20 @@ public interface XmlParse {
 
 	/**
 	 * @param Element
-	 * @param Network	 
-	 * @param String empty at the beginning
+	 * @param Network
+	 * @param String
+	 *            empty at the beginning
 	 * @return Report message : OK if building succeeded, a warning message if a
 	 *         non-blocking exception occurs.
 	 * @throws DeliveryRequestParseException
 	 *             when a blocking eroor occurs
 	 */
-	public String buildFromXML(Element element, Network network, String tmpWarningMessage,
-			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile;
-	
+	public String buildFromXML(Element element, Network network,
+			String tmpWarningMessage, Map<Integer, Node> map_clientAdress,
+			List<Integer> list_allAdress)
+			throws InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile;
+
 	/**
 	 * @param Element
 	 * @param Network
@@ -30,6 +34,8 @@ public interface XmlParse {
 	 * @throws DeliveryRequestParseException
 	 *             when a blocking eroor occurs
 	 */
-	public String buildFromXML(Element element, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile;
+	public String buildFromXML(Element element, Network network)
+			throws InvalidDeliveryRequestFileException,
+			WarningDeliveryRequestFile;
 
 }

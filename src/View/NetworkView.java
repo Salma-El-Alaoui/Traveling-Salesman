@@ -13,44 +13,44 @@ import Model.Segment;
  */
 public class NetworkView implements View {
 
-    /**
-     * Network corresponding to the NetworkView
-     */
-    protected Network mNetwork;
+	/**
+	 * Network corresponding to the NetworkView
+	 */
+	protected Network mNetwork;
 
-    /**
-     * Liste of Segment included in the Network
-     */
-    public List<SegmentView> listSegmentView;
-	
-    /**
-     * Constructor of NetworkView
-     * @param network Network for the View
-     * @param listSegment List of Segment in Network
-     */
-    public NetworkView(Network network, List<Segment> listSegment) {
-    	mNetwork = network;
-    	listSegmentView = new ArrayList<SegmentView>();
-    	for(Segment s : listSegment)
-    	{
-    		listSegmentView.add(new SegmentView(s));
-    	}
-    	
-    }
+	/**
+	 * Liste of Segment included in the Network
+	 */
+	public List<SegmentView> listSegmentView;
 
+	/**
+	 * Constructor of NetworkView
+	 * 
+	 * @param network
+	 *            Network for the View
+	 * @param listSegment
+	 *            List of Segment in Network
+	 */
+	public NetworkView(Network network, List<Segment> listSegment) {
+		mNetwork = network;
+		listSegmentView = new ArrayList<SegmentView>();
+		for (Segment s : listSegment) {
+			listSegmentView.add(new SegmentView(s));
+		}
 
+	}
 
 	@Override
-	public void paint(Graphics g, double scale, int translationX, int translationY) {
-		for(int i=0; i<listSegmentView.size();i++)
-		{
+	public void paint(Graphics g, double scale, int translationX,
+			int translationY) {
+		for (int i = 0; i < listSegmentView.size(); i++) {
 			listSegmentView.get(i).paint(g, scale, translationX, translationY);
 		}
 	}
 
 	@Override
 	public boolean onClick(MouseEvent E) {
-		return false;		
+		return false;
 	}
 
 }

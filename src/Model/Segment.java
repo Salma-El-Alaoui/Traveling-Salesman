@@ -42,6 +42,7 @@ public class Segment {
 
 	/**
 	 * Returns the node at the beginning of the segment
+	 * 
 	 * @return departure node
 	 */
 	public Node getDepartureNode() {
@@ -50,6 +51,7 @@ public class Segment {
 
 	/**
 	 * Returns the node at the end of the segment
+	 * 
 	 * @return arrival node
 	 */
 	public Node getArrivalNode() {
@@ -58,6 +60,7 @@ public class Segment {
 
 	/**
 	 * Returns the name of the street containing the segment
+	 * 
 	 * @return the name of the street containing the segment
 	 */
 	public String getStreetName() {
@@ -66,6 +69,7 @@ public class Segment {
 
 	/**
 	 * Returns the length of the segment
+	 * 
 	 * @return the length of the segment
 	 */
 	public float getLength() {
@@ -74,6 +78,7 @@ public class Segment {
 
 	/**
 	 * Returns the time needed to reach the end of the segment
+	 * 
 	 * @return the time needed to reach the end of the segment
 	 */
 	public float getTime() {
@@ -82,15 +87,20 @@ public class Segment {
 
 	/**
 	 * Fills the segment object with data from XML.
-	 * @param Node The departure node
-	 * @param Element XML element to be parsed.
-	 * @param Network the network.
+	 * 
+	 * @param Node
+	 *            The departure node
+	 * @param Element
+	 *            XML element to be parsed.
+	 * @param Network
+	 *            the network.
 	 */
 	public int buildFromXML(Node departureNode, Element segmentElement,
 			Network network) {
 
 		int res = -1;
-		int noeudDestinationInt = Integer.parseInt(segmentElement.getAttribute("idNoeudDestination"));
+		int noeudDestinationInt = Integer.parseInt(segmentElement
+				.getAttribute("idNoeudDestination"));
 
 		if (noeudDestinationInt == departureNode.getId()) {
 			ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE++;
@@ -112,11 +122,15 @@ public class Segment {
 		mArrivalNode = network.getNode(Integer.parseInt(segmentElement
 				.getAttribute("idNoeudDestination")));
 
-		
+		network.updateNode(mDepartureNode.getId(), null, this); // This segment
+																// is the out
+																// segment of
+																// its FromNode
+		network.updateNode(mArrivalNode.getId(), this, null); // This segment is
+																// the in
+																// segments of
+																// its ToNode.
 
-		network.updateNode(mDepartureNode.getId(), null , this); // This segment is the out segment of its FromNode
-		network.updateNode(mArrivalNode.getId(), this, null); // This segment is the in segments of its ToNode.
-		
 		return res;
 	}
 

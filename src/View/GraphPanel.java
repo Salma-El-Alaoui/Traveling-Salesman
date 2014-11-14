@@ -46,12 +46,14 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	protected int mTranslationY;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
 	protected int mTempX;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
 	protected int mTempY;
 
@@ -64,7 +66,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	 * Coordinate in X of the click
 	 */
 	protected int mMouseClickX;
-	
+
 	/**
 	 * List of NodeView displayed in the graph
 	 */
@@ -84,8 +86,8 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	 * Constructor of GraphPanel
 	 */
 	public GraphPanel() {
-		this.setPreferredSize(new Dimension(700,600));
-		mScale = 600.0/900;
+		this.setPreferredSize(new Dimension(700, 600));
+		mScale = 600.0 / 900;
 		mTranslationX = 0;
 		mTranslationY = 0;
 		mTempX = 0;
@@ -119,10 +121,10 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		return mListNodeView;
 	}
 
-
 	/**
 	 * Set the Network of GraphPanel
-	 * @param n 
+	 * 
+	 * @param n
 	 */
 	public void setNetwork(Network n) {
 		if (n != null) {
@@ -142,7 +144,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		}
 		repaint();
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg0 instanceof Network) {

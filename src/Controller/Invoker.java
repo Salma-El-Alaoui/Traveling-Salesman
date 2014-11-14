@@ -63,6 +63,7 @@ public class Invoker {
 
 	/**
 	 * Returns the name of the last command executed
+	 * 
 	 * @return name of the last command executed
 	 */
 	public String getUndoName() {
@@ -75,6 +76,7 @@ public class Invoker {
 
 	/**
 	 * Returns the name of the last command undone
+	 * 
 	 * @return the name of the last command undone
 	 */
 	public String getRedoName() {

@@ -2,8 +2,8 @@ package Model;
 
 /**
  * 
- * Exception raised when Network File is not valid according to the XSD sheet defined (plan.xsd).
- * Wrapper for other XML parsing exceptions (SAX, IO ...)
+ * Exception raised when Network File is not valid according to the XSD sheet
+ * defined (plan.xsd). Wrapper for other XML parsing exceptions (SAX, IO ...)
  *
  */
 public class InvalidNetworkFileException extends Exception {
@@ -12,7 +12,8 @@ public class InvalidNetworkFileException extends Exception {
 
 	/**
 	 * 
-	 * @param String message
+	 * @param String
+	 *            message
 	 */
 	public InvalidNetworkFileException(String msg) {
 		super(msg);

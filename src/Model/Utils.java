@@ -27,9 +27,12 @@ public class Utils {
 
 	/**
 	 * Validate the content of a XML file against an xsd file
-	 * @param File file to be validated
-	 * @param pathToXSDFile path to the XSD validation sheet.
- 	 * @return "OK" if the file is correct
+	 * 
+	 * @param File
+	 *            file to be validated
+	 * @param pathToXSDFile
+	 *            path to the XSD validation sheet.
+	 * @return "OK" if the file is correct
 	 */
 	public static String FileValidator(Document xmlDocument,
 			String pathToXsdFile) throws InvalidNetworkFileException,
@@ -45,9 +48,9 @@ public class Utils {
 		try {
 			schema = factory.newSchema(schemaFile);
 		} catch (SAXException e) {
-			if(pathToXsdFile.contains("plan")){
+			if (pathToXsdFile.contains("plan")) {
 				throw new InvalidNetworkFileException(e.getMessage());
-			}else{
+			} else {
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}
 
@@ -62,24 +65,27 @@ public class Utils {
 			try {
 				validator.validate((Source) new DOMSource(xmlDocument));
 			} catch (IOException e) {
-				if(pathToXsdFile.contains("plan")){
+				if (pathToXsdFile.contains("plan")) {
 					throw new InvalidNetworkFileException(e.getMessage());
-				}else{
-					throw new InvalidDeliveryRequestFileException(e.getMessage());
+				} else {
+					throw new InvalidDeliveryRequestFileException(
+							e.getMessage());
 				}
 			}
 		} catch (SAXException e) {
 			// instance document is invalid!
-			if(pathToXsdFile.contains("plan")){
+			if (pathToXsdFile.contains("plan")) {
 				String s = xmlDocument.getDocumentElement().getNodeName();
-				if(s.equals("JourneeType")){
-					throw new InvalidNetworkFileException("Vous essayez de charger des demandes de livraison et non un plan du r�seau !");
+				if (s.equals("JourneeType")) {
+					throw new InvalidNetworkFileException(
+							"Vous essayez de charger des demandes de livraison et non un plan du r�seau !");
 				}
 				throw new InvalidNetworkFileException(e.getMessage());
-			}else{
+			} else {
 				String s = xmlDocument.getDocumentElement().getNodeName();
-				if(s.equals("Reseau")){
-					throw new InvalidNetworkFileException("Vous essayez de charger un plan du r�seau et non des demandes de livraisons!");
+				if (s.equals("Reseau")) {
+					throw new InvalidNetworkFileException(
+							"Vous essayez de charger un plan du r�seau et non des demandes de livraisons!");
 				}
 				throw new InvalidDeliveryRequestFileException(e.getMessage());
 			}

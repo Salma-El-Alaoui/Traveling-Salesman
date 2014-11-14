@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
@@ -20,7 +19,9 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Constructor
-	 * @param node Node associated with the delivery
+	 * 
+	 * @param node
+	 *            Node associated with the delivery
 	 */
 	public Delivery(Node node) {
 		node.setDelivery(this);
@@ -36,7 +37,7 @@ public class Delivery implements XmlParse {
 	 * Node associated with the delivery
 	 */
 	protected Node mNode;
-	
+
 	/**
 	 * Id of the delivery
 	 */
@@ -56,22 +57,25 @@ public class Delivery implements XmlParse {
 	 * Time slot in which the delivery should happen
 	 */
 	protected TimeSlot mTimeSlot;
-	
+
 	/**
 	 * Client to be delivered
 	 */
 	protected int mClient;
-	
+
 	/**
 	 * Constructor
-	 * @param timeSlot Time slot of the delivery
+	 * 
+	 * @param timeSlot
+	 *            Time slot of the delivery
 	 */
 	public Delivery(TimeSlot timeSlot) {
 		mTimeSlot = timeSlot;
 	}
-	
+
 	/**
 	 * Returns the node associated with the delivery
+	 * 
 	 * @return the node associated with the delivery
 	 */
 	public Node getNode() {
@@ -80,6 +84,7 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Returns the client to be delivered
+	 * 
 	 * @return the client to be delivered
 	 */
 	public int getClient() {
@@ -88,37 +93,41 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Returns the hour when the delivery man reaches the delivery node
+	 * 
 	 * @return Arrival Hour
 	 */
 	public int getArrivalHour() {
 		return mArrivalHour;
 	}
-	
+
 	/**
 	 * Returns the arrival hour as a String
+	 * 
 	 * @return Arrival Hour
 	 */
-	public String getFormattedArrivalHour(){
+	public String getFormattedArrivalHour() {
 		NumberFormat nf = new DecimalFormat("##00");
 		String hours = nf.format(mArrivalHour / 3600);
 		String minutes = nf.format((mArrivalHour % 3600) / 60);
 		String seconds = nf.format(mArrivalHour % 60);
 		return hours + ":" + minutes + ":" + seconds;
 	}
-	
+
 	/**
 	 * Returns the hour when the client is delivered
+	 * 
 	 * @return Delivery Hour
 	 */
 	public int getDeliveryHour() {
 		return mDeliveryHour;
 	}
-	
+
 	/**
 	 * Returns the delivery hour as a String
+	 * 
 	 * @return Delivery Hour
 	 */
-	public String getFormattedDeliveryHour(){
+	public String getFormattedDeliveryHour() {
 		NumberFormat nf = new DecimalFormat("##00");
 		String hours = nf.format(mDeliveryHour / 3600);
 		String minutes = nf.format((mDeliveryHour % 3600) / 60);
@@ -128,6 +137,7 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Returns the hour when the delivery man leaves the node
+	 * 
 	 * @return Departure Hour
 	 */
 	public int getDepartureHour() {
@@ -136,9 +146,10 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Returns the departure hour as a String
+	 * 
 	 * @return
 	 */
-	public String getFormattedDepartureHour(){
+	public String getFormattedDepartureHour() {
 		NumberFormat nf = new DecimalFormat("##00");
 		String hours = nf.format(mDepartureHour / 3600);
 		String minutes = nf.format((mDepartureHour % 3600) / 60);
@@ -148,16 +159,16 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Sets the time slot associated with the delivery
+	 * 
 	 * @param TimeSlot
 	 *            timeSlot associated with the delivery
 	 */
 	public void setTimeSlot(TimeSlot timeSlot) {
-		if(mTimeSlot!=null)
-		{
-			mTimeSlot.removeDelivery(this);	
+		if (mTimeSlot != null) {
+			mTimeSlot.removeDelivery(this);
 		}
-		if(timeSlot != null){
-			timeSlot.addDelivery(this);			
+		if (timeSlot != null) {
+			timeSlot.addDelivery(this);
 		}
 		mTimeSlot = timeSlot;
 	}
@@ -179,6 +190,7 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Returns the time slot associated with the delivery
+	 * 
 	 * @return time slot
 	 */
 	public TimeSlot getTimeSlot() {
@@ -187,19 +199,27 @@ public class Delivery implements XmlParse {
 
 	/**
 	 * Fills the delivery objects with data from XML files.
-	 * @param deliveryElement The XML delivery Element to be parsed
-	 * @param network The network
-	 * @param listClientsWithSeveralAdresses String representing the list of clients with several addresses. Warning to be raised.
-	 * @param map_clientAdress Used together with list_allAdress to verify the one to one mapping between clients and addresses.
-	 * @param list_allAdress Used together with map_clientAdress to verify the one to one mapping between clients and addresses.
+	 * 
+	 * @param deliveryElement
+	 *            The XML delivery Element to be parsed
+	 * @param network
+	 *            The network
+	 * @param listClientsWithSeveralAdresses
+	 *            String representing the list of clients with several
+	 *            addresses. Warning to be raised.
+	 * @param map_clientAdress
+	 *            Used together with list_allAdress to verify the one to one
+	 *            mapping between clients and addresses.
+	 * @param list_allAdress
+	 *            Used together with map_clientAdress to verify the one to one
+	 *            mapping between clients and addresses.
 	 * @return reportString Warnings list if applicable.
 	 */
 	@Override
 	public String buildFromXML(Element deliveryElement, Network network,
 			String listClientsWithSeveralAdresses,
-			Map<Integer, Node> map_clientAdress,
-			List<Integer> list_allAdress)
-					throws InvalidDeliveryRequestFileException {
+			Map<Integer, Node> map_clientAdress, List<Integer> list_allAdress)
+			throws InvalidDeliveryRequestFileException {
 		mId = Integer.parseInt(deliveryElement.getAttribute("id"));
 		mClient = Integer.parseInt(deliveryElement.getAttribute("client"));
 		int nodeId = Integer.parseInt(deliveryElement.getAttribute("adresse"));
@@ -209,19 +229,22 @@ public class Delivery implements XmlParse {
 
 		if (mNode == null) {
 			throw new InvalidDeliveryRequestFileException(
-					"Le noeud "	+ nodeId + " dans les demandes de Livraisons n'existe pas dans le Réseau");
-			
-		// Node not in the Network	
+					"Le noeud "
+							+ nodeId
+							+ " dans les demandes de Livraisons n'existe pas dans le Réseau");
+
+			// Node not in the Network
 		} else {
-			
+
 			mNode.setDelivery(this);
 
-			if(list_allAdress.contains(nodeIdInteger)){
-				throw new InvalidDeliveryRequestFileException("L'adresse "+nodeId+" ne peut pas être associée à deux Clients");
-			}
-			else list_allAdress.add(nodeIdInteger);
-			
-			// Check 1 Client had 1 Adress 
+			if (list_allAdress.contains(nodeIdInteger)) {
+				throw new InvalidDeliveryRequestFileException("L'adresse "
+						+ nodeId + " ne peut pas être associée à deux Clients");
+			} else
+				list_allAdress.add(nodeIdInteger);
+
+			// Check 1 Client had 1 Adress
 			if (map_clientAdress.get(mClient) != null) {
 				if (!map_clientAdress.get(mClient).equals(mNode)) {
 					listClientsWithSeveralAdresses += mClient + " ";

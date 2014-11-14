@@ -52,6 +52,7 @@ public class Network extends Observable {
 
 	/**
 	 * Returns a map with all the nodes of the network with their id as key
+	 * 
 	 * @return a map with all the nodes of the network with their id as key
 	 */
 	public Map<Integer, Node> getNodesList() {
@@ -60,6 +61,7 @@ public class Network extends Observable {
 
 	/**
 	 * Returns the list of all the segments of the network
+	 * 
 	 * @return the list of all the segments of the network
 	 */
 	public List<Segment> getSegmentList() {
@@ -105,6 +107,7 @@ public class Network extends Observable {
 
 	/**
 	 * Returns the node currently selected
+	 * 
 	 * @return the node currently selected
 	 */
 	public Node getSelectedNode() {
@@ -113,7 +116,9 @@ public class Network extends Observable {
 
 	/**
 	 * Sets the node currently selected
-	 * @param node the node currently selected
+	 * 
+	 * @param node
+	 *            the node currently selected
 	 */
 	public void setSelectedNode(Node node) {
 		if (mSelectedNode != null) {
@@ -125,7 +130,9 @@ public class Network extends Observable {
 
 	/**
 	 * Returns the node corresponding to the id
-	 * @param id Id of the node
+	 * 
+	 * @param id
+	 *            Id of the node
 	 * @return Node associated with the id
 	 */
 	public Node getNode(int id) {
@@ -134,9 +141,13 @@ public class Network extends Observable {
 
 	/**
 	 * Update the incoming and outcoming segments of the node identified by id
-	 * @param id Id associated with the node to update
-	 * @param inSegment New incoming segment
-	 * @param outSegment New outcoming segment
+	 * 
+	 * @param id
+	 *            Id associated with the node to update
+	 * @param inSegment
+	 *            New incoming segment
+	 * @param outSegment
+	 *            New outcoming segment
 	 */
 	public void updateNode(int id, Segment inSegment, Segment outSegment) {
 		Node updatedNode = mNodesList.get(id);
@@ -151,19 +162,25 @@ public class Network extends Observable {
 
 	/**
 	 * Returns the delivery request associated with the network
+	 * 
 	 * @return the delivery request associated with the network
 	 */
 	public DeliveryRequest getDeliveryRequest() {
 		return mDeliveryRequest;
 	}
 
-/**
- * Parses the DeliveryRequest file and fills the network deliveryRequest.
- * @param deliveriesFile File to be parsed
- * @throws InvalidNetworkFileException Does not raise this Exception
- * @throws InvalidDeliveryRequestFileException If DeliveryRequestFile validation fails
- * @throws WarningDeliveryRequestFile If warnings need to be fired.
- */
+	/**
+	 * Parses the DeliveryRequest file and fills the network deliveryRequest.
+	 * 
+	 * @param deliveriesFile
+	 *            File to be parsed
+	 * @throws InvalidNetworkFileException
+	 *             Does not raise this Exception
+	 * @throws InvalidDeliveryRequestFileException
+	 *             If DeliveryRequestFile validation fails
+	 * @throws WarningDeliveryRequestFile
+	 *             If warnings need to be fired.
+	 */
 	public void parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
@@ -199,14 +216,14 @@ public class Network extends Observable {
 			networkChanged();
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
-		
+
 	}
 
 	/**
 	 * Clear all the node states (Associated deliveries / warehouse)
 	 */
-	public void clearNodeContent(){
-		for(Node n : mNodesList.values()){
+	public void clearNodeContent() {
+		for (Node n : mNodesList.values()) {
 			n.setDelivery(null);
 			n.setIsWarehouse(false);
 		}
@@ -222,28 +239,37 @@ public class Network extends Observable {
 							// to indicate that this object has no longer
 							// changed.
 	}
-	
+
 	/**
-	 * Notifies Observers that network has changed. Sends the document argument to Observers. Method used to send the DeliveryRequest document to the FileTreeView.
-	 * @param doc the document to be sent to Observers.
+	 * Notifies Observers that network has changed. Sends the document argument
+	 * to Observers. Method used to send the DeliveryRequest document to the
+	 * FileTreeView.
+	 * 
+	 * @param doc
+	 *            the document to be sent to Observers.
 	 */
-	public void networkChanged(Document doc){
+	public void networkChanged(Document doc) {
 		setChanged();
 		notifyObservers(doc);
 	}
-	
+
 	/**
 	 * 
-	 *Parses the Network file and fills the network nodes and segments. 
-	 * @param networkFile file to be parsed.
-	 * @throws InvalidNetworkFileException If Network File validation fails.
-	 * @throws InvalidDeliveryRequestFileException Does not throw this exception.
-	 * @throws WarningDeliveryRequestFile If Warnings need to be fired.
+	 * Parses the Network file and fills the network nodes and segments.
+	 * 
+	 * @param networkFile
+	 *            file to be parsed.
+	 * @throws InvalidNetworkFileException
+	 *             If Network File validation fails.
+	 * @throws InvalidDeliveryRequestFileException
+	 *             Does not throw this exception.
+	 * @throws WarningDeliveryRequestFile
+	 *             If Warnings need to be fired.
 	 */
 	public void parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-	
+
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
@@ -252,8 +278,6 @@ public class Network extends Observable {
 			Document document = constructeur.parse(networkFile); // Might
 			// throw
 			// exceptions
-			
-			
 
 			Utils.FileValidator(document, "plan.xsd");
 
@@ -262,8 +286,6 @@ public class Network extends Observable {
 			buildNodesFromXML(networkElement);
 
 			buildSegmentsFromXML(networkElement);
-			
-			
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
@@ -274,8 +296,7 @@ public class Network extends Observable {
 		} catch (WarningDeliveryRequestFile warning) {
 			throw new WarningDeliveryRequestFile(warning.getMessage());
 		}
-		
-		
+
 	}
 
 	private String buildNodesFromXML(Element networkElement) {
@@ -321,25 +342,29 @@ public class Network extends Observable {
 
 				Segment segment = new Segment();
 				segmentElement = (Element) listSegments.item(j);
-				nodeRes = segment.buildFromXML(departureNode, segmentElement, this);
-				if (nodeRes!=-1){
+				nodeRes = segment.buildFromXML(departureNode, segmentElement,
+						this);
+				if (nodeRes != -1) {
 					flagNodeRes = nodeRes;
 				}
 				mSegmentList.add(segment);
 			}
 
 		}
-		// Au moins une erreur ou le node de depart et le même que le node d'arrivee
+		// Au moins une erreur ou le node de depart et le même que le node
+		// d'arrivee
 		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE > 0) {
 			throw new WarningDeliveryRequestFile(
-					"Erreur dans le fichier des livraisons - Noeud de départ "+ flagNodeRes + " similaire au Noeud d'arrivée");
+					"Erreur dans le fichier des livraisons - Noeud de départ "
+							+ flagNodeRes + " similaire au Noeud d'arrivée");
 		} else
 			return 0;
 	}
 
 	/**
 	 * Returns a string representing the network
-	 *  @return a string representing the network
+	 * 
+	 * @return a string representing the network
 	 */
 	public String toString() {
 		String res = "-------------------------Network Object------------------------------- \n";
