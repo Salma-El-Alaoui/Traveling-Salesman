@@ -1,53 +1,68 @@
 package Model;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * 
+ * Class that represents a network
  */
 public class Network extends Observable {
 
-	protected Map<Integer, Node> mNodesList;
+	/**
+	 * Map of all the nodes in the network with their id as key
+	 */
+	private Map<Integer, Node> mNodesList;
 
 	/**
-	 * 
+	 * List of all the segments in the network
 	 */
-
-	protected List<Segment> mSegmentList;
+	private List<Segment> mSegmentList;
 
 	/**
-
-	 * 
+	 * Node currently selected
 	 */
-	protected Node mSelectedNode;
+	private Node mSelectedNode;
 
-	protected DeliveryRequest mDeliveryRequest;
+	/**
+	 * Delivery request loaded
+	 */
+	private DeliveryRequest mDeliveryRequest;
 
+	/**
+	 * Construct an empty Network
+	 */
 	public Network() {
 		mNodesList = new HashMap<Integer, Node>();
 		mSegmentList = new ArrayList<Segment>();
 	}
 
 	/**
+	 * Returns a map with all the nodes of the network with their id as key
 	 * 
+	 * @return a map with all the nodes of the network with their id as key
 	 */
 	public Map<Integer, Node> getNodesList() {
 		return mNodesList;
 	}
 
 	/**
+	 * Returns the list of all the segments of the network
 	 * 
-	 * @return
+	 * @return the list of all the segments of the network
 	 */
 	public List<Segment> getSegmentList() {
 		return mSegmentList;
@@ -90,10 +105,21 @@ public class Network extends Observable {
 		return mDeliveryRequest.removeDelivery(node);
 	}
 
+	/**
+	 * Returns the node currently selected
+	 * 
+	 * @return the node currently selected
+	 */
 	public Node getSelectedNode() {
 		return mSelectedNode;
 	}
 
+	/**
+	 * Sets the node currently selected
+	 * 
+	 * @param node
+	 *            the node currently selected
+	 */
 	public void setSelectedNode(Node node) {
 		if (mSelectedNode != null) {
 			mSelectedNode.setSelectedNode(false);
@@ -102,10 +128,27 @@ public class Network extends Observable {
 		mSelectedNode.setSelectedNode(true);
 	}
 
+	/**
+	 * Returns the node corresponding to the id
+	 * 
+	 * @param id
+	 *            Id of the node
+	 * @return Node associated with the id
+	 */
 	public Node getNode(int id) {
 		return mNodesList.get(id);
 	}
 
+	/**
+	 * Update the incoming and outcoming segments of the node identified by id
+	 * 
+	 * @param id
+	 *            Id associated with the node to update
+	 * @param inSegment
+	 *            New incoming segment
+	 * @param outSegment
+	 *            New outcoming segment
+	 */
 	public void updateNode(int id, Segment inSegment, Segment outSegment) {
 		Node updatedNode = mNodesList.get(id);
 		if (inSegment != null) {
@@ -117,21 +160,31 @@ public class Network extends Observable {
 		mNodesList.put(id, updatedNode); // Updates the node having this ID
 	}
 
+	/**
+	 * Returns the delivery request associated with the network
+	 * 
+	 * @return the delivery request associated with the network
+	 */
 	public DeliveryRequest getDeliveryRequest() {
 		return mDeliveryRequest;
 	}
 
 	/**
-	 * @param File
-	 * @return
-	 * @throws InvalidDeliveryRequestFileException
+	 * Parses the DeliveryRequest file and fills the network deliveryRequest.
+	 * 
+	 * @param deliveriesFile
+	 *            File to be parsed
 	 * @throws InvalidNetworkFileException
+	 *             Does not raise this Exception
+	 * @throws InvalidDeliveryRequestFileException
+	 *             If DeliveryRequestFile validation fails
 	 * @throws WarningDeliveryRequestFile
+	 *             If warnings need to be fired.
 	 */
-	public String parseDeliveryRequestFile(File deliveriesFile)
+	public void parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-		String msg;
+
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
@@ -147,7 +200,7 @@ public class Network extends Observable {
 
 			this.mDeliveryRequest = new DeliveryRequest(this);
 
-			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
+			this.mDeliveryRequest.buildFromXML(deliveryRequestElement);
 			networkChanged();
 			networkChanged(document);
 
@@ -163,16 +216,22 @@ public class Network extends Observable {
 			networkChanged();
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
-		return msg;
+
 	}
 
-	public void clearNodeContent(){
-		for(Node n : mNodesList.values()){
+	/**
+	 * Clear all the node states (Associated deliveries / warehouse)
+	 */
+	public void clearNodeContent() {
+		for (Node n : mNodesList.values()) {
 			n.setDelivery(null);
 			n.setIsWarehouse(false);
 		}
 	}
 
+	/**
+	 * Notifies Observers that network has changed.
+	 */
 	public void networkChanged() {
 		setChanged(); // Marks this Observable object as having been changed;
 		notifyObservers(); // If this object has changed then notify all of its
@@ -180,22 +239,37 @@ public class Network extends Observable {
 							// to indicate that this object has no longer
 							// changed.
 	}
-	
-	public void networkChanged(Document doc){
+
+	/**
+	 * Notifies Observers that network has changed. Sends the document argument
+	 * to Observers. Method used to send the DeliveryRequest document to the
+	 * FileTreeView.
+	 * 
+	 * @param doc
+	 *            the document to be sent to Observers.
+	 */
+	public void networkChanged(Document doc) {
 		setChanged();
 		notifyObservers(doc);
 	}
 
 	/**
-	 * @param File
-	 * @return
+	 * 
+	 * Parses the Network file and fills the network nodes and segments.
+	 * 
+	 * @param networkFile
+	 *            file to be parsed.
 	 * @throws InvalidNetworkFileException
+	 *             If Network File validation fails.
 	 * @throws InvalidDeliveryRequestFileException
+	 *             Does not throw this exception.
+	 * @throws WarningDeliveryRequestFile
+	 *             If Warnings need to be fired.
 	 */
 	public void parseNetworkFile(File networkFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
-		String msg = "OK";
+
 		try {
 
 			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance()
@@ -204,8 +278,6 @@ public class Network extends Observable {
 			Document document = constructeur.parse(networkFile); // Might
 			// throw
 			// exceptions
-			
-			
 
 			Utils.FileValidator(document, "plan.xsd");
 
@@ -214,8 +286,6 @@ public class Network extends Observable {
 			buildNodesFromXML(networkElement);
 
 			buildSegmentsFromXML(networkElement);
-			
-			
 
 		} catch (SAXException | IOException | IllegalArgumentException
 				| ParserConfigurationException ex) { // Syntactic errors in XML
@@ -226,8 +296,7 @@ public class Network extends Observable {
 		} catch (WarningDeliveryRequestFile warning) {
 			throw new WarningDeliveryRequestFile(warning.getMessage());
 		}
-		
-		
+
 	}
 
 	private String buildNodesFromXML(Element networkElement) {
@@ -273,22 +342,30 @@ public class Network extends Observable {
 
 				Segment segment = new Segment();
 				segmentElement = (Element) listSegments.item(j);
-				nodeRes = segment.buildFromXML(departureNode, segmentElement, this);
-				if (nodeRes!=-1){
+				nodeRes = segment.buildFromXML(departureNode, segmentElement,
+						this);
+				if (nodeRes != -1) {
 					flagNodeRes = nodeRes;
 				}
 				mSegmentList.add(segment);
 			}
 
 		}
-		// Au moins une erreur ou le node de depart et le même que le node d'arrivee
+		// Au moins une erreur ou le node de depart et le même que le node
+		// d'arrivee
 		if (Segment.ERROR_XML_SEGMENT_NODE_DESTINATION_SAME_AS_DEPARTURE > 0) {
 			throw new WarningDeliveryRequestFile(
-					"Erreur dans le fichier des livraisons - Noeud de départ "+ flagNodeRes + " similaire au Noeud d'arrivée");
+					"Erreur dans le fichier des livraisons - Noeud de départ "
+							+ flagNodeRes + " similaire au Noeud d'arrivée");
 		} else
 			return 0;
 	}
 
+	/**
+	 * Returns a string representing the network
+	 * 
+	 * @return a string representing the network
+	 */
 	public String toString() {
 		String res = "-------------------------Network Object------------------------------- \n";
 		res += "------------Nodes List --------------- \n";
@@ -304,7 +381,4 @@ public class Network extends Observable {
 		}
 		return res;
 	}
-
-
-
 }

@@ -33,59 +33,61 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 	/**
 	 * Scale used for the zoom
 	 */
-	protected double mScale;
+	private double mScale;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationX;
+	private int mTranslationX;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationY;
+	private int mTranslationY;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
-	protected int mTempX;
+	private int mTempX;
 
 	/**
-	 * Used to prevent the graph from returning to his basic position when dragged
+	 * Used to prevent the graph from returning to his basic position when
+	 * dragged
 	 */
-	protected int mTempY;
+	private int mTempY;
 
 	/**
 	 * Coordinate in Y of the click
 	 */
-	protected int mMouseClickY;
+	private int mMouseClickY;
 
 	/**
 	 * Coordinate in X of the click
 	 */
-	protected int mMouseClickX;
-	
+	private int mMouseClickX;
+
 	/**
 	 * List of NodeView displayed in the graph
 	 */
-	protected List<NodeView> mListNodeView;
+	private List<NodeView> mListNodeView;
 
 	/**
 	 * NetworkView displayed in the graph
 	 */
-	protected NetworkView mNetworkView;
+	private NetworkView mNetworkView;
 
 	/**
 	 * TourView displayed in the graph
 	 */
-	protected TourView mTourView;
+	private TourView mTourView;
 
 	/**
 	 * Constructor of GraphPanel
 	 */
 	public GraphPanel() {
-		this.setPreferredSize(new Dimension(700,600));
-		mScale = 600.0/900;
+		this.setPreferredSize(new Dimension(700, 600));
+		mScale = 600.0 / 900;
 		mTranslationX = 0;
 		mTranslationY = 0;
 		mTempX = 0;
@@ -119,10 +121,10 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		return mListNodeView;
 	}
 
-
 	/**
 	 * Set the Network of GraphPanel
-	 * @param n 
+	 * 
+	 * @param n
 	 */
 	public void setNetwork(Network n) {
 		if (n != null) {
@@ -142,7 +144,7 @@ public class GraphPanel extends JPanel implements MouseWheelListener,
 		}
 		repaint();
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg0 instanceof Network) {

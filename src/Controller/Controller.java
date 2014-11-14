@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Stack;
 
 import org.w3c.dom.Document;
 
@@ -17,7 +16,7 @@ import View.Frame;
 import View.WarningDialogView;
 
 /**
- * 
+ * Controller
  */
 public class Controller {
 
@@ -25,10 +24,13 @@ public class Controller {
 		NEW, NETWORK_LOADED, DELIVERY_REQUEST_LOADED, TOUR_CALCULATED, TOUR_NODE_SELECTED, WAREHOUSE_SELECTED, OTHER_NODE_SELECTED, ADDING_DELIVERY
 	}
 
+	/**
+	 * Current state of Controller
+	 */
 	private State mState;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public Controller() {
 		mState = State.NEW;
@@ -38,22 +40,22 @@ public class Controller {
 	}
 
 	/**
-	 * 
+	 * Commands' invoker
 	 */
 	private Invoker mInvoker;
 
 	/**
-	 * 
+	 * Current network
 	 */
-	protected Network mNetwork;
+	private Network mNetwork;
 
 	/**
-	 * 
+	 * Current frame
 	 */
-	protected Frame mFrame;
+	private Frame mFrame;
 
 	/**
-	 * Change the controller's state and update the frame
+	 * Changes the controller's state and update the frame
 	 * 
 	 * @param state
 	 *            new state
@@ -64,34 +66,37 @@ public class Controller {
 	}
 
 	/**
-	 * 
+	 * Updates the undo redo buttons of the frame
 	 */
-
-	
-	private void updateUndoRedoFrame(){
+	private void updateUndoRedoFrame() {
 		mFrame.setUndoRedo(mInvoker.getUndoName(), mInvoker.getRedoName());
-
 
 	}
 
-
-
+	/**
+	 * Handles the way to behave when a node is selected depending on the
+	 * current state
+	 * 
+	 * @param node
+	 *            Node selected
+	 */
 	public void onNodeSelected(Node node) {
-		if(mState == State.ADDING_DELIVERY&&(node.hasDelivery() || node.isWarehouse())){
+		if (mState == State.ADDING_DELIVERY
+				&& (node.hasDelivery() || node.isWarehouse())) {
 			addDelivery(node);
-		} 
-		if(mState == State.TOUR_CALCULATED 
-				|| mState == State.OTHER_NODE_SELECTED 
+		}
+		if (mState == State.TOUR_CALCULATED
+				|| mState == State.OTHER_NODE_SELECTED
 				|| mState == State.WAREHOUSE_SELECTED
 				|| mState == State.TOUR_NODE_SELECTED
 				|| mState == State.ADDING_DELIVERY) {
-			if(node.hasDelivery()){
-				setState(Controller.State.TOUR_NODE_SELECTED);			
-			} else if(node.isWarehouse()){
+			if (node.hasDelivery()) {
+				setState(Controller.State.TOUR_NODE_SELECTED);
+			} else if (node.isWarehouse()) {
 				setState(State.WAREHOUSE_SELECTED);
-			}else{
-				setState(Controller.State.OTHER_NODE_SELECTED);			
-			}			
+			} else {
+				setState(Controller.State.OTHER_NODE_SELECTED);
+			}
 
 		}
 		mNetwork.setSelectedNode(node);
@@ -105,12 +110,12 @@ public class Controller {
 	public void addDeliveryClicked() {
 		if (mState.equals(State.OTHER_NODE_SELECTED)) {
 			setState(State.ADDING_DELIVERY);
-		} else if(mState == State.ADDING_DELIVERY){
-			if(mNetwork.getSelectedNode().hasDelivery()){
-				setState(Controller.State.TOUR_NODE_SELECTED);			
+		} else if (mState == State.ADDING_DELIVERY) {
+			if (mNetwork.getSelectedNode().hasDelivery()) {
+				setState(Controller.State.TOUR_NODE_SELECTED);
 			} else {
-				setState(Controller.State.OTHER_NODE_SELECTED);			
-			}			
+				setState(Controller.State.OTHER_NODE_SELECTED);
+			}
 
 		}
 	}
@@ -124,27 +129,35 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Undo the last command executed when the undo button is clicked
+	 */
 	public void undoClicked() {
 		mInvoker.undo();
 		updateUndoRedoFrame();
 		mNetwork.networkChanged();
 	}
 
+	/**
+	 * Redo the last command undone when the redo button is clicked
+	 */
 	public void redoClicked() {
 		mInvoker.redo();
 		updateUndoRedoFrame();
 		mNetwork.networkChanged();
 	}
 
+	/**
+	 * Opens a window to select the network and loads it
+	 */
 	public void browseNetworkClicked() {
 		int flagWarning = 0;
-		
+
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paintOpen();
-		
-		
+
 		// User has canceled loading network
-		if (f1!=null){
+		if (f1 != null) {
 			try {
 				mNetwork = new Network();
 				mNetwork.parseNetworkFile(f1);
@@ -156,8 +169,8 @@ public class Controller {
 			} catch (InvalidNetworkFileException
 					| InvalidDeliveryRequestFileException ex) {
 				new ErrorDialogView().paint(ex);
-			} catch (WarningDeliveryRequestFile wa){
-				if(flagWarning==0){
+			} catch (WarningDeliveryRequestFile wa) {
+				if (flagWarning == 0) {
 					mFrame.setNetwork(mNetwork);
 					mInvoker.clear();
 					updateUndoRedoFrame();
@@ -169,16 +182,21 @@ public class Controller {
 
 	}
 
+	/**
+	 * Opens a window to select the delivery request and loads it
+	 */
 	public void browseDeliveryClicked() {
 		int flagWarning = 0;
-		
+
 		FileChooserView deliveryRequestChooserView = new FileChooserView();
 		File f2 = deliveryRequestChooserView.paintOpen();
 		// User cancel loading
-		if (f2!=null){
+		if (f2 != null) {
 			try {
 				mNetwork.clearNodeContent();
-				mNetwork.parseDeliveryRequestFile(f2); // Updates the network model => refreshes GraphPanel
+				mNetwork.parseDeliveryRequestFile(f2); // Updates the network
+														// model => refreshes
+														// GraphPanel
 				flagWarning++;
 				setState(State.DELIVERY_REQUEST_LOADED);
 				mInvoker.clear();
@@ -186,8 +204,8 @@ public class Controller {
 			} catch (InvalidNetworkFileException
 					| InvalidDeliveryRequestFileException ex) {
 				new ErrorDialogView().paint(ex);
-			} catch (WarningDeliveryRequestFile wa){
-				if(flagWarning==0){
+			} catch (WarningDeliveryRequestFile wa) {
+				if (flagWarning == 0) {
 					setState(State.DELIVERY_REQUEST_LOADED);
 					mInvoker.clear();
 					updateUndoRedoFrame();
@@ -197,24 +215,28 @@ public class Controller {
 		}
 	}
 
-	public void calculateTourClicked(){
-		try{
-			mNetwork.getDeliveryRequest().calculateTour();			
-		} catch(Exception e){
-			Exception ex = new Exception("Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrects.");
+	/**
+	 * Calculates the tour when the associated button is clicked
+	 */
+	public void calculateTourClicked() {
+		try {
+			mNetwork.getDeliveryRequest().calculateTour();
+		} catch (Exception e) {
+			Exception ex = new Exception(
+					"Erreur inconnue lors du calcul de la tournée, les fichiers sont peut-être incorrects.");
 			new WarningDialogView().paint(ex);
 			return;
 		}
 		mInvoker.clear();
 		updateUndoRedoFrame();
-		if(mNetwork.getSelectedNode() != null){
-			if(mNetwork.getSelectedNode().hasDelivery()){
+		if (mNetwork.getSelectedNode() != null) {
+			if (mNetwork.getSelectedNode().hasDelivery()) {
 				setState(State.TOUR_NODE_SELECTED);
 			} else {
 				setState(State.OTHER_NODE_SELECTED);
 			}
 		} else {
-			setState(State.TOUR_CALCULATED);			
+			setState(State.TOUR_CALCULATED);
 		}
 	}
 
@@ -242,8 +264,9 @@ public class Controller {
 	 */
 	private void removeDelivery(Node node) {
 		Command rmCommand = new RemoveCommand(node);
-		if(!mInvoker.addAndExecute(rmCommand)){
-			Exception e = new Exception("Impossible de supprimer le dernier noeud");
+		if (!mInvoker.addAndExecute(rmCommand)) {
+			Exception e = new Exception(
+					"Impossible de supprimer le dernier noeud");
 			new WarningDialogView().paint(e);
 		}
 		mNetwork.networkChanged();
@@ -251,8 +274,11 @@ public class Controller {
 		updateUndoRedoFrame();
 		// auto refreshing thanks to Observer pattern
 	}
-	
-	public void saveRoadmapClicked(){
+
+	/**
+	 * Generate the roadmap when the associated button is clicked
+	 */
+	public void saveRoadmapClicked() {
 		FileChooserView roadMapSaverView = new FileChooserView();
 		FileWriter fw = roadMapSaverView.paintSave();
 		mNetwork.getDeliveryRequest().createRoadMap(fw);

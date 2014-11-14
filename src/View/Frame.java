@@ -2,7 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +20,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-
-import org.w3c.dom.Document;
 
 import Controller.Controller;
 import Model.Network;
@@ -45,12 +42,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Ratio of width for informations display
 	 */
 	private final static double INFOS_WIDTH = 0.2;
-	
+
 	/**
 	 * Web content for Tab
 	 */
 	private final static String TAB = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	
+
 	/**
 	 * Possible action for the buttons
 	 */
@@ -87,117 +84,119 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Possible action for the buttons
 	 */
 	private final static String ACTION_REDO = "ACTION_REDO";
-
-	
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String STRING_UNDO = "Annuler";
+	/**
+	 * Possible action for the buttons
+	 */
 	private final static String STRING_REDO = "Refaire";
-	
+
 	/**
 	 * Button corresponding to the Export Roadmap command
 	 */
-	protected JButton mExportButton;
+	private JButton mExportButton;
 
 	/**
 	 * Button corresponding to the Load Plan command
 	 */
-	protected JButton mLoadPlanButton;
+	private JButton mLoadPlanButton;
 
 	/**
 	 * Button corresponding to the Load Deliveries command
 	 */
-	protected JButton mLoadDeliveriesButton;
-
+	private JButton mLoadDeliveriesButton;
 
 	/**
 	 * Button corresponding to the Calculate Tour command
 	 */
-	protected JButton mCalculateTourButton;
-
+	private JButton mCalculateTourButton;
 
 	/**
 	 * Menu "File" of the Frame
 	 */
-	protected JMenu mMenuFile;
+	private JMenu mMenuFile;
 
 	/**
 	 * Menu "Edition" of the Frame
 	 */
-	protected JMenu mMenuEdition;
-	
+	private JMenu mMenuEdition;
+
 	/**
 	 * Menu "Actions" of the Frame
 	 */
-	protected JMenu mMenuAction;
+	private JMenu mMenuAction;
 
 	/**
 	 * Item "Load Map" into "File" menu
 	 */
-	protected JMenuItem mLoadMap;
+	private JMenuItem mLoadMap;
 
 	/**
 	 * Item "Add Delivery" into "Edition" menu
 	 */
-	protected JMenuItem mAddDelivery;
+	private JMenuItem mAddDelivery;
 
 	/**
 	 * Item "Remove Delivery" into "Edition" menu
 	 */
-	protected JMenuItem mRemoveDelivery;
+	private JMenuItem mRemoveDelivery;
 
 	/**
 	 * Item "Undo" into "Edition" menu
 	 */
-	protected JMenuItem mUndo;
+	private JMenuItem mUndo;
 
 	/**
 	 * Item "Redo" into "Edition" menu
 	 */
-	protected JMenuItem mRedo;
+	private JMenuItem mRedo;
 
 	/**
 	 * Item "Load Deliveries" into "File" menu
 	 */
-	protected JMenuItem mloadDeliveries;
+	private JMenuItem mloadDeliveries;
 
 	/**
 	 * Item "Calculate Tour" into "File" menu
 	 */
-	protected JMenuItem mCalculateTour;
+	private JMenuItem mCalculateTour;
 
 	/**
 	 * Item "Export" into "File" menu
 	 */
-	protected JMenuItem mExport;
+	private JMenuItem mExport;
 
 	/**
 	 * Item "Exit" into "File" menu
 	 */
-	protected JMenuItem mExit;
+	private JMenuItem mExit;
 
 	/**
 	 * Menubar of the Frame
 	 */
-	protected JMenuBar mMenuBar;
+	private JMenuBar mMenuBar;
 
 	/**
 	 * Toolbar of the Frame
 	 */
-	protected JToolBar toolbar;
+	private JToolBar toolbar;
 
 	/**
 	 * Label containing Node informations
 	 */
-	protected JLabel mNodeInfos;
+	private JLabel mNodeInfos;
 
 	/**
 	 * Label containing general informations
 	 */
-	protected JLabel mLabelInfos;
+	private JLabel mLabelInfos;
 
 	/**
 	 * Panel containing the graph
 	 */
-	protected GraphPanel mPanelGraph;
+	private GraphPanel mPanelGraph;
 
 	/**
 	 * List containing all NodeViews
@@ -208,35 +207,41 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Controller used to handle view/model interations
 	 */
 	private Controller mController;
-	
+
 	/**
 	 * Button to Undo
 	 */
-	protected JButton mUndoButton;
-	
+	private JButton mUndoButton;
+
 	/**
 	 * Button to Redo
 	 */
-	protected JButton mRedoButton;
-	
+	private JButton mRedoButton;
+
 	/**
 	 * Button to Add Delivery
 	 */
-	protected JButton mAddDeliveryButton;
-	
+	private JButton mAddDeliveryButton;
+
 	/**
 	 * Button to Remove Delivery
 	 */
-	protected JButton mRemoveDeliveryButton;
-	
+	private JButton mRemoveDeliveryButton;
+
+	/**
+	 * Panel displaying the tree
+	 */
+	private XMLTreePanel mXMLTreePanel;
+
 	/**
 	 * Contains the legend image
 	 */
-	protected JLabel mLegend;
+	private JLabel mLegend;
 
 	/**
-	 * @param controller Instance of Controller which will handle view/model interactions
-	 * Constructor of Frame
+	 * @param controller
+	 *            Instance of Controller which will handle view/model
+	 *            interactions Constructor of Frame
 	 */
 	public Frame(Controller controller) {
 		mController = controller;
@@ -283,9 +288,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton.setToolTipText("Exporter feuille de route");
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
-		
-		toolbar.addSeparator(new Dimension (20,10));
-		
+
+		toolbar.addSeparator(new Dimension(20, 10));
+
 		icon = new ImageIcon("img/add-user-icon.png");
 		mAddDeliveryButton = new JButton(icon);
 		mAddDeliveryButton.setActionCommand(ACTION_ADD_DELIVERY);
@@ -293,7 +298,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDeliveryButton.addActionListener(this);
 		mAddDeliveryButton.setEnabled(false);
 		toolbar.add(mAddDeliveryButton);
-		
+
 		icon = new ImageIcon("img/remove-user-icon.png");
 		mRemoveDeliveryButton = new JButton(icon);
 		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
@@ -301,7 +306,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRemoveDeliveryButton.addActionListener(this);
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);
-		
+
 		icon = new ImageIcon("img/undo.png");
 		mUndoButton = new JButton(icon);
 		mUndoButton.setActionCommand(ACTION_UNDO);
@@ -309,7 +314,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mUndoButton.addActionListener(this);
 		mUndoButton.setEnabled(false);
 		toolbar.add(mUndoButton);
-		
+
 		icon = new ImageIcon("img/redo.png");
 		mRedoButton = new JButton(icon);
 		mRedoButton.setActionCommand(ACTION_REDO);
@@ -317,8 +322,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRedoButton.addActionListener(this);
 		mRedoButton.setEnabled(false);
 		toolbar.add(mRedoButton);
-		
-		
 
 		this.add(toolbar, BorderLayout.NORTH);
 
@@ -327,14 +330,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuEdition = new JMenu("Edition");
 
-
-		mUndo=new JMenuItem("Annuler");
+		mUndo = new JMenuItem("Annuler");
 		mUndo.setActionCommand(ACTION_UNDO);
 		mUndo.addActionListener(this);
 		mUndo.setEnabled(false);
 		mMenuEdition.add(mUndo);
 
-		mRedo=new JMenuItem("Refaire");
+		mRedo = new JMenuItem("Refaire");
 		mRedo.setActionCommand(ACTION_REDO);
 		mRedo.addActionListener(this);
 		mRedo.setEnabled(false);
@@ -342,12 +344,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 		mMenuEdition.addSeparator();
 
-		mAddDelivery=new JMenuItem("Ajouter la livraison");
+		mAddDelivery = new JMenuItem("Ajouter la livraison");
 		mAddDelivery.setActionCommand(ACTION_ADD_DELIVERY);
 		mAddDelivery.addActionListener(this);
 		mMenuEdition.add(mAddDelivery);
-
-
 
 		mRemoveDelivery = new JMenuItem("Supprimer une livraison");
 
@@ -366,20 +366,18 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
 
-		
-
 		mExport = new JMenuItem("Exporter feuille de route");
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
 		mExport.addActionListener(this);
 		mMenuFile.add(mExport);
 
 		mMenuFile.addSeparator();
-		
+
 		mExit = new JMenuItem("Quitter");
 		mExit.setActionCommand(ACTION_EXIT);
 		mExit.addActionListener(this);
 		mMenuFile.add(mExit);
-		
+
 		mMenuAction = new JMenu("Action");
 		mCalculateTour = new JMenuItem("Calculer la tournée");
 		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
@@ -389,7 +387,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mMenuBar.add(mMenuFile);
 
 		mMenuBar.add(mMenuEdition);
-		
+
 		mMenuBar.add(mMenuAction);
 
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
@@ -399,16 +397,16 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(mXMLTreePanel, BorderLayout.WEST);
 
 		mLegend = new JLabel(new ImageIcon("img/legende.png"));
-		
+
 		JPanel panelInfos = new JPanel();
 		panelInfos.setLayout(new GridLayout(3, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
 		panelInfos.add(mLegend);
-		
+
 		mLegend.setVisible(false);
 		mNodeInfos.setVisible(false);
-		
+
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
@@ -417,58 +415,40 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-
-	
-	protected XMLTreePanel mXMLTreePanel;
-
-
-
-
-	/**
-	 */
-	public void clicBrowseDeliveries() {
-		// TODO implement here
-	}
-
-	/**
-	 * @param String
-	 *            error
-	 */
-	public void displayError(String error) {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public void clickBrowseNetwork() {
-		// TODO implement here
-	}
-
-
-
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (mPanelGraph.getListNodeView() != null) {
 			for (NodeView nv : mPanelGraph.getListNodeView()) {
 				if (nv.onClick(arg0)) {
-					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "+nv.getNode().getId();
-					if(nv.getNode().isWarehouse())
-					{
-						nodeInfos +="<br>Entrepôt";
-					}else if(nv.getNode().hasDelivery())
-					{
+					String nodeInfos = "<html>Noeud sélectionné : <br>Adresse : "
+							+ nv.getNode().getId();
+					if (nv.getNode().isWarehouse()) {
+						nodeInfos += "<br>Entrepôt";
+					} else if (nv.getNode().hasDelivery()) {
 						NumberFormat nf = new DecimalFormat("##00");
-						int heureDep = nv.getNode().getDelivery().getDepartureHour();
+						int heureDep = nv.getNode().getDelivery()
+								.getDepartureHour();
 						int minDep = heureDep;
 						int secDep = heureDep;
-						int heureArr = nv.getNode().getDelivery().getArrivalHour();
+						int heureArr = nv.getNode().getDelivery()
+								.getArrivalHour();
 						int minArr = heureArr;
 						int secArr = heureArr;
 
-						nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "+nf.format(heureArr/3600)+"h"+nf.format(minArr/(3600*60))+":"+nf.format(secArr/(3600*60*60))
-								+" à "+nf.format(heureDep/3600)+"h"+nf.format(minDep/(3600*60))+":"+nf.format(secDep/(3600*60*60))+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-					}else
-					{
+						nodeInfos += "<br>Livraison : Oui <br>Intervalle horaire : "
+								+ nf.format(heureArr / 3600)
+								+ "h"
+								+ nf.format(minArr / (3600 * 60))
+								+ ":"
+								+ nf.format(secArr / (3600 * 60 * 60))
+								+ " à "
+								+ nf.format(heureDep / 3600)
+								+ "h"
+								+ nf.format(minDep / (3600 * 60))
+								+ ":"
+								+ nf.format(secDep / (3600 * 60 * 60))
+								+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+					} else {
 						nodeInfos += "<br>Livraison : Non</html>";
 					}
 					mNodeInfos.setText(nodeInfos);
@@ -480,33 +460,32 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		switch(arg0.getActionCommand())
-		{
-		case(ACTION_LOAD_MAP) :
+		switch (arg0.getActionCommand()) {
+		case (ACTION_LOAD_MAP):
 			mController.browseNetworkClicked();
 			break;
-		case(ACTION_LOAD_DELIVERIES):
-			mController.browseDeliveryClicked();		
+		case (ACTION_LOAD_DELIVERIES):
+			mController.browseDeliveryClicked();
 			break;
-		case(ACTION_CALCULATE_TOUR):
+		case (ACTION_CALCULATE_TOUR):
 			mController.calculateTourClicked();
 			break;
-		case(ACTION_EXPORT_ROADMAP):
+		case (ACTION_EXPORT_ROADMAP):
 			mController.saveRoadmapClicked();
 			break;
-		case(ACTION_ADD_DELIVERY):
-			mController.addDeliveryClicked();	
+		case (ACTION_ADD_DELIVERY):
+			mController.addDeliveryClicked();
 			break;
-		case(ACTION_EXIT):
+		case (ACTION_EXIT):
 			System.exit(0);
 			break;
-		case(ACTION_REMOVE_DELIVERY):
+		case (ACTION_REMOVE_DELIVERY):
 			mController.removeDeliveryClicked();
 			break;
-		case(ACTION_REDO):
+		case (ACTION_REDO):
 			mController.redoClicked();
 			break;
-		case(ACTION_UNDO):
+		case (ACTION_UNDO):
 			mController.undoClicked();
 			break;
 		}
@@ -514,35 +493,37 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * Method used to write into the label containing node informations
-	 * @param node Node selected in the frame
+	 * 
+	 * @param node
+	 *            Node selected in the frame
 	 */
-	public void setSelectedNode(Node node){
-		String nodeInfos = "<html>Noeud sélectionné : <br>"
-				+ TAB + "Adresse : "+node.getId() + "<br>";
-		if(node.isWarehouse())
-		{
+	public void setSelectedNode(Node node) {
+		String nodeInfos = "<html>Noeud sélectionné : <br>" + TAB
+				+ "Adresse : " + node.getId() + "<br>";
+		if (node.isWarehouse()) {
 			nodeInfos += TAB + "Entrepôt <br>";
-		}else if(node.hasDelivery()){
+		} else if (node.hasDelivery()) {
 			String depHour = node.getDelivery().getFormattedDepartureHour();
 			String arrHour = node.getDelivery().getFormattedArrivalHour();
 			String delHour = node.getDelivery().getFormattedDeliveryHour();
-			
-			String startTSHour = node.getDelivery().getTimeSlot().getFormattedStartHour();
-			String endTSHour = node.getDelivery().getTimeSlot().getFormattedEndHour();
-			
-			nodeInfos += TAB + "Livraison : Oui <br>"
-					+ TAB + "Intervalle horaire :<br>"
-					+ TAB + TAB + "De "+startTSHour+" à "+endTSHour + "<br>"
-					+ TAB + "Horaire : <br>"
-					+ TAB + TAB + "Heure d'arrivée : "+ arrHour +"<br>"
-					+ TAB + TAB + "Heure de livraison : "+ delHour +"<br>"
-					+ TAB + TAB + "Heure de départ : "+ depHour +"<br></html>";
-		}else {
+
+			String startTSHour = node.getDelivery().getTimeSlot()
+					.getFormattedStartHour();
+			String endTSHour = node.getDelivery().getTimeSlot()
+					.getFormattedEndHour();
+
+			nodeInfos += TAB + "Livraison : Oui <br>" + TAB
+					+ "Intervalle horaire :<br>" + TAB + TAB + "De "
+					+ startTSHour + " à " + endTSHour + "<br>" + TAB
+					+ "Horaire : <br>" + TAB + TAB + "Heure d'arrivée : "
+					+ arrHour + "<br>" + TAB + TAB + "Heure de livraison : "
+					+ delHour + "<br>" + TAB + TAB + "Heure de départ : "
+					+ depHour + "<br></html>";
+		} else {
 			nodeInfos += TAB + "Livraison : Non</html>";
 		}
 		mNodeInfos.setText(nodeInfos);
 	}
-
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -567,8 +548,6 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mPanelGraph.setNetwork(n);
 		mXMLTreePanel.setNetwork(n);
 	}
-	
-
 
 	/**
 	 * Update the frame depending on the state
@@ -592,7 +571,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez charger un réseau via le menu fichier ou la barre d'actions </html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez charger un réseau via le menu fichier ou la barre d'actions </html>");
 			break;
 		case NETWORK_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -610,7 +590,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mLegend.setVisible(true);
 			mNodeInfos.setVisible(true);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
 			break;
 		case DELIVERY_REQUEST_LOADED:
 			mLoadPlanButton.setEnabled(true);
@@ -626,7 +607,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez générer la tournée via le menu fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez générer la tournée via le menu fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_CALCULATED:
 			mLoadPlanButton.setEnabled(true);
@@ -642,9 +624,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez supprimer une livraison en cliquant dessus puis sur Supprimer la livraison<br><br>"
-					+ "Vous pouvez ajouter une livraison en cliquant sur le noeud à ajouter puis sur Ajouter la livraison<br><br>"
-					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez supprimer une livraison en cliquant dessus puis sur Supprimer la livraison<br><br>"
+							+ "Vous pouvez ajouter une livraison en cliquant sur le noeud à ajouter puis sur Ajouter la livraison<br><br>"
+							+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case TOUR_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -660,8 +643,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(true);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez supprimer la livraison sélectionnée en cliquant sur Supprimer la livraison<br><br>"
-					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez supprimer la livraison sélectionnée en cliquant sur Supprimer la livraison<br><br>"
+							+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case WAREHOUSE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -675,7 +659,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case OTHER_NODE_SELECTED:
 			mLoadPlanButton.setEnabled(true);
@@ -691,8 +676,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mAddDelivery.setEnabled(true);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Ajouter la livraison");
-			mLabelInfos.setText("<html>Vous pouvez ajouter une livraison sur le noeud sélectionné en cliquant sur Ajouter la livraison<br><br>"
-					+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
+			mLabelInfos
+					.setText("<html>Vous pouvez ajouter une livraison sur le noeud sélectionné en cliquant sur Ajouter la livraison<br><br>"
+							+ "Vous pouvez générer la feuille de route via le menu Fichier ou la barre d'actions</html>");
 			break;
 		case ADDING_DELIVERY:
 			mLoadPlanButton.setEnabled(false);
@@ -708,32 +694,34 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDeliveryButton.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
 			mAddDelivery.setText("Annuler ajout livraison");
-			mLabelInfos.setText("<html>Cliquez sur la livraison après laquelle vous voulez insérer la nouvelle livraison</html>");
+			mLabelInfos
+					.setText("<html>Cliquez sur la livraison après laquelle vous voulez insérer la nouvelle livraison</html>");
 			break;
 		}
 	}
 
 	/**
 	 * Set undo/redo buttons
-	 * @param undoMessage 
+	 * 
+	 * @param undoMessage
 	 * @param redoMessage
 	 */
-	public void setUndoRedo(String undoMessage, String redoMessage){
-		if(undoMessage != null){
-			mUndo.setText(STRING_UNDO + " " +undoMessage);
+	public void setUndoRedo(String undoMessage, String redoMessage) {
+		if (undoMessage != null) {
+			mUndo.setText(STRING_UNDO + " " + undoMessage);
 			mUndo.setEnabled(true);
 			mUndoButton.setEnabled(true);
-		}else{
+		} else {
 			mUndo.setText(STRING_UNDO);
 			mUndo.setEnabled(false);
 			mUndoButton.setEnabled(false);
 		}
 
-		if(redoMessage != null){
-			mRedo.setText(STRING_REDO + " " +redoMessage);
+		if (redoMessage != null) {
+			mRedo.setText(STRING_REDO + " " + redoMessage);
 			mRedo.setEnabled(true);
 			mRedoButton.setEnabled(true);
-		}else{
+		} else {
 			mRedo.setText(STRING_REDO);
 			mRedo.setEnabled(false);
 			mRedoButton.setEnabled(false);

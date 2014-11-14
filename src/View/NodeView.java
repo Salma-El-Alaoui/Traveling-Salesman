@@ -21,31 +21,33 @@ public class NodeView implements View {
 	/**
 	 * Color of the warehouse
 	 */
-    private final static Color WAREHOUSE_COLOR = new Color(85, 83, 184);
+	private final static Color WAREHOUSE_COLOR = new Color(85, 83, 184);
 
 	/**
 	 * Color of simple node
 	 */
-    private final static Color NODE_COLOR = Color.DARK_GRAY;
+	private final static Color NODE_COLOR = Color.DARK_GRAY;
 
 	/**
 	 * Color of delivered node
 	 */
-    private final static Color DELIVERY_COLOR = new Color(68, 148, 15);
+	private final static Color DELIVERY_COLOR = new Color(68, 148, 15);
 
 	/**
 	 * Color of node with delivery error
 	 */
-    private final static Color DELIVERY_ERROR_COLOR = new Color(148, 24, 15);
+	private final static Color DELIVERY_ERROR_COLOR = new Color(148, 24, 15);
 
 	/**
 	 * If the node is selected or not
 	 */
-	protected boolean mIsSelected = false;
+	private boolean mIsSelected = false;
 
 	/**
 	 * Create the Associated view to the node
-	 * @param node Associated Node
+	 * 
+	 * @param node
+	 *            Associated Node
 	 */
 	public NodeView(Node node) {
 		mNode = node;
@@ -54,32 +56,32 @@ public class NodeView implements View {
 	/**
 	 * Scale factor
 	 */
-	protected double mScale;
+	private double mScale;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationX;
+	private int mTranslationX;
 
 	/**
 	 * Variable used for the translation of the graph
 	 */
-	protected int mTranslationY;
+	private int mTranslationY;
 
 	/**
 	 * Node corresponding to the NodeView
 	 */
-	protected Node mNode;
-
-
+	private Node mNode;
 
 	/**
 	 * Return the Associated Node
+	 * 
 	 * @return Associated Node
 	 */
 	public Node getNode() {
 		return mNode;
 	}
+
 	@Override
 	public void paint(Graphics g, double scale, int translationX,
 			int translationY) {
@@ -114,9 +116,10 @@ public class NodeView implements View {
 
 	/**
 	 * Return the color according to the node state
+	 * 
 	 * @return Color of the node
 	 */
-	private Color getNodeColor(){
+	private Color getNodeColor() {
 		Color c;
 		if (mNode.hasDelivery()) {
 			if (mNode.getDelivery().isInTimeslot()) {
@@ -124,13 +127,12 @@ public class NodeView implements View {
 			} else {
 				c = DELIVERY_ERROR_COLOR;
 			}
-		} else if (mNode.isWarehouse())
-		{
+		} else if (mNode.isWarehouse()) {
 			c = WAREHOUSE_COLOR;
 		} else {
 			c = NODE_COLOR;
 		}
-		if(mNode.isSelected()){
+		if (mNode.isSelected()) {
 			c = c.brighter().brighter();
 		}
 		return c;
