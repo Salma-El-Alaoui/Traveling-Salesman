@@ -209,7 +209,7 @@ public class DeliveryRequest {
 
 		if (mWarehouse == null) {
 			throw new InvalidDeliveryRequestFileException(
-					"Le noeud de l'Entrepot dans les demandes de Livraison n'existe pas dans le Réseau");
+					"Le noeud de l'Entrepot dans les demandes de Livraison n'existe pas dans le Reseau");
 		} else {
 			this.mWarehouse.setIsWarehouse(true);
 		}
