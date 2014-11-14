@@ -2,13 +2,13 @@ package test;
 
 import java.io.File;
 
-import Model.DeliveryRequest;
-import Model.InvalidDeliveryRequestFileException;
-import Model.InvalidNetworkFileException;
-import Model.Network;
-import Model.WarningDeliveryRequestFile;
-import View.FileChooserView;
-import View.WarningDialogView;
+import model.DeliveryRequest;
+import model.InvalidDeliveryRequestFileException;
+import model.InvalidNetworkFileException;
+import model.Network;
+import model.WarningDeliveryRequestFile;
+import view.FileChooserView;
+import view.WarningDialogView;
 import junit.framework.*;
 
 /**
