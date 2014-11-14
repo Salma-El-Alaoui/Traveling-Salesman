@@ -7,7 +7,7 @@ public class Invoker {
 	/**
 	 * Constructor
 	 */
-	public Invoker(){
+	public Invoker() {
 		mRedoStack = new Stack<Command>();
 		mUndoStack = new Stack<Command>();
 	}
@@ -22,16 +22,14 @@ public class Invoker {
 	 */
 	protected Stack<Command> mUndoStack;
 
-
 	/**
 	 * Adds a new command to the stack and executes it
-	 * @param cmd command to execute
+	 * 
+	 * @param cmd
+	 *            command to execute
 	 */
-	
-
-
-	public boolean addAndExecute(Command cmd){
-		if(cmd.execute()){
+	public boolean addAndExecute(Command cmd) {
+		if (cmd.execute()) {
 			mUndoStack.add(cmd);
 			mRedoStack.clear();
 			return true;
@@ -42,8 +40,8 @@ public class Invoker {
 	/**
 	 * Undo the last command executed
 	 */
-	public void undo(){
-		if(!mUndoStack.isEmpty()){
+	public void undo() {
+		if (!mUndoStack.isEmpty()) {
 			Command command = mUndoStack.pop();
 			if (command.undo()) {
 				mRedoStack.push(command);
@@ -54,8 +52,8 @@ public class Invoker {
 	/**
 	 * Redo the last command executed
 	 */
-	public void redo(){
-		if(!mRedoStack.isEmpty()){
+	public void redo() {
+		if (!mRedoStack.isEmpty()) {
 			Command command = mRedoStack.pop();
 			if (command.execute()) {
 				mUndoStack.push(command);
@@ -67,10 +65,10 @@ public class Invoker {
 	 * Returns the name of the last command executed
 	 * @return name of the last command executed
 	 */
-	public String getUndoName(){
-		try{
+	public String getUndoName() {
+		try {
 			return mUndoStack.peek().getName();
-		} catch (Exception e){
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -79,10 +77,10 @@ public class Invoker {
 	 * Returns the name of the last command undone
 	 * @return the name of the last command undone
 	 */
-	public String getRedoName(){
-		try{
+	public String getRedoName() {
+		try {
 			return mRedoStack.peek().getName();
-		} catch (Exception e){
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -90,7 +88,7 @@ public class Invoker {
 	/**
 	 * Empty the stack
 	 */
-	public void clear(){
+	public void clear() {
 		mUndoStack.clear();
 		mRedoStack.clear();
 	}

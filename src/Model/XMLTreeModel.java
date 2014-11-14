@@ -88,6 +88,9 @@ public class XMLTreeModel implements TreeModel {
 		}
 	}
 
+	/**
+	 * @return True if the parameter is a leaf
+	 */
 	public boolean isLeaf(Object node) {
 		if (node instanceof XMLTreeNode) {
 			Element element = ((XMLTreeNode)node).getElement();

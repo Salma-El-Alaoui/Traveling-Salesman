@@ -43,7 +43,7 @@ public class Network extends Observable {
 	protected DeliveryRequest mDeliveryRequest;
 
 	/**
-	 * Constructor
+	 * Construct an empty Network
 	 */
 	public Network() {
 		mNodesList = new HashMap<Integer, Node>();
@@ -202,6 +202,9 @@ public class Network extends Observable {
 		
 	}
 
+	/**
+	 * Clear all the node states (Associated deliveries / warehouse)
+	 */
 	public void clearNodeContent(){
 		for(Node n : mNodesList.values()){
 			n.setDelivery(null);
@@ -211,7 +214,6 @@ public class Network extends Observable {
 
 	/**
 	 * Notifies Observers that network has changed.
-	 * 
 	 */
 	public void networkChanged() {
 		setChanged(); // Marks this Observable object as having been changed;

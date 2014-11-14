@@ -122,7 +122,6 @@ public class Segment {
 
 	@Override
 	public String toString() {
-
 		return "Segment : street " + mStreetName + ", length " + mLength
 				+ ", speed " + mSpeed;
 		// return "Segment : "+ " From ("+ mFromNode.toString() + " ), To (" +

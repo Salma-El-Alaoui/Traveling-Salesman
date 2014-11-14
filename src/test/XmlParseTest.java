@@ -11,6 +11,9 @@ import View.FileChooserView;
 import View.WarningDialogView;
 import junit.framework.*;
 
+/**
+ * Test Class
+ */
 public class XmlParseTest extends TestCase{
 	public void testNetworkNotNull() throws InvalidNetworkFileException,InvalidDeliveryRequestFileException
 	{

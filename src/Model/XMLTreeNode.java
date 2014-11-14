@@ -4,18 +4,28 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 /**
- * 
- * @author 
  *This class is exclusively used to represent the XML tree displayed in the XMLTreePanel
  */
 public class XMLTreeNode {
 	Element element;
+	
+	/**
+	 * Create an XMLTreeNode
+	 * @param element Root element
+	 */
 	public XMLTreeNode(Element element) {
 		this.element = element;
 	}
+	/**
+	 * @return Root Element
+	 */
 	public Element getElement() {
 		return element;
 	}
+	
+	/**
+	 * @return String value of the file
+	 */
 	public String toString() {
 		String nodeName = element.getNodeName();
 		switch (nodeName){
@@ -36,6 +46,10 @@ public class XMLTreeNode {
 		}
 		
 	}
+	
+	/**
+	 * @return The text content of the Node
+	 */
 	public String getText() {
 		NodeList list = element.getChildNodes();
 		for (int i=0 ; i<list.getLength() ; i++) {

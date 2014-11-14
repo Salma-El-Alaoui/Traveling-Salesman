@@ -99,6 +99,12 @@ public class DeliveryRequest {
 		network.networkChanged();
 	}
 
+	/**
+	 * Returns the NodeId array
+	 * @param mapIdToIndex Dictionnary mapping the NodeID and the NodeIndex
+	 * @param nodesIndex The Index array
+	 * @return
+	 */
 	private int[] decodeMapNode(Map<Integer, Integer> mapIdToIndex, int[] nodesIndex) {
 		int [] result = new int[nodesIndex.length];
 		Map<Integer, Integer> mapIndexToId = new HashMap<Integer, Integer>();
@@ -112,6 +118,10 @@ public class DeliveryRequest {
 		return result;
 	}
 
+	/**
+	 * Generates map between NodeId and Index
+	 * @return The generated map
+	 */
 	private Map<Integer, Integer> generateMapIdToIndex() {
 		int i = 0;
 		Map<Integer, Integer> mapNode = new HashMap<Integer, Integer>();
@@ -231,9 +241,7 @@ public class DeliveryRequest {
 	/**
 	 * Initializes the map that contains the paths the first key id the id of
 	 * the origin node the second key is the id of the destination node
-	 * 
 	 * @return the initialized map
-	 * 
 	 */
 	private Map<Integer, Map<Integer, Path>> createPathMap(Map<Integer, Integer> mapNode) {
 		Map<Integer, Map<Integer, Path>> mapPath = new HashMap<Integer, Map<Integer, Path>>();

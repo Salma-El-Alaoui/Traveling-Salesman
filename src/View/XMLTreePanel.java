@@ -20,11 +20,11 @@ import Model.XMLTreeModel;
 
 public class XMLTreePanel extends JPanel implements Observer {
 
-	private JTree tree;
-	private XMLTreeModel model;
-	private Network n;
+	private JTree mTree;
+	private XMLTreeModel mModel;
+	private Network mNetwork;
 	private final String TEXT_TITLE = "Demande de livraison initiale";
-	private final JTextField  TITLE= new JTextField(TEXT_TITLE);
+	private final JTextField  mTitleTF= new JTextField(TEXT_TITLE);
 	private Controller mController;
 	
 	public XMLTreePanel(Controller controller) {
@@ -32,30 +32,30 @@ public class XMLTreePanel extends JPanel implements Observer {
 		mController = controller;
 		setLayout(new BorderLayout());
 		
-		model = new XMLTreeModel();
-		tree = new JTree();
-		tree.setModel(model);
-		tree.setShowsRootHandles(true);
-		tree.setEditable(false);
+		mModel = new XMLTreeModel();
+		mTree = new JTree();
+		mTree.setModel(mModel);
+		mTree.setShowsRootHandles(true);
+		mTree.setEditable(false);
 		
 		
 		setPreferredSize(new Dimension(200,100));
 		
-		JScrollPane pane = new JScrollPane(tree);
+		JScrollPane pane = new JScrollPane(mTree);
 		pane.setPreferredSize(new Dimension(200,400));
 
 		add(pane, "West");
 		
 		
-		TITLE.setEditable(false);
-		add(TITLE, "North");
+		mTitleTF.setEditable(false);
+		add(mTitleTF, "North");
 		
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
+		mTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				Object lpc = e.getPath().getLastPathComponent();
 				try{
 					Integer deliveryNodeID = Integer.parseInt(lpc.toString().split("adresse")[1].replaceAll("\\D+",""));
-					mController.onNodeSelected(n.getNode(deliveryNodeID));
+					mController.onNodeSelected(mNetwork.getNode(deliveryNodeID));
 				}
 				catch(ArrayIndexOutOfBoundsException excep ){
 					
@@ -69,13 +69,13 @@ public class XMLTreePanel extends JPanel implements Observer {
 	
 	/* methods that delegate to the custom model */
 	public void setDocument(Document document) {
-		model.setDocument(document);
+		mModel.setDocument(document);
 	}
 	public Document getDocument() {
-		return model.getDocument();
+		return mModel.getDocument();
 	}
 	public void setNetwork(Network n) {
-		this.n = n;
+		this.mNetwork = n;
 		n.addObserver(this);
 	}
 
