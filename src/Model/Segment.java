@@ -94,9 +94,10 @@ public class Segment {
 	 *            XML element to be parsed.
 	 * @param Network
 	 *            the network.
+	 * @throws InvalidNetworkFileException 
 	 */
 	public int buildFromXML(Node departureNode, Element segmentElement,
-			Network network) {
+			Network network) throws InvalidNetworkFileException {
 
 		int res = -1;
 		int noeudDestinationInt = Integer.parseInt(segmentElement
@@ -115,6 +116,9 @@ public class Segment {
 
 		mSpeed = Float.parseFloat(segmentElement.getAttribute("vitesse")
 				.replace(',', '.'));
+		if (mSpeed == 0){
+			throw new InvalidNetworkFileException("Un troncon a une vitesse nulle.");
+		}
 
 		mLength = Float.parseFloat(segmentElement.getAttribute("longueur")
 				.replace(',', '.'));

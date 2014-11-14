@@ -317,7 +317,7 @@ public class Network extends Observable {
 	}
 
 	private int buildSegmentsFromXML(Element networkElement)
-			throws WarningDeliveryRequestFile {
+			throws WarningDeliveryRequestFile, InvalidNetworkFileException {
 
 		int nodeRes = 0;
 		int flagNodeRes = 0;
