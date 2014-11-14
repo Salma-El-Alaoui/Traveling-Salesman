@@ -218,6 +218,10 @@ public class DeliveryRequest {
 	private void buildTimeSlotsFromXML(Element deliveryRequestElement,
 			Network network) throws InvalidDeliveryRequestFileException,
 			WarningDeliveryRequestFile {
+		
+		int flagWarning = 0;
+		WarningDeliveryRequestFile warning = new WarningDeliveryRequestFile("Warning non instancie");
+		
 		NodeList listTimeSlots = deliveryRequestElement
 				.getElementsByTagName("Plage");
 		Integer numberOfSlots = listTimeSlots.getLength();
@@ -235,14 +239,16 @@ public class DeliveryRequest {
 				listClientsWithSeveralAdresses += timeSlot.buildFromXML(
 						timeSlotElement, network, "", m_clientAdress,
 						list_allAdress, this.mWarehouse.getId());
+				mTimeSlotList.add(timeSlot);
 			} catch (InvalidDeliveryRequestFileException iDRFE) {
 				throw new InvalidDeliveryRequestFileException(
 						iDRFE.getMessage());
 			} catch (WarningDeliveryRequestFile wDRFE) {
-				throw new WarningDeliveryRequestFile(wDRFE.getMessage());
+				flagWarning++;
+				warning = new WarningDeliveryRequestFile(wDRFE.getMessage());
 			}
 
-			mTimeSlotList.add(timeSlot);
+			
 
 		}
 		// Sorting
@@ -251,6 +257,10 @@ public class DeliveryRequest {
 			throw new WarningDeliveryRequestFile(
 					"Les clients suivants ont plusieurs adresses : "
 							+ listClientsWithSeveralAdresses);
+		}
+		
+		if (flagWarning>0){
+			throw warning;
 		}
 
 	}

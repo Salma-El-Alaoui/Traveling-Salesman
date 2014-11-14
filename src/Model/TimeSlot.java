@@ -152,6 +152,8 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 			int mWareHouseInt) throws InvalidDeliveryRequestFileException,
 			WarningDeliveryRequestFile {
 
+		int flagNoLivraison = 0;
+
 		mStartHour = stringToCustomTimestamp(timeSlotElement
 				.getAttribute("heureDebut"));
 		mEndHour = stringToCustomTimestamp(timeSlotElement
@@ -171,9 +173,9 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 				.getElementsByTagName("Livraison");
 		Integer deliveriesNumber = listDeliveries.getLength();
 
+		// If no Delivery in a TimeSlot
 		if (deliveriesNumber == 0) {
-			throw new WarningDeliveryRequestFile(
-					"Une des plages horaires ne comporte pas de livraisons");
+			flagNoLivraison++;
 		}
 
 		for (int i = 0; i < deliveriesNumber; i++) {
@@ -194,6 +196,13 @@ public class TimeSlot implements XmlParse, Comparable<TimeSlot> {
 			}
 			mDeliveryList.add(delivery);
 		}
+		
+		// If no Delivery in a TimeSlot
+		if (flagNoLivraison > 0) {
+			throw new WarningDeliveryRequestFile(
+					"Une des plages horaires ne comporte pas de livraisons");
+		}
+
 		return listClientsWithSeveralAdresses;
 
 	}
