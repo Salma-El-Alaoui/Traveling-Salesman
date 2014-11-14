@@ -238,6 +238,8 @@ public class DeliveryRequest {
 			} catch (InvalidDeliveryRequestFileException iDRFE) {
 				throw new InvalidDeliveryRequestFileException(
 						iDRFE.getMessage());
+			} catch (WarningDeliveryRequestFile wDRFE) {
+				throw new WarningDeliveryRequestFile(wDRFE.getMessage());
 			}
 
 			mTimeSlotList.add(timeSlot);

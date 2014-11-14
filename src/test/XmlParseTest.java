@@ -96,4 +96,318 @@ public class XmlParseTest extends TestCase{
 		}
 		assertNotSame(network.getDeliveryRequest(), new DeliveryRequest(network));
 	}
+	
+	public void testOneClientTwoAdresses()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Warning_UnClientAPlusieursAdresses.xml");
+		boolean warning = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
+	
+	public void testOneAddressTwoClients()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Error_UneAdressePourPlusieursClients.xml");
+		boolean error = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){		
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}
+	
+	public void testTwoTimesSameClient()
+	{
+		Network network = new Network();
+		try {
+			network.parseNetworkFile(new File("plan20x20.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File f2 = new File("livraison_Warning_2foisLeMemeClient.xml");
+		boolean warning = false;
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e){	
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
+	
+	public void testNetworkInsteadOfDeliveries()
+	{
+		FileChooserView networkChooserView = new FileChooserView();
+		File f1 = networkChooserView.paintOpen();
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(f1);
+		} catch (InvalidNetworkFileException e) {
+			error = true;
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertSame(error, true);	
+	}
+	
+	public void testDeliveriesInsteadOfNetwork()
+	{
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			error = true;
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}
+	
+	public void testNodeNotInNetwork()
+	{
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			error = true;
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}
+	
+	public void testTimeSlotOverlap()
+	{
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			error = true;
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			error = true;
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			error = true;
+			e.printStackTrace();
+		}
+		assertSame(error, false);
+	}
+	
+/*	public void testDeliveryInWarehouse()
+	{
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			error = true;
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}*/
+	
+	public void testDepartureSupArrivalTimeSlot()
+	{
+		Network network = new Network();
+		boolean error = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			error = true;
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			e.printStackTrace();
+		}
+		assertSame(error, true);
+	}
+	
+	public void testNoDeliveryInTimeSlot()
+	{
+		Network network = new Network();
+		boolean warning = false;
+		try {
+			network.parseNetworkFile(new File("plan10x10.xml"));
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WarningDeliveryRequestFile e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileChooserView deliveryRequestChooserView = new FileChooserView();
+		File f2 = deliveryRequestChooserView.paintOpen();
+		try {
+			network.parseDeliveryRequestFile(f2);
+		} catch (InvalidNetworkFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidDeliveryRequestFileException e) {
+			e.printStackTrace();
+		}  catch (WarningDeliveryRequestFile e){
+			warning = true;
+			e.printStackTrace();
+		}
+		assertSame(warning, true);
+	}
 }
