@@ -84,6 +84,8 @@ public class FileChooserView {
 			}
 			try {
 				FileWriter fw = new FileWriter(fileToSaveString + ".txt");
+				Exception ex = new Exception("Fichier bien sauvegarde");
+				new SuccessSaveFile().paint(ex);
 				return fw;
 			} catch (IOException e) {
 				return null;
