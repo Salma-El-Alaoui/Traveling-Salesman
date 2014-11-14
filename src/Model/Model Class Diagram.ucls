@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.7" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="Model.ShortestPathGraph" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/ShortestPathGraph.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="271" y="137"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="Model.DeliveryRequest" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/DeliveryRequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2043" y="119"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="Model.InvalidNetworkFileException" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/InvalidNetworkFileException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="557" y="47"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="Model.Dijkstra" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Dijkstra.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2435" y="1902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="Model.Tour" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Tour.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1805" y="447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="Model.TimeSlot" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/TimeSlot.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1188" y="1824"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="Model.Utils" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Utils.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="796" y="47"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="Model.Node" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Node.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2027" y="1798"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="Model.Segment" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Segment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1867" y="1173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="10" language="java" name="Model.XmlParse" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/XmlParse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1614" y="2050"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="11" language="java" name="Model.InvalidDeliveryRequestFileException" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/InvalidDeliveryRequestFileException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1054" y="47"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="Model.XMLTreeModel" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/XMLTreeModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1346" y="146"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="Model.XMLTreeNode" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/XMLTreeNode.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1591" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="Model.Network" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Network.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2317" y="784"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="Model.Path" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Path.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1769" y="724"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="Model.WarningDeliveryRequestFile" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/WarningDeliveryRequestFile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1798" y="47"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="Model.Delivery" project="Traveling-Salesman" 
+    file="/Traveling-Salesman/src/Model/Delivery.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1437" y="1256"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="18">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="19" name="mArrivalNode">        
+        <position height="18" width="73" x="1876" y="1500"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1955" y="1514"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="22" name="mPathList">        
+        <position height="18" width="56" x="1720" y="617"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="25" name="mPreviousNode">        
+        <position height="18" width="83" x="2238" y="1897"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="28" name="mDepartureNode">        
+        <position height="18" width="91" x="1826" y="1521"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1913" y="1516"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="30">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <association id="31">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="32" name="mDeliveryList">        
+        <position height="18" width="74" x="1223" y="1499"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <bendpoint x="2434" y="1009"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="35" name="mNetwork">        
+        <position height="18" width="57" x="2425" y="970"/>      
+      </attribute>      
+      <multiplicity id="36" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2433" y="982"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="37">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="38" name="mOutSegmentList">        
+        <position height="18" width="92" x="1947" y="1323"/>      
+      </attribute>      
+      <multiplicity id="39" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="40">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="41" name="mTour">        
+        <position height="18" width="37" x="1850" y="309"/>      
+      </attribute>      
+      <multiplicity id="42" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1899" y="317"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="43">    
+    <bendpoint x="1946" y="335"/>    
+    <bendpoint x="1946" y="600"/>    
+    <bendpoint x="2186" y="828"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="44" name="mWarehouse">        
+        <position height="18" width="72" x="1990" y="1496"/>      
+      </attribute>      
+      <multiplicity id="45" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2033" y="1525"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="46">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="47" name="mNode">        
+        <position height="18" width="43" x="1781" y="1554"/>      
+      </attribute>      
+      <multiplicity id="48" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1801" y="1577"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="49">    
+    <bendpoint x="2072" y="335"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="50" name="network">        
+        <position height="18" width="50" x="2153" y="576"/>      
+      </attribute>      
+      <multiplicity id="51" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2223" y="578"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <bendpoint x="1474" y="600"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="53" name="mDeliveryList">        
+        <position height="18" width="74" x="1372" y="995"/>      
+      </attribute>      
+      <multiplicity id="54" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="55">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="56" name="mSegmentList">        
+        <position height="18" width="75" x="1757" y="1012"/>      
+      </attribute>      
+      <multiplicity id="57" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="58">    
+    <bendpoint x="1629" y="1544"/>    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <association id="59">    
+    <bendpoint x="2392" y="1009"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="60" name="mNodesList">        
+        <position height="18" width="66" x="2090" y="1504"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="2119" y="1526"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="63" name="mInSegmentList">        
+        <position height="18" width="83" x="1784" y="1324"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="66" name="mDelivery">        
+        <position height="18" width="57" x="1619" y="1507"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1640" y="1491"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <bendpoint x="1229" y="441"/>    
+    <bendpoint x="1204" y="600"/>    
+    <bendpoint x="1204" y="1009"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="69" name="mTimeSlotList">        
+        <position height="18" width="75" x="1111" y="1618"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="72" name="mSegmentList">        
+        <position height="18" width="77" x="1950" y="1013"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="2048" y="1015"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="75" name="mTimeSlot">        
+        <position height="18" width="58" x="1287" y="1605"/>      
+      </attribute>      
+      <multiplicity id="76" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1281" y="1620"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <bendpoint x="1925" y="600"/>    
+    <bendpoint x="2159" y="843"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="78" name="mWarehouse">        
+        <position height="18" width="72" x="1985" y="1511"/>      
+      </attribute>      
+      <multiplicity id="79" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2079" y="1523"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <bendpoint x="2093" y="335"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="81" name="mDeliveryRequest">        
+        <position height="18" width="95" x="1969" y="285"/>      
+      </attribute>      
+      <multiplicity id="82" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="83">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <association id="84">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="85" name="mOriginNode"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <bendpoint x="2413" y="1009"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="88" name="mSelectedNode">        
+        <position height="18" width="85" x="2180" y="1510"/>      
+      </attribute>      
+      <multiplicity id="89" minimum="0" maximum="1">        
+        <position height="16" width="23" x="2170" y="1522"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
