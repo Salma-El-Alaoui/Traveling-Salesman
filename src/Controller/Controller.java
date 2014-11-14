@@ -153,11 +153,12 @@ public class Controller {
 		
 		FileChooserView networkChooserView = new FileChooserView();
 		File f1 = networkChooserView.paintOpen();
-		mNetwork = new Network();
+		
 		
 		// User has canceled loading network
 		if (f1!=null){
 			try {
+				mNetwork = new Network();
 				mNetwork.parseNetworkFile(f1);
 				flagWarning++;
 				mFrame.setNetwork(mNetwork);

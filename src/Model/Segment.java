@@ -110,14 +110,7 @@ public class Segment {
 		mArrivalNode = network.getNode(Integer.parseInt(segmentElement
 				.getAttribute("idNoeudDestination")));
 
-		network.updateNode(mDepartureNode.getId(), null, this); // This segment
-																// is the out
-																// segment of
-																// its FromNode
-		network.updateNode(mArrivalNode.getId(), this, null); // This segment is
-																// the in
-																// segments of
-																// its ToNode.
+		
 
 		network.updateNode(mDepartureNode.getId(), null , this); // This segment is the out segment of its FromNode
 		network.updateNode(mArrivalNode.getId(), this, null); // This segment is the in segments of its ToNode.

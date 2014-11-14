@@ -42,12 +42,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Ratio of width for informations display
 	 */
 	private final static double INFOS_WIDTH = 0.2;
-	
+
 	/**
 	 * Web content for Tab
 	 */
 	private final static String TAB = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	
+
 	/**
 	 * Possible action for the buttons
 	 */
@@ -92,7 +92,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Possible action for the buttons
 	 */
 	private final static String STRING_REDO = "Refaire";
-	
+
 	/**
 	 * Button corresponding to the Export Roadmap command
 	 */
@@ -124,6 +124,11 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Menu "Edition" of the Frame
 	 */
 	protected JMenu mMenuEdition;
+
+	/**
+	 * Menu "Actions" of the Frame
+	 */
+	protected JMenu mMenuAction;
 
 	/**
 	 * Item "Load Map" into "File" menu
@@ -204,31 +209,37 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	 * Controller used to handle view/model interations
 	 */
 	private Controller mController;
-	
+
 	/**
 	 * Button to Undo
 	 */
 	protected JButton mUndoButton;
-	
+
 	/**
 	 * Button to Redo
 	 */
 	protected JButton mRedoButton;
-	
+
 	/**
 	 * Button to Add Delivery
 	 */
 	protected JButton mAddDeliveryButton;
-	
+
 	/**
 	 * Button to Remove Delivery
 	 */
 	protected JButton mRemoveDeliveryButton;
-	
+
 	/**
 	 * Panel displaying the tree
 	 */
 	protected XMLTreePanel mXMLTreePanel;
+	
+	/**
+	 * Contains the legend image
+	 */
+	protected JLabel mLegend;
+
 
 	/**
 	 * @param controller Instance of Controller which will handle view/model interactions
@@ -239,7 +250,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mPanelGraph = new GraphPanel();
 		mXMLTreePanel = new XMLTreePanel(controller);
 
-		setTitle("Traveling Salesman");
+		setTitle("Optimod'Lyon - Gestion des livraisons");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 		this.setLayout(new BorderLayout());
@@ -279,9 +290,9 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mExportButton.setToolTipText("Exporter feuille de route");
 		mExportButton.addActionListener(this);
 		toolbar.add(mExportButton);
-		
+
 		toolbar.addSeparator(new Dimension (20,10));
-		
+
 		icon = new ImageIcon("img/add-user-icon.png");
 		mAddDeliveryButton = new JButton(icon);
 		mAddDeliveryButton.setActionCommand(ACTION_ADD_DELIVERY);
@@ -289,7 +300,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mAddDeliveryButton.addActionListener(this);
 		mAddDeliveryButton.setEnabled(false);
 		toolbar.add(mAddDeliveryButton);
-		
+
 		icon = new ImageIcon("img/remove-user-icon.png");
 		mRemoveDeliveryButton = new JButton(icon);
 		mRemoveDeliveryButton.setActionCommand(ACTION_REMOVE_DELIVERY);
@@ -297,7 +308,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRemoveDeliveryButton.addActionListener(this);
 		mRemoveDeliveryButton.setEnabled(false);
 		toolbar.add(mRemoveDeliveryButton);
-		
+
 		icon = new ImageIcon("img/undo.png");
 		mUndoButton = new JButton(icon);
 		mUndoButton.setActionCommand(ACTION_UNDO);
@@ -305,7 +316,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mUndoButton.addActionListener(this);
 		mUndoButton.setEnabled(false);
 		toolbar.add(mUndoButton);
-		
+
 		icon = new ImageIcon("img/redo.png");
 		mRedoButton = new JButton(icon);
 		mRedoButton.setActionCommand(ACTION_REDO);
@@ -313,8 +324,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mRedoButton.addActionListener(this);
 		mRedoButton.setEnabled(false);
 		toolbar.add(mRedoButton);
-		
-		
+
+
 
 		this.add(toolbar, BorderLayout.NORTH);
 
@@ -362,10 +373,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mloadDeliveries.addActionListener(this);
 		mMenuFile.add(mloadDeliveries);
 
-		mCalculateTour = new JMenuItem("Calculer la tournée");
-		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
-		mCalculateTour.addActionListener(this);
-		mMenuFile.add(mCalculateTour);
+
 
 		mExport = new JMenuItem("Exporter feuille de route");
 		mExport.setActionCommand(ACTION_EXPORT_ROADMAP);
@@ -373,15 +381,23 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mMenuFile.add(mExport);
 
 		mMenuFile.addSeparator();
-		
+
 		mExit = new JMenuItem("Quitter");
 		mExit.setActionCommand(ACTION_EXIT);
 		mExit.addActionListener(this);
 		mMenuFile.add(mExit);
 
+		mMenuAction = new JMenu("Action");
+		mCalculateTour = new JMenuItem("Calculer la tournée");
+		mCalculateTour.setActionCommand(ACTION_CALCULATE_TOUR);
+		mCalculateTour.addActionListener(this);
+		mMenuAction.add(mCalculateTour);
+
 		mMenuBar.add(mMenuFile);
 
 		mMenuBar.add(mMenuEdition);
+
+		mMenuBar.add(mMenuAction);
 
 		mLabelInfos.setPreferredSize(new Dimension((int) (INFOS_WIDTH * WIDTH),
 				HEIGHT));
@@ -389,14 +405,17 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		this.add(mPanelGraph, BorderLayout.CENTER);
 		this.add(mXMLTreePanel, BorderLayout.WEST);
 
-		JLabel legend = new JLabel(new ImageIcon("img/legende.png"));
-		
+		mLegend = new JLabel(new ImageIcon("img/legende.png"));
+
 		JPanel panelInfos = new JPanel();
 		panelInfos.setLayout(new GridLayout(3, 1));
 		panelInfos.add(mLabelInfos);
 		panelInfos.add(mNodeInfos);
-		panelInfos.add(legend);
-		
+		panelInfos.add(mLegend);
+
+		mLegend.setVisible(false);
+		mNodeInfos.setVisible(false);
+
 		this.add(panelInfos, BorderLayout.EAST);
 
 		setJMenuBar(mMenuBar);
@@ -443,31 +462,31 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		{
 		case(ACTION_LOAD_MAP) :
 			mController.browseNetworkClicked();
-			break;
+		break;
 		case(ACTION_LOAD_DELIVERIES):
 			mController.browseDeliveryClicked();		
-			break;
+		break;
 		case(ACTION_CALCULATE_TOUR):
 			mController.calculateTourClicked();
-			break;
+		break;
 		case(ACTION_EXPORT_ROADMAP):
 			mController.saveRoadmapClicked();
-			break;
+		break;
 		case(ACTION_ADD_DELIVERY):
 			mController.addDeliveryClicked();	
-			break;
+		break;
 		case(ACTION_EXIT):
 			System.exit(0);
-			break;
+		break;
 		case(ACTION_REMOVE_DELIVERY):
 			mController.removeDeliveryClicked();
-			break;
+		break;
 		case(ACTION_REDO):
 			mController.redoClicked();
-			break;
+		break;
 		case(ACTION_UNDO):
 			mController.undoClicked();
-			break;
+		break;
 		}
 	}
 
@@ -485,10 +504,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			String depHour = node.getDelivery().getFormattedDepartureHour();
 			String arrHour = node.getDelivery().getFormattedArrivalHour();
 			String delHour = node.getDelivery().getFormattedDeliveryHour();
-			
+
 			String startTSHour = node.getDelivery().getTimeSlot().getFormattedStartHour();
 			String endTSHour = node.getDelivery().getTimeSlot().getFormattedEndHour();
-			
+
 			nodeInfos += TAB + "Livraison : Oui <br>"
 					+ TAB + "Intervalle horaire :<br>"
 					+ TAB + TAB + "De "+startTSHour+" à "+endTSHour + "<br>"
@@ -526,7 +545,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 		mPanelGraph.setNetwork(n);
 		mXMLTreePanel.setNetwork(n);
 	}
-	
+
 
 
 	/**
@@ -566,6 +585,8 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 			mRemoveDeliveryButton.setEnabled(false);
 			mAddDelivery.setEnabled(false);
 			mRemoveDelivery.setEnabled(false);
+			mLegend.setVisible(true);
+			mNodeInfos.setVisible(true);
 			mAddDelivery.setText("Ajouter la livraison");
 			mLabelInfos.setText("<html>Vous pouvez charger une demande de livraisons via le menu fichier ou la barre d'actions</html>");
 			break;
