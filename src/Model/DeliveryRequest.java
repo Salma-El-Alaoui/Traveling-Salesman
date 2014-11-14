@@ -211,7 +211,8 @@ public class DeliveryRequest {
 			mTimeSlotList.add(timeSlot);
 
 		}
-
+		//Sorting
+		Collections.sort(mTimeSlotList);
 		if (!listClientsWithSeveralAdresses.equals("")){
 			throw new WarningDeliveryRequestFile("Les clients suivants ont plusieurs adresses : "+listClientsWithSeveralAdresses);
 		}
