@@ -154,8 +154,13 @@ public class DeliveryRequest {
 	public Node removeDelivery(Node node) {
 		return mTour.removeDelivery(node.getDelivery());
 	}
-
-	public String buildFromXML(Element deliveryRequestElement, Network network) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
+	/**
+	 * Fills a delivery request object by setting the Warehouse and building TimeSlots.
+	 * 
+	 * @param deliveryRequestElement The XML delivery Element to be parsed. 
+	 * 
+	 */
+	public void buildFromXML(Element deliveryRequestElement) throws InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 
 		try {
 			setWarehouseFromXML(deliveryRequestElement, network);
@@ -165,7 +170,7 @@ public class DeliveryRequest {
 		} catch (WarningDeliveryRequestFile wa){
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
-		return "OK";
+		
 	}
 
 	private void setWarehouseFromXML(Element deliveryRequestElement,
@@ -292,6 +297,10 @@ public class DeliveryRequest {
 		return mTour;
 	}
 	
+	/**
+	 * Writes the RoadMap on a file.
+	 * @param fileWriter the fileWriter object corresponding to the file where RoadMap will be written.
+	 */
 	public void createRoadMap(FileWriter fw){
 		try {
 			String breakLine = System.getProperty("line.separator");

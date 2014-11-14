@@ -158,7 +158,7 @@ public class Network extends Observable {
 	}
 
 
-	public String parseDeliveryRequestFile(File deliveriesFile)
+	public void parseDeliveryRequestFile(File deliveriesFile)
 			throws InvalidNetworkFileException,
 			InvalidDeliveryRequestFileException, WarningDeliveryRequestFile {
 		String msg;
@@ -177,7 +177,7 @@ public class Network extends Observable {
 
 			this.mDeliveryRequest = new DeliveryRequest(this);
 
-			msg = this.mDeliveryRequest.buildFromXML(deliveryRequestElement,this);
+			this.mDeliveryRequest.buildFromXML(deliveryRequestElement);
 			networkChanged();
 			networkChanged(document);
 
@@ -193,7 +193,7 @@ public class Network extends Observable {
 			networkChanged();
 			throw new WarningDeliveryRequestFile(wa.getMessage());
 		}
-		return msg;
+		
 	}
 
 	public void clearNodeContent(){

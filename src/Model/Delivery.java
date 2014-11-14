@@ -183,6 +183,15 @@ public class Delivery implements XmlParse {
 		return mTimeSlot;
 	}
 
+	/**
+	 * Fills the delivery objects with data from XML files.
+	 * @param deliveryElement The XML delivery Element to be parsed
+	 * @param network The network
+	 * @param listClientsWithSeveralAdresses String representing the list of clients with several addresses. Warning to be raised.
+	 * @param map_clientAdress Used together with list_allAdress to verify the one to one mapping between clients and addresses.
+	 * @param list_allAdress Used together with map_clientAdress to verify the one to one mapping between clients and addresses.
+	 * @return reportString Warnings list if applicable.
+	 */
 	@Override
 	public String buildFromXML(Element deliveryElement, Network network,
 			String listClientsWithSeveralAdresses,
