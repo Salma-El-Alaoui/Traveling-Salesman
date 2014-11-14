@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 /**
  * 
  */
-public class TimeSlot implements XmlParse {
+public class TimeSlot implements XmlParse,Comparable<TimeSlot> {
 
 	private static final Color[] COLORS = {
 		new Color(248, 148, 6),
@@ -179,6 +179,13 @@ public class TimeSlot implements XmlParse {
 			WarningDeliveryRequestFile {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	
+
+	@Override
+	public int compareTo(TimeSlot arg0) {
+		return this.mStartHour - arg0.getStartHour();
 	}
 
 }
