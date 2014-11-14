@@ -21,22 +21,22 @@ public class NodeView implements View {
 	/**
 	 * Color of the warehouse
 	 */
-	private final static Color WAREHOUSE_COLOR = Color.BLUE;
+    private final static Color WAREHOUSE_COLOR = new Color(85, 83, 184);
 
 	/**
 	 * Color of simple node
 	 */
-	private final static Color NODE_COLOR = Color.GRAY;
+    private final static Color NODE_COLOR = Color.DARK_GRAY;
 
 	/**
 	 * Color of delivered node
 	 */
-	private final static Color DELIVERY_COLOR = Color.YELLOW;
+    private final static Color DELIVERY_COLOR = new Color(68, 148, 15);
 
 	/**
 	 * Color of node with delivery error
 	 */
-	private final static Color DELIVERY_ERROR_COLOR = Color.RED;
+    private final static Color DELIVERY_ERROR_COLOR = new Color(148, 24, 15);
 
 	/**
 	 * If the node is selected or not
