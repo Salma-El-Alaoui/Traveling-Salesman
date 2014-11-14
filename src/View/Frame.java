@@ -33,7 +33,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * Width of the frame
 	 */
-	private final static int WIDTH = 1000;
+	private final static int WIDTH = 1100;
 	/**
 	 * Height of the frame
 	 */

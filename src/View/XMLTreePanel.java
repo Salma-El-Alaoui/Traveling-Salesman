@@ -38,10 +38,10 @@ public class XMLTreePanel extends JPanel implements Observer {
 		mTree.setShowsRootHandles(true);
 		mTree.setEditable(false);
 
-		setPreferredSize(new Dimension(200, 100));
+		setPreferredSize(new Dimension(300, 100));
 
 		JScrollPane pane = new JScrollPane(mTree);
-		pane.setPreferredSize(new Dimension(200, 400));
+		pane.setPreferredSize(new Dimension(300, 400));
 
 		add(pane, "West");
 

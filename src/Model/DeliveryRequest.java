@@ -234,7 +234,7 @@ public class DeliveryRequest {
 			try {
 				listClientsWithSeveralAdresses += timeSlot.buildFromXML(
 						timeSlotElement, network, "", m_clientAdress,
-						list_allAdress);
+						list_allAdress, this.mWarehouse.getId());
 			} catch (InvalidDeliveryRequestFileException iDRFE) {
 				throw new InvalidDeliveryRequestFileException(
 						iDRFE.getMessage());
@@ -362,66 +362,61 @@ public class DeliveryRequest {
 					+ "Heure de départ prévue: %s" + breakLine
 					+ "Coordonnées du client: %s";
 
-			fw.write(header);
+			if (fw != null) {
+				fw.write(header);
 
-			int nbPaths = mTour.getPathList().size();
-			// Path from Warehouse to Node 1
-			for (int i = 0; i < nbPaths - 1; i++) {
-				Path pathToNextDelivery = mTour.getPathList().get(i);
-				List<Segment> pathSegments = pathToNextDelivery
-						.getSegmentList();
-				String pathHeader;
-				if (i == 0) {
-					pathHeader = String.format(pathHeaderTemplate,
-							"l'entrepôt", i + 1);
-				} else {
-					pathHeader = String.format(pathHeaderTemplate,
-							"la livraison numéro " + i, i + 1);
+				int nbPaths = mTour.getPathList().size();
+				// Path from Warehouse to Node 1
+				for (int i = 0; i < nbPaths - 1; i++) {
+					Path pathToNextDelivery = mTour.getPathList().get(i);
+					List<Segment> pathSegments = pathToNextDelivery
+							.getSegmentList();
+					String pathHeader;
+					if (i == 0) {
+						pathHeader = String.format(pathHeaderTemplate,
+								"l'entrepôt", i + 1);
+					} else {
+						pathHeader = String.format(pathHeaderTemplate,
+								"la livraison numéro " + i, i + 1);
+					}
+
+					fw.write(pathSeparator);
+					fw.write(pathHeader);
+					for (Segment seg : pathSegments) {
+						String path = String.format(pathDescriptionTemplate,
+								seg.getStreetName(), seg.getLength(), seg
+										.getDepartureNode().getId(), seg
+										.getArrivalNode().getId());
+						fw.write(path);
+					}
+
+					// Delivery description
+
+					Delivery nthDelivery = mTour.getDeliveryList().get(i);
+					String deliveryHeader = String.format(
+							deliveryHeaderTemplate, i + 1);
+					String deliveryDescription = String.format(
+							deliveryDescriptionTemplate, nthDelivery.getNode()
+									.getId(), nthDelivery
+									.getFormattedArrivalHour(), nthDelivery
+									.getFormattedDeliveryHour(), nthDelivery
+									.getFormattedDepartureHour(), nthDelivery
+									.getClient());
+					fw.write(deliverySeparator);
+					fw.write(deliveryHeader);
+					fw.write(deliveryDescription);
 				}
+
+				String lastPathHeader = breakLine
+						+ "Itinéraire de la dernière livraison à l'entrepôt";
+				Path lastPath = mTour.getPathList().get(nbPaths - 1);
+				List<Segment> pathSegments = lastPath.getSegmentList();
 
 				fw.write(pathSeparator);
-				fw.write(pathHeader);
-				for (Segment seg : pathSegments) {
-					String path = String.format(pathDescriptionTemplate, seg
-							.getStreetName(), seg.getLength(), seg
-							.getDepartureNode().getId(), seg.getArrivalNode()
-							.getId());
-					fw.write(path);
-				}
+				fw.write(lastPathHeader);
 
-				// Delivery description
-
-				Delivery nthDelivery = mTour.getDeliveryList().get(i);
-				String deliveryHeader = String.format(deliveryHeaderTemplate,
-						i + 1);
-				String deliveryDescription = String.format(
-						deliveryDescriptionTemplate, nthDelivery.getNode()
-								.getId(),
-						nthDelivery.getFormattedArrivalHour(), nthDelivery
-								.getFormattedDeliveryHour(), nthDelivery
-								.getFormattedDepartureHour(), nthDelivery
-								.getClient());
-				fw.write(deliverySeparator);
-				fw.write(deliveryHeader);
-				fw.write(deliveryDescription);
+				fw.close();
 			}
-
-			String lastPathHeader = breakLine
-					+ "Itinéraire de la dernière livraison à l'entrepôt";
-			Path lastPath = mTour.getPathList().get(nbPaths - 1);
-			List<Segment> pathSegments = lastPath.getSegmentList();
-
-			fw.write(pathSeparator);
-			fw.write(lastPathHeader);
-			for (Segment seg : pathSegments) {
-				String path = String.format(pathDescriptionTemplate, seg
-						.getStreetName(), seg.getLength(), seg
-						.getDepartureNode().getId(), seg.getArrivalNode()
-						.getId());
-				fw.write(path);
-			}
-
-			fw.close();
 		} catch (IOException e) {
 
 			return;

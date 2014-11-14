@@ -244,7 +244,7 @@ public class Node implements XmlParse {
 	@Override
 	public String buildFromXML(Element element, Network network,
 			String tmpWarningMessage, Map<Integer, Node> map_clientAdress,
-			List<Integer> list_allAdress)
+			List<Integer> list_allAdress, int mWareHouseInt)
 			throws InvalidDeliveryRequestFileException,
 			WarningDeliveryRequestFile {
 		// TODO Auto-generated method stub

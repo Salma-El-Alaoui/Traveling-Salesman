@@ -41,8 +41,8 @@ public class FileChooserView {
 	}
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public FileChooserView() {
 	}
 
@@ -66,20 +66,31 @@ public class FileChooserView {
 
 	public FileWriter paintSave() {
 		jSaveFileChooser = new JFileChooser();
-		int returnVal;
-		jSaveFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		returnVal = jSaveFileChooser.showSaveDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+		int userSelection = jSaveFileChooser.showSaveDialog(null);
+
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			File fileToSave = jSaveFileChooser.getSelectedFile();
+
+			String fileToSaveString = fileToSave.getAbsolutePath();
+			int fileToSaveNameLength = fileToSaveString.length();
+
+			// remove .txt that the user wrote
+			if (fileToSaveString.substring(fileToSaveNameLength - 4,
+					fileToSaveNameLength).equals(".txt")) {
+				String tmp = fileToSaveString.substring(0,
+						fileToSaveNameLength - 4);
+				fileToSaveString = tmp;
+			}
 			try {
-				FileWriter fw = new FileWriter(
-						jSaveFileChooser.getSelectedFile() + ".txt");
+				FileWriter fw = new FileWriter(fileToSaveString + ".txt");
+				Exception ex = new Exception("Fichier bien sauvegarde");
+				new SuccessSaveFile().paint(ex);
 				return fw;
 			} catch (IOException e) {
-
 				return null;
 			}
 		}
 		return null;
-
 	}
 }
